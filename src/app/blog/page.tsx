@@ -4,7 +4,7 @@ import { TinyGuides } from "@/components/tiny-guides";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 const title = "Fancy Cafe AI Guides | " + SITE_NAME;
-const description = "Understand the Your First Time in a Fancy Cafe meme. Learn how photo roles, AI generation, music, pricing and private video downloads work.";
+const description = "Understand the Your First Time in a Fancy Cafe meme. Find direct answers on photo roles, POV captions, vertical video sharing, pricing and private MP4 downloads.";
 const image = { url: "/fancy-cafe-ai/generated-with-caption-poster.webp", alt: "Frame from a labeled AI-generated Fancy Cafe example" };
 export const metadata: Metadata = {
   title,

@@ -14,10 +14,10 @@ function load(file) {
  };
  new Function('exports','module','require',compiled)(mod.exports,mod,localRequire);return mod.exports;
 }
-test('ten distinct cafe guides use new URLs and have truthful dated content',()=>{
+test('eleven distinct cafe guides use new URLs and have truthful dated content',()=>{
  const {allTinyGuides}=load('src/lib/tiny-guides.ts');
- assert.equal(allTinyGuides.length,10);
- assert.equal(new Set(allTinyGuides.map(g=>g.slug)).size,10);
+ assert.equal(allTinyGuides.length,11);
+ assert.equal(new Set(allTinyGuides.map(g=>g.slug)).size,11);
  for(const g of allTinyGuides){
   assert.ok(g.answer.length>60,g.slug+' has a direct answer');
   assert.match(g.publishedAt,/^\d{4}-\d{2}-\d{2}$/);
@@ -55,7 +55,7 @@ test('sitemap uses content dates, includes all articles, and has unique canonica
  assert.match(source,/url:\s*SITE_URL,\s*lastModified:\s*latestArticle/);
  const urls=load('src/app/sitemap.ts').default();
  const {allTinyGuides}=load('src/lib/tiny-guides.ts');
- assert.equal(urls.length,19);
+ assert.equal(urls.length,20);
  assert.equal(urls.find(u=>u.url==='https://firsttimeinafancycafeai.org')?.lastModified,'2026-11-06');
  assert.equal(urls.find(u=>u.url==='https://firsttimeinafancycafeai.org/blog')?.lastModified,'2026-11-06');
  assert.equal(new Set(urls.map(u=>u.url)).size,urls.length);
@@ -101,4 +101,24 @@ test('paid order recovery never opens a fresh checkout and transport errors are 
  assert.match(source,/await resume\(code\)/);
  assert.match(source,/Could not check your saved order right now/);
  assert.match(source,/Could not check your video's progress/);
+});
+
+test('POV publishing guide answers the exact creator question without suggesting an in-site social posting tool',()=>{
+ const {allTinyGuides}=load('src/lib/tiny-guides.ts');
+ const guide=allTinyGuides.find(g=>g.slug==='how-to-make-pov-first-time-in-a-fancy-cafe-ai-video-for-reels');
+ assert.ok(guide,'distinct POV publishing guide exists');
+ const {featuredTinyGuides}=load('src/lib/tiny-guides.ts');
+ assert.ok(featuredTinyGuides.some(g=>g.slug===guide.slug),'featured on homepage');
+ const indexSource=fs.readFileSync(path.join(root,'src/components/tiny-guides.tsx'),'utf8');
+ assert.match(indexSource,/POV.*9:16|9:16.*POV/i); assert.match(guide.title,/POV.*Fancy Cafe.*TikTok.*Reels/i);
+ assert.match(guide.answer,/9:16/);
+ assert.match(guide.answer,/download.*MP4/i);
+ assert.match(guide.sections[0].paragraphs[0],/^POV means/);
+ assert.ok(guide.sections.every(s=>s.paragraphs[0].length>45),'each section opens with a standalone answer');
+ assert.match(JSON.stringify(guide),/original clip|original footage/i);
+ assert.doesNotMatch(JSON.stringify(guide),/post directly|guaranteed viral|instant generation/i);
+ const homepage=fs.readFileSync(path.join(root,'src/app/page.tsx'),'utf8');
+ assert.match(homepage,/What does POV: Your First Time in a Fancy Cafe mean/);
+ assert.match(homepage,/How do I make a Fancy Cafe POV video for TikTok or Reels/);
+ assert.match(homepage,/how-to-make-pov-first-time-in-a-fancy-cafe-ai-video-for-reels/);
 });

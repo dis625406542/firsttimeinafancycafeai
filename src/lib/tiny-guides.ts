@@ -499,7 +499,100 @@ export const allTinyGuides: TinyGuide[] = [
       "fancy-cafe-ai-price-and-free-options",
       "fix-fancy-cafe-ai-face-and-seat-errors"
     ]
+  },
+  {
+    "slug": "how-to-make-pov-first-time-in-a-fancy-cafe-ai-video-for-reels",
+    "title": "How to make a POV Your First Time in a Fancy Cafe AI video for TikTok and Reels",
+    "description": "Make a POV wrong-seat cafe video from one adult portrait, choose a vertical frame, review the result and add a caption before sharing it on TikTok or Reels.",
+    "answer": "To make a POV Your First Time in a Fancy Cafe AI video for a portrait feed, upload one consenting adult portrait, optionally add the cafe regular, select 9:16, and review the one-time price before checkout. After generation, download the MP4 in the same browser, check the wrong-seat reveal, and add your POV caption in your publishing editor. This studio does not post to social accounts.",
+    "date": "November 6, 2026",
+    "publishedAt": "2026-11-06",
+    "updatedAt": "2026-11-06",
+    "category": "Making & saving",
+    "minutes": "4 min read",
+    "image": "/fancy-cafe-ai/guides/demo-2.webp",
+    "imageClass": "",
+    "imageBadge": "CAFE REFERENCE",
+    "imageAlt": "Cafe reference frame showing the wrong-seat setting, not a guaranteed generated output",
+    "sections": [
+      {
+        "heading": "What does “POV: Your First Time in a Fancy Cafe” mean?",
+        "paragraphs": [
+          "POV means “point of view”: the caption asks viewers to imagine the first-time visitor who mistakes a small cafe table for a seat. It does not require a literal first-person camera shot; showing the person and the bench together makes the joke readable.",
+          "The sequence matters more than the caption: the visitor sits on the table, the regular uses the bench, the visitor realizes the error, and then moves. This is a visual comedy scene, not advice on cafe etiquette."
+        ],
+        "links": [
+          {
+            "href": "/blog/your-first-time-in-a-fancy-cafe-meme-explained",
+            "label": "See the four beats of the wrong-seat meme"
+          }
+        ]
+      },
+      {
+        "heading": "How do I make a vertical POV cafe video from my photo?",
+        "paragraphs": [
+          "Start with one clear, consenting adult portrait for the first-time visitor. The second portrait is optional and replaces the cafe regular who sits on the bench. In this studio, choose 9:16 for a tall frame and review the 20-second result, resolution and one-time checkout price before paying.",
+          "You do not need to upload or edit the original meme clip. This tool creates new reference-guided frames from your photo; exact facial likeness, furniture and comic timing can vary. A 16:9 wide frame is also available if that better suits your destination."
+        ],
+        "steps": [
+          "Upload a JPG, PNG or WebP portrait with one visible adult face to Protagonist.",
+          "Optional: upload a separate portrait to replace the cafe regular.",
+          "Choose 9:16 and either 480p or 720p. Confirm the displayed price before checkout.",
+          "After payment, monitor your existing order in the same browser; do not pay again while it processes."
+        ],
+        "links": [
+          {
+            "href": "/blog/how-to-make-first-time-in-a-fancy-cafe-ai-video",
+            "label": "Full photo-to-video studio walkthrough"
+          },
+          {
+            "href": "/blog/fancy-cafe-ai-photo-tips",
+            "label": "Pick a photo that shows the face clearly"
+          }
+        ]
+      },
+      {
+        "heading": "What should I check before adding a POV caption?",
+        "paragraphs": [
+          "Watch the completed MP4 before sharing: the table and bench should both be visible, the second person should sit on the bench, and the protagonist should move only after noticing the mistake. Download the file from Generated videos within 30 days; the website does not preserve it indefinitely.",
+          "Add a short caption such as “POV: your first time in a fancy cafe” in your own editor after downloading. Keep the text away from faces and the table-versus-bench reveal. If the shot does not read clearly without text, a caption alone will not repair the seating story."
+        ],
+        "links": [
+          {
+            "href": "/blog/download-fancy-cafe-ai-video",
+            "label": "Find and download your finished MP4"
+          },
+          {
+            "href": "/blog/fancy-cafe-ai-music-and-captions",
+            "label": "Caption placement and music rights"
+          }
+        ]
+      },
+      {
+        "heading": "Can I post it directly to TikTok or Instagram Reels?",
+        "paragraphs": [
+          "No. This studio generates and lets you download an MP4; it does not connect to TikTok or Instagram or publish on your behalf. Upload the saved file through the platform or editor you choose, and preview the final crop and caption there.",
+          "Only upload portraits of consenting adults. A sample video or a trending track is not proof that you have rights to reuse someone else’s audio or footage; check the rights for the sound you choose. Sharing does not guarantee views or a result identical to the reference."
+        ]
+      }
+    ],
+    "related": [
+      "your-first-time-in-a-fancy-cafe-meme-explained",
+      "how-to-make-first-time-in-a-fancy-cafe-ai-video",
+      "fancy-cafe-ai-music-and-captions",
+      "download-fancy-cafe-ai-video"
+    ],
+    "faqs": [
+      {
+        "question": "Do I need the original Fancy Cafe video to make a POV version?",
+        "answer": "No. Upload your own consenting adult portrait to the studio. It uses a scene reference to generate new frames; it does not edit the original clip."
+      },
+      {
+        "question": "Does Fancy Cafe AI upload the finished video to TikTok or Reels?",
+        "answer": "No. Download the completed MP4 in the same browser, then upload it yourself through your chosen platform. You can add a short POV caption in your editor."
+      }
+    ]
   }
 ];
 export const tinyGuides = allTinyGuides;
-export const featuredTinyGuides = allTinyGuides.slice(0, 6);
+export const featuredTinyGuides = [...allTinyGuides.slice(0, 5), allTinyGuides[10]];
