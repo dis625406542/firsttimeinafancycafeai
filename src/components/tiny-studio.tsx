@@ -71,9 +71,7 @@ export function TinyStudio() {
   const [simulatedProgress, setSimulatedProgress] = useState(0);
   const [message, setMessage] = useState("");
   const [enabled, setEnabled] = useState(false);
-  const [billingReady, setBillingReady] = useState(false);
   const [sampleReady, setSampleReady] = useState(false);
-  const [billingError, setBillingError] = useState("");
   const [emailEnabled, setEmailEnabled] = useState(false);
   const [prices, setPrices] = useState<Price[]>([]);
   const [testMode, setTestMode] = useState(false);
@@ -113,32 +111,15 @@ export function TinyStudio() {
     return () => clearInterval(timer);
   }, [paid, stage]);
 
-  async function refreshBilling(code?: string): Promise<Order | null> {
-    if (!code) { setBillingReady(false); setBillingError(""); }
+  async function refreshBilling(code: string): Promise<Order> {
     try {
-      const url = `/api/billing?template=${TINY_TEMPLATE}${code ? `&code=${encodeURIComponent(code)}` : ""}`;
-      // Only the read-only catalog may retry. Paid-order recovery keeps its own request.
-      const data = code ? await (async () => {
-        const response = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(15000) });
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.error || "Payment information is unavailable.");
-        return result;
-      })() : await fetchCheckoutCatalog<{ error?: string; order?: Order; prices?: Price[]; enabled?: boolean; emailEnabled?: boolean; testMode?: boolean }>(url);
-      if (data.order) return data.order as Order;
-      setPrices((data.prices ?? []) as Price[]);
-      setEnabled(data.enabled === true);
-      setEmailEnabled(data.emailEnabled === true);
-      setTestMode(data.testMode === true);
-      return null;
+      const response = await fetch(`/api/billing?template=${TINY_TEMPLATE}&code=${encodeURIComponent(code)}`, { cache: "no-store", signal: AbortSignal.timeout(15000) });
+      const data = await response.json() as { error?: string; order?: Order };
+      if (!response.ok || !data.order) throw new Error(data.error || "Payment information is temporarily unavailable.");
+      return data.order;
     } catch (error) {
-      if (code) throw error;
-      setEnabled(false);
-      setBillingError("We could not check checkout availability. Retry below; your photos stay here. If you already paid, your order can still be checked.");
       emitStudioEvent("checkout_check_failed");
-      return null; // A failed catalog request must not prevent paid-order recovery.
-    } finally {
-      // The server-rendered button must not claim "unavailable" before this check completes.
-      if (!code) setBillingReady(true);
+      throw error;
     }
   }
 
@@ -206,7 +187,6 @@ export function TinyStudio() {
   async function resume(code: string, mode?: "success" | "cancel") {
     activeCode.current = code;
     const order = await refreshBilling(code);
-    if (!order) return;
     if (order.resolution === "480p" || order.resolution === "720p") setQuality(order.resolution);
     if (order.aspectRatio === "9:16" || order.aspectRatio === "16:9") setAspectRatio(order.aspectRatio);
     if (order.status === "paid") {
@@ -242,7 +222,7 @@ export function TinyStudio() {
     let alive = true;
     bootstrap.current = (async () => {
       try {
-        await refreshBilling();
+        // Check the catalog only when the visitor chooses to order; recover paid orders separately.
         if (!alive) return;
         const params = new URLSearchParams(window.location.search);
         const returned = params.get("code");
@@ -309,12 +289,34 @@ export function TinyStudio() {
     setMessage("");
   }
 
+  async function prepareCheckout() {
+    if (busy) return;
+    setMessage("");
+    setBusy(true);
+    try {
+      // A fresh server catalog is authoritative; a stale first-load response never starts an order.
+      const data = await fetchCheckoutCatalog<{ error?: string; prices?: Price[]; enabled?: boolean; emailEnabled?: boolean; testMode?: boolean }>(`/api/billing?template=${TINY_TEMPLATE}`);
+      const price = data.prices?.find(item => item.resolution === quality);
+      setPrices(data.prices ?? []);
+      setEnabled(data.enabled === true);
+      setEmailEnabled(data.emailEnabled === true);
+      setTestMode(data.testMode === true);
+      if (!data.enabled || !price?.purchasable) {
+        setMessage("We couldn't start a video order right now. No payment was taken. Please try again later.");
+        return;
+      }
+      setShowConfirm(true);
+    } catch {
+      setMessage("We couldn't connect to the payment service right now. No payment was taken. Please try again later.");
+    } finally { setBusy(false); }
+  }
+
   async function startCheckout() {
     if (!band.protagonist && !submittedFaces.protagonist) { setMessage("Add the protagonist photo first."); return; }
     if (busy) return;
     const filled = BAND_SLOTS.map(slot => ({ slot: slot.id, label: slot.label, photo: band[slot.id] })).filter(entry => entry.photo);
     const checking = filled.some(entry => entry.photo!.status === "checking");
-    if (!enabled || !selectedPrice?.purchasable) { setMessage("Checkout is not available yet. No payment was taken."); return; }
+    if (!enabled || !selectedPrice?.purchasable) { setMessage("We could not start a video order right now. No payment was taken. Please try again later."); return; }
     const reuse = !!canceledCode && filled.length === 0;
     if (!reuse && filled.length < 1) { setMessage("Upload the protagonist photo first."); return; }
     if (checking) { setMessage("Wait until the selected photos finish the AI safety check."); return; }
@@ -335,7 +337,9 @@ export function TinyStudio() {
       if (emailEnabled && email) form.append("email", email.trim());
       const response = await fetch("/api/billing/checkout", { method: "POST", body: form });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Could not open secure checkout.");
+      if (!response.ok) throw new Error(response.status >= 500
+        ? "We could not start a video order right now. No payment was taken. Please try again later."
+        : data.error || "Could not open secure checkout.");
       if (data.mockPayment === true) { sessionStorage.setItem("fancy-cafe-code", data.code); await resume(data.code); return; }
       if (!data.checkoutUrl) throw new Error("Checkout did not return a payment link.");
       // Stripe is a full-page redirect. Keep only tiny display previews for this order's return; the server already holds the original uploads.
@@ -368,7 +372,7 @@ export function TinyStudio() {
     return price ? money(price.amount_minor, price.currency) : fallback;
   };
   const buttonLabel = submitted && stage === "ready" ? "Your video is ready" : submitted && stage === "failed" ? "Check order status" : stage === "working" ? "Generating your video…" : stage === "redirecting" ? "Opening checkout…" : busy ? "Please wait…"
-    : !enabled ? "Studio preview · generation coming soon" : `Generate video · ${priceLabel(quality, quality === "480p" ? "$5.99" : "$8.99")}`;
+    : `Generate video · ${priceLabel(quality, quality === "480p" ? "$5.99" : "$8.99")}`;
   const finished = jobs.filter(job => job.status === "finished" && job.videoUrl);
   const shownProgress = stage === "ready" ? 100 : Math.min(98, Math.max(progress ?? 0, paid ? simulatedProgress : 0));
   const selectedJob = finished.find(job => job.videoUrl === videoUrl);
@@ -399,7 +403,7 @@ export function TinyStudio() {
   return <div className="tiny-studio-grid" aria-label="Fancy Cafe AI studio">
     <div className="tiny-studio-form">
       <div className="tiny-studio-heading"><h2>Make your Fancy Cafe<br/>AI video</h2><span>CAFE COMEDY</span></div>
-      <p className="tiny-photo-tip">Studio preview · Cafe reference assets are being prepared. Checkout stays closed until the template is verified. Dog images below are temporary role placeholders, not cafe results.</p>
+      <p className="tiny-photo-tip">Choose a clear adult portrait for the protagonist. Add a second person if you like. The dog portraits are temporary role placeholders, not cafe results.</p>
       <div className="tiny-field-heading"><span>1</span><strong>YOUR MAIN CHARACTER</strong><em>Required</em></div>
       <div className="tiny-lead-upload">
         <div className="tiny-band-tile"><img src={SLOT_IMAGES.protagonist} alt="Temporary dog portrait placeholder for the protagonist upload" />{bandSlot("protagonist")}</div>
@@ -416,10 +420,7 @@ export function TinyStudio() {
       <div className="tiny-field-heading"><span>3</span><strong>FORMAT</strong></div>
       <fieldset className="tiny-quality"><legend className="sr-only">Video aspect ratio</legend><label className={aspectRatio === "9:16" ? "selected" : ""}><input type="radio" name="aspect-ratio" value="9:16" checked={aspectRatio === "9:16"} disabled={submitted} onChange={() => setAspectRatio("9:16")} /><span className="tiny-format-line"><svg className="tiny-format-icon" width="20" height="26" viewBox="0 0 20 26" aria-hidden="true"><rect x="1.5" y="1.5" width="17" height="23" rx="3" fill="none" stroke="currentColor" strokeWidth="1.6" /></svg><strong>9:16</strong></span><small>Vertical · Reels / TikTok</small></label><label className={aspectRatio === "16:9" ? "selected" : ""}><input type="radio" name="aspect-ratio" value="16:9" checked={aspectRatio === "16:9"} disabled={submitted} onChange={() => setAspectRatio("16:9")} /><span className="tiny-format-line"><svg className="tiny-format-icon" width="28" height="22" viewBox="0 0 28 22" aria-hidden="true"><rect x="1.5" y="2.5" width="25" height="17" rx="3" fill="none" stroke="currentColor" strokeWidth="1.6" /></svg><strong>16:9</strong></span><small>Horizontal · YouTube</small></label></fieldset>
       <label className="tiny-consent"><input type="checkbox" checked={consent} onChange={event => setConsent(event.target.checked)} /><span>These are my photos or I have the permission of everyone shown. Everyone is an adult.</span></label>
-      <button type="button" className="tiny-generate" onClick={() => setShowConfirm(true)} disabled={busy || submitted || !billingReady || !enabled || !selectedPrice?.purchasable || effectiveFilled < 1 || !consent || anyChecking || stage === "working"}>{buttonLabel} <ArrowRight size={18} /></button>
-      {!billingReady && <p className="tiny-studio-fine" role="status">Checking payment options…</p>}
-      {billingError && <div className="tiny-billing-retry" role="alert"><p>{billingError}</p><button type="button" disabled={!billingReady} onClick={() => void refreshBilling()}>Retry checkout check</button></div>}
-      {billingReady && !billingError && !enabled && <p className="tiny-studio-fine">Studio preview: cafe reference and audio are being prepared. No payment is taken. <button type="button" onClick={() => void refreshBilling()}>Check again</button></p>}
+      <button type="button" className="tiny-generate" onClick={() => void prepareCheckout()} disabled={busy || submitted || effectiveFilled < 1 || !consent || anyChecking || stage === "working"}>{buttonLabel} <ArrowRight size={18} /></button>
       {rejectedLabels.length > 0 && <p className="tiny-upload-error" role="alert">{rejectedLabels.join(", ")} did not pass the AI check. Replace or remove them, or let the server decide at checkout.</p>}
       {message && !submitted && <p className="tiny-upload-error" role="alert">{message}</p>}
       <p className="tiny-studio-fine"><ShieldCheck size={15} /> {submitted ? `${previewCount || displayFilledCount}/2 faces already submitted.` : `${displayFilledCount}/2 roles filled — protagonist required.`} Photos are screened by AI before payment, stored privately and sent to the video provider only after payment is verified. Generation and downloads are available in this browser for 30 days.</p>
@@ -448,6 +449,6 @@ export function TinyStudio() {
         <div className="tiny-history"><h3>Generated videos</h3>{finished.length ? <div className="tiny-history-grid">{finished.map(job => <div className={`tiny-history-card ${videoUrl === job.videoUrl ? "active" : ""}`} key={job.code}><button type="button" onClick={() => { activeCode.current = job.code; setVideoUrl(job.videoUrl); setStage("ready"); setPreviewTab("videos"); }} aria-label={`Play generated video ${job.code.slice(0,8)}`}><video muted playsInline preload="metadata" src={job.videoUrl ?? undefined} aria-hidden="true" /><span>▶ Play · {job.resolution} · {job.aspectRatio}</span></button><a href={`/api/video/file?code=${job.code}&download=1`} onClick={() => emitStudioEvent("video_download_clicked")} download aria-label={`Download video ${job.code.slice(0,8)}`}><Download size={15} /> Download</a></div>)}</div> : <p>Generated videos from this browser will appear here when ready. Download each one within 30 days.</p>}</div>
       </div>
     </div>
-    {showConfirm && <div className="tiny-modal-backdrop" onClick={() => setShowConfirm(false)}><div className="tiny-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="tiny-confirm-title" onClick={event => event.stopPropagation()}><button type="button" className="tiny-modal-close" onClick={() => setShowConfirm(false)} aria-label="Close">×</button><h3 id="tiny-confirm-title">Ready to make your video?</h3><p>{Math.max(effectiveFilled, 0)} uploaded adult portrait{effectiveFilled === 1 ? "" : "s"} · 15 seconds · {quality} · {aspectRatio}. One-time payment: {selectedPrice ? money(selectedPrice.amount_minor, selectedPrice.currency) : "Unavailable"}. A video code is created when you continue; keep this browser and its cookies to see your result after payment.</p>{emailEnabled && <><label htmlFor="tiny-delivery-email">Email your download link (optional)</label><input id="tiny-delivery-email" type="email" autoComplete="email" placeholder="you@example.com" value={email} onChange={event => setEmail(event.target.value)} /><small>If you add an email, we will attempt to send your download link when the video is ready. You can also return in this browser.</small></>}<small>Your video is stored privately for up to 30 days from completion. Return in the same browser, keep its cookies, and download your MP4. {emailEnabled ? "Email is optional." : "Automatic email delivery is not currently available; save your order reference after checkout."}</small><div className="tiny-modal-actions"><button type="button" onClick={() => setShowConfirm(false)}>Cancel</button><button type="button" onClick={() => void startCheckout()}>Continue to {testMode ? "test" : "secure"} checkout</button></div></div></div>}
+    {showConfirm && <div className="tiny-modal-backdrop" onClick={() => setShowConfirm(false)}><div className="tiny-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="tiny-confirm-title" onClick={event => event.stopPropagation()}><button type="button" className="tiny-modal-close" onClick={() => setShowConfirm(false)} aria-label="Close">×</button><h3 id="tiny-confirm-title">Ready to make your video?</h3><p>{Math.max(effectiveFilled, 0)} uploaded adult portrait{effectiveFilled === 1 ? "" : "s"} · 15 seconds · {quality} · {aspectRatio}. One-time payment: {selectedPrice ? money(selectedPrice.amount_minor, selectedPrice.currency) : priceLabel(quality, quality === "480p" ? "$5.99" : "$8.99")}. A video code is created when you continue; keep this browser and its cookies to see your result after payment.</p>{emailEnabled && <><label htmlFor="tiny-delivery-email">Email your download link (optional)</label><input id="tiny-delivery-email" type="email" autoComplete="email" placeholder="you@example.com" value={email} onChange={event => setEmail(event.target.value)} /><small>If you add an email, we will attempt to send your download link when the video is ready. You can also return in this browser.</small></>}<small>Your video is stored privately for up to 30 days from completion. Return in the same browser, keep its cookies, and download your MP4. {emailEnabled ? "Email is optional." : "Automatic email delivery is not currently available; save your order reference after checkout."}</small><div className="tiny-modal-actions"><button type="button" onClick={() => setShowConfirm(false)}>Cancel</button><button type="button" onClick={() => void startCheckout()}>Continue to {testMode ? "test" : "secure"} checkout</button></div></div></div>}
   </div>;
 }

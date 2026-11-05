@@ -6,5 +6,5 @@ test('how-to pages answer distinct photo, mobile, music and download questions',
   const g=guides.find(x=>x.slug===slug);assert.ok(g,slug);assert.ok(g.sections.length>=3);assert.ok(g.related.length>=2);assert.doesNotMatch(JSON.stringify(g),/proven search volume|guaranteed ranking/i);
  }
  assert.equal(new Set(guides.map(g=>g.answer)).size,guides.length);
- assert.match(read('src/app/blog/[slug]/page.tsx'),/Preview the/);
+ assert.match(read('src/app/blog/[slug]/page.tsx'),/Try the video studio/);
 });

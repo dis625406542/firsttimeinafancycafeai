@@ -56,8 +56,8 @@ export const allTinyGuides: TinyGuide[] = [
   {
     "slug": "how-to-make-first-time-in-a-fancy-cafe-ai-video",
     "title": "How to make a Your First Time in a Fancy Cafe AI video",
-    "description": "Learn how to prepare a protagonist photo, add an optional cafe regular, and plan a 15-second wrong-seat video. The studio is currently in preview.",
-    "answer": "To make the Fancy Cafe AI meme, assign one adult portrait to the visitor who sits on the table, optionally add a second portrait for the cafe regular, and use a reference that preserves the reveal. Our studio is currently a preview; paid generation opens after reference checks.",
+    "description": "Learn how to prepare a protagonist photo, add an optional cafe regular, and create a 15-second wrong-seat video in the studio.",
+    "answer": "To make the Fancy Cafe AI meme, assign one adult portrait to the visitor who sits on the table, optionally add a second portrait for the cafe regular, and use a reference that preserves the reveal. The studio lets you choose the roles, resolution and aspect ratio before you check out.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
     "updatedAt": "2026-11-05",
@@ -78,13 +78,13 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "heading": "How does the studio workflow work?",
         "paragraphs": [
-          "The site is designed for one 15-second result in a selected resolution and aspect ratio. The current preview does not accept payment; the steps below describe the prepared workflow once generation is enabled."
+          "The site is designed for one 15-second result in a selected resolution and aspect ratio. Confirm the current price and order availability in the studio before paying."
         ],
         "steps": [
           "Open the studio and add a portrait to Protagonist. Wait for the photo check.",
           "Optionally expand Add a friend and upload the cafe regular separately.",
           "Choose 480p or 720p, then 9:16 vertical or 16:9 horizontal. Confirm consent.",
-          "When generation is available, review the final price and delivery details before continuing to checkout.",
+          "Review the final price and delivery details before continuing to checkout.",
           "Return in the same browser to monitor the existing order, preview the result and download the MP4."
         ]
       },
@@ -147,7 +147,7 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "heading": "What if I only upload one photo?",
         "paragraphs": [
-          "The planned one-photo mode uses the uploaded identity for the protagonist and a distinct fictional adult for the regular. Leaving the second slot empty is not a request to duplicate the first person.",
+          "The one-photo mode uses the uploaded identity for the protagonist and a distinct fictional adult for the regular. Leaving the second slot empty is not a request to duplicate the first person.",
           "If your friend needs to appear recognizably, provide their separate portrait with permission. The site does not infer your friend from the protagonist photo or from a name in a caption."
         ]
       },
@@ -195,7 +195,7 @@ export const allTinyGuides: TinyGuide[] = [
         "bullets": [
           "One person per upload, not a crowded group photo.",
           "No celebrity impersonation, minors or nonconsensual likeness use.",
-          "Do not upload a pet to this adult-portrait template; dog pictures on the preview are placeholders.",
+          "Do not upload a pet to this adult-portrait template; dog pictures in the studio are role placeholders, not cafe results.",
           "Re-saving a small image at a larger size does not restore missing facial detail."
         ]
       },
@@ -263,13 +263,13 @@ export const allTinyGuides: TinyGuide[] = [
         "heading": "How should I assess a template link?",
         "paragraphs": [
           "Preview the actual template before uploading photos or paying. Check whether it is an editing preset, a face-replacement tool or a new-video generator. Look for the required inputs, duration, export format and final price.",
-          "Do not assume that a creator calling something a free template means every AI render or export is free. The same applies to our site: reading guides and inspecting the preview are free, but the planned personalized renders are paid."
+          "Do not assume that a creator calling something a free template means every AI render or export is free. The same applies to our site: reading guides are free, but personalized video generation is priced per render."
         ]
       },
       {
         "heading": "Where does Fancy Cafe AI fit?",
         "paragraphs": [
-          "Fancy Cafe AI is being prepared as a focused two-character generator, with fixed scene instructions rather than a general video editor. It does not provide a custom timeline or an official CapCut template.",
+          "Fancy Cafe AI is a focused two-character video generator, with fixed scene instructions rather than a general video editor. It does not provide a custom timeline or an official CapCut template.",
           "Our current media examples come from an older template and are labeled accordingly. Wait for a validated cafe demo if exact staging is important to your purchase decision."
         ]
       }
@@ -349,7 +349,7 @@ export const allTinyGuides: TinyGuide[] = [
         "heading": "How will this studio handle audio?",
         "paragraphs": [
           "The configured pipeline requests silent footage first. A separate authorized audio asset can then be merged into the result. This does not ask the video model to reproduce a copyrighted song or clone a voice.",
-          "Cafe-specific reference and audio assets have not yet been approved for this preview. The older band demo soundtrack is not the promised soundtrack for this cafe template. Do not use that placeholder to judge the final music."
+          "Audio is used only with permission; the older band demo soundtrack is not the cafe soundtrack. Do not use that placeholder to judge the final music."
         ]
       },
       {
@@ -373,9 +373,9 @@ export const allTinyGuides: TinyGuide[] = [
   },
   {
     "slug": "fancy-cafe-ai-price-and-free-options",
-    "title": "Is the Fancy Cafe AI video free? Pricing and preview explained",
-    "description": "Planned Fancy Cafe AI pricing: $5.99 for 480p or $8.99 for 720p. Understand preview access, paid renders and what free editing options can do.",
-    "answer": "Fancy Cafe AI guides and the studio preview are free to browse. Planned personalized generation costs $5.99 for 480p or $8.99 for 720p, per 15-second video. Checkout remains closed until cafe assets are verified; there is no free render or subscription offer on this preview.",
+    "title": "Is the Fancy Cafe AI video free? Video pricing explained",
+    "description": "Fancy Cafe AI pricing: $5.99 for 480p or $8.99 for 720p. Understand paid renders and what free editing options can do.",
+    "answer": "Fancy Cafe AI guides are free to browse. Personalized generation is priced at $5.99 for 480p or $8.99 for 720p, per 15-second video. Confirm the final price and availability at checkout; there is no free render or subscription offer.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
     "updatedAt": "2026-11-05",
@@ -389,8 +389,8 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "heading": "What does one payment cover?",
         "paragraphs": [
-          "The planned price covers one generated video at the chosen resolution and aspect ratio. A 9:16 order does not also include a separate 16:9 render. Adding the optional second portrait does not change the listed tier price.",
-          "Final availability and amount must be confirmed in checkout. Do not pay through a separate message or an unrelated payment link if the studio says the template is still in preview."
+          "The listed price covers one generated video at the chosen resolution and aspect ratio. A 9:16 order does not also include a separate 16:9 render. Adding the optional second portrait does not change the listed tier price.",
+          "Confirm availability and amount before checkout. Never pay through a separate message or an unrelated payment link."
         ]
       },
       {
@@ -404,7 +404,7 @@ export const allTinyGuides: TinyGuide[] = [
         "heading": "What should I check before buying?",
         "paragraphs": [
           "Watch a verified cafe example, read the photo instructions and understand the output limitations. The currently reused band videos are not evidence of cafe generation quality.",
-          "When checkout becomes available, keep your order reference and return in the same browser. If payment succeeds but delivery fails, use the existing order and contact support under the refund policy rather than paying again."
+          "Keep your order reference and return in the same browser after checkout. If payment succeeds but delivery fails, use the existing order and contact support under the refund policy rather than paying again."
         ]
       }
     ],
@@ -418,7 +418,7 @@ export const allTinyGuides: TinyGuide[] = [
     "slug": "how-to-create-fancy-cafe-ai-video-on-phone",
     "title": "How to create a Fancy Cafe AI video on your phone",
     "description": "Prepare a Fancy Cafe AI video on your phone without installing an app. Choose portraits and format, and keep the same browser for delivery.",
-    "answer": "You can prepare a Fancy Cafe AI video in a mobile browser: select a protagonist portrait, optionally add a friend, and choose your format. No app installation is required for the studio. Paid generation is not open during the current preview.",
+    "answer": "You can prepare a Fancy Cafe AI video in a mobile browser: select a protagonist portrait, optionally add a friend, and choose your format. No app installation is required for the studio. Confirm availability and the final price before paying.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
     "updatedAt": "2026-11-05",
@@ -476,7 +476,7 @@ export const allTinyGuides: TinyGuide[] = [
         "heading": "Where will the finished video appear?",
         "paragraphs": [
           "The prepared studio shows generation progress for an order and then a playable result. Completed items appear in the history grid; selecting one moves it into the main player. Download applies to the selected result.",
-          "This new site is still in preview, so there are no cafe demo orders to recover. The temporary example player is not a purchased video and does not show your uploaded face."
+          "The temporary example player is not a purchased video and does not show your uploaded face."
         ]
       },
       {

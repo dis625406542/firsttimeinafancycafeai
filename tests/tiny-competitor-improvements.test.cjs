@@ -14,7 +14,7 @@ test('cafe checkout ignores the old flag and both routes apply the new gate',()=
 });
 test('studio status is retryable, bounded and email capability is respected',()=>{
  const studio=fs.readFileSync('src/components/tiny-studio.tsx','utf8');
- assert.match(studio,/Retry checkout check/);assert.match(studio,/AbortSignal.timeout/);
+ assert.match(studio,/async function prepareCheckout/);assert.match(studio,/AbortSignal.timeout/);
  assert.match(studio,/setEmailEnabled\(data.emailEnabled === true\)/);
  assert.match(studio,/emailEnabled &&/);
 });

@@ -45,10 +45,11 @@ test('permanent 4xx errors fail without retry; temporary failure is bounded', as
 test('first paint shows truthful priced offer but cannot charge until backend confirms', () => {
   const studio = fs.readFileSync('src/components/tiny-studio.tsx', 'utf8');
   assert.doesNotMatch(studio, /Checkout unavailable/);
-  assert.match(studio, /Checking payment options/);
+  assert.doesNotMatch(studio, /Checking payment options/);
   assert.match(studio, /fetchCheckoutCatalog/);
-  assert.match(studio, /!billingReady \|\| !enabled/);
-  assert.match(studio, /Retry checkout check/);
+  assert.match(studio, /if \(!data.enabled \|\| !price\?\.purchasable\)/);
+  assert.doesNotMatch(studio, /Retry checkout check/);
+  assert.match(studio, /onClick=\{\(\) => void prepareCheckout\(\)\}/);
 });
 
 test('sample reels have no MP4 source in the initial HTML, hero video starts after hydration', () => {
