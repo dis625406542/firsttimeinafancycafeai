@@ -29,6 +29,21 @@ test('cafe checkout requires explicit reviewed assets and launch opt-in, not leg
  assert.equal(cafeLaunchReady(env),true);
  assert.equal(cafeLaunchReady({...env,FANCY_CAFE_REFERENCE_KEY:'tiny-desk-ai/v2/reference-first15-silent.mp4'}),false);
 });
+test('Stripe checkout simulation is limited to a local test-key/test-schema deployment with generation disabled',()=>{
+ const {cafeLaunchReady}=require('../src/lib/cafe-launch.ts');
+ const {generationSimulated}=require('../src/lib/video-access.ts');
+ const saved=Object.fromEntries(['NODE_ENV','VIDEO_GENERATION_ENABLED','FANCY_CAFE_STRIPE_TEST_MODE','DATABASE_PRO_NAME','DATABASE_PRO_URL','STRIPE_ENABLED','STRIPE_SECRET_KEY','STRIPE_WEBHOOK_SECRET','VERCEL','CI'].map(k=>[k,process.env[k]]));
+ const env={NODE_ENV:'development',FANCY_CAFE_STRIPE_TEST_MODE:'true',DATABASE_PRO_NAME:'firsttimeinafancycafeai_test',DATABASE_PRO_URL:'postgresql://u:p@localhost:5432/postgres?schema=firsttimeinafancycafeai_test',STRIPE_ENABLED:'true',STRIPE_SECRET_KEY:'rk_test_'+ 'a'.repeat(32),STRIPE_WEBHOOK_SECRET:'whsec_'+ 'a'.repeat(32),VIDEO_GENERATION_ENABLED:'false'};
+ try {
+  for(const k of Object.keys(saved))delete process.env[k];Object.assign(process.env,env);
+  assert.equal(cafeLaunchReady(env),true);assert.equal(generationSimulated(),true);
+  for(const changes of [{NODE_ENV:'production'},{DATABASE_PRO_NAME:'firsttimeinafancycafeai_pro'},{DATABASE_PRO_URL:'postgresql://u:p@localhost:5432/postgres?schema=firsttimeinafancycafeai_pro'},{STRIPE_SECRET_KEY:'rk_live_'+ 'a'.repeat(32)},{VIDEO_GENERATION_ENABLED:'true'},{VERCEL:'1'},{CI:'true'}]){
+   const unsafe={...env,...changes};for(const k of Object.keys(saved))delete process.env[k];Object.assign(process.env,unsafe);
+   assert.equal(cafeLaunchReady(unsafe),false,JSON.stringify(Object.keys(changes)));
+   assert.equal(generationSimulated(),false,JSON.stringify(Object.keys(changes)));
+  }
+ }finally{for(const [k,v] of Object.entries(saved)){if(v===undefined)delete process.env[k];else process.env[k]=v;}}
+});
 test('public site identity and distinct question guides use only the new domain',()=>{
  const site=require('../src/lib/site.ts'), {allTinyGuides:g}=require('../src/lib/tiny-guides.ts');
  assert.equal(site.SITE_URL,'https://firsttimeinafancycafeai.org');assert.ok(g.length>=8);

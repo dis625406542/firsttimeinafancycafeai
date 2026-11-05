@@ -61,3 +61,14 @@ test('email failure never marks sent; missing provider config never claims an or
   assert.equal(queries.length, 0);
  } finally { global.fetch = previousFetch; console.error = previousError; restore(); }
 });
+test('cafe ready email links authorize the cafe template as well as legacy tiny desk',async()=>{
+ setup(); const prior=global.fetch;
+ global.fetch=async()=>({ok:true});
+ try {
+  await sendReadyVideoEmail();
+  queries=[];
+  const signed='0'.repeat(64);
+  await videoForEmailLink(order.code,signed);
+  assert.ok(queries.some(sql=>/template_id IN \('tiny-desk-ai','fancy-cafe-ai'\)/.test(sql)), 'cafe orders must not be rejected by the email download route');
+ }finally{global.fetch=prior;restore();}
+});

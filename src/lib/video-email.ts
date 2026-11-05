@@ -17,7 +17,7 @@ export async function videoForEmailLink(code: string, token: string) {
   const order = (await pool().query<{ id: string; code: string; visitor_hash: string; notification_email: string }>(
     `SELECT id,code,visitor_hash,notification_email FROM {schema}.billing_orders
      WHERE code=$1 AND notification_email IS NOT NULL AND notification_sent_at IS NOT NULL
-       AND status='paid' AND template_id='tiny-desk-ai'`, [code])).rows[0];
+       AND status='paid' AND template_id IN ('tiny-desk-ai','fancy-cafe-ai')`, [code])).rows[0];
   if (!order) return null;
   const expected = deliveryToken(order.id, order.notification_email);
   if (!timingSafeEqual(Buffer.from(token, "hex"), Buffer.from(expected, "hex"))) return null;

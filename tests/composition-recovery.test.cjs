@@ -29,3 +29,10 @@ test('unfinished soundtrack delivery can recover after three days without extend
  assert.match(query,/prompt_version IN \('tiny-desk-v2','tiny-desk-v3','tiny-desk-v4'\)/);
  assert.match(query,/storage_retry_at<=now\(\)/);
 });
+test('fancy cafe running job can be claimed for soundtrack composition before completion',async()=>{
+ const {claimStorageAttempt}=require('../src/lib/video-jobs.ts');
+ assert.equal(await claimStorageAttempt('visitor','B'.repeat(32)),true);
+ // Both the running-status gate and the unfinished-composition retention gate must admit cafe jobs.
+ assert.match(query,/status='running'[\s\S]*template_id='fancy-cafe-ai'[\s\S]*prompt_version='fancy-cafe-v1'/i);
+ assert.match(query,/template_id='fancy-cafe-ai'[\s\S]*prompt_version='fancy-cafe-v1'[\s\S]*completed_at IS NULL/i);
+});

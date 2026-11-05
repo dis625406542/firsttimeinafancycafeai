@@ -20,7 +20,7 @@ export async function GET(request: Request) {
     if (order && order.status !== "paid") return new Response(null, { status: 404, headers: { "Cache-Control": "no-store" } });
     if (!job || !videoAvailable(job)) return new Response(null, { status: 404, headers: { "Cache-Control": "no-store" } });
     // Local simulation: no provider output exists, so play the bundled reference sample.
-    if (job.video_url === "simulated") return new Response(null, { status: 302, headers: { Location: "/api/tiny-desk/sample", "Cache-Control": "private, no-store", "Referrer-Policy": "no-referrer" } });
+    if (job.video_url === "simulated") return new Response(null, { status: 302, headers: { Location: "/fancy-cafe-ai/example.mp4", "Cache-Control": "private, no-store", "Referrer-Policy": "no-referrer" } });
     // Prefer the original provider source; archival is a backup, not a playback gate.
     // Keep ownership, payment, retention and exact-host checks on this stable route.
     // The player can request source=r2 once if the provider URL has expired.

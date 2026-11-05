@@ -1,5 +1,6 @@
 import "server-only";
 import { storageConfigured } from "./r2";
+import { localCafeStripeTestMode } from "./cafe-launch";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { configured, selectedProvider, type ProviderName } from "./video-provider";
 
@@ -16,7 +17,8 @@ export function enabled() {
 // Local demo mode: generation is off, so paid orders finish with the reference sample
 // instead of calling a provider. Never active in a production build.
 export function generationSimulated() {
-  return process.env.VIDEO_GENERATION_ENABLED !== "true" && process.env.NODE_ENV !== "production";
+  return process.env.FANCY_CAFE_STRIPE_TEST_MODE === "true" ? localCafeStripeTestMode() :
+    process.env.VIDEO_GENERATION_ENABLED !== "true" && process.env.NODE_ENV !== "production";
 }
 export function saveTestJob(code: string, job: Job) {
   testJobs.set(code, { job, expiresAt: Date.now() + 12 * 3600000 });

@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 
 const REELS = [
-  { src: "/tiny-band/reels/reel-1-human.mp4", poster: "/tiny-band/reels/poster-1.webp", label: "LEGACY DEMO · PEOPLE", alt: "Sample reel: a human band performing at a desk" },
-  { src: "/tiny-band/reels/reel-2-nfl.mp4", poster: "/tiny-band/reels/poster-2.webp", label: "LEGACY DEMO · GROUP", alt: "Sample reel: NFL coaches performing at a desk" },
-  { src: "/tiny-band/reels/reel-3-dogs.mp4", poster: "/tiny-band/reels/poster-3.webp", label: "LEGACY DEMO · DOGS", alt: "Sample reel: a dog band performing at a desk" },
+  { src: "/fancy-cafe-ai/example.mp4", poster: "/fancy-cafe-ai/example-poster.webp", label: "CAFE EXAMPLE · ORIGINAL", alt: "Cafe example: the protagonist sits in the wrong spot and a woman shows the correct seat" },
+  { src: "/fancy-cafe-ai/demo-2.mp4", poster: "/fancy-cafe-ai/demo-2-poster.webp", label: "CAFE EXAMPLE · TWO", alt: "Cafe example: another protagonist realizes the mistake after the woman sits down" },
+  { src: "/fancy-cafe-ai/demo-3.mp4", poster: "/fancy-cafe-ai/demo-3-poster.webp", label: "CAFE EXAMPLE · THREE", alt: "Cafe example: a third variation of the wrong-seat reveal" },
 ] as const;
 
 export function SampleReels() {
@@ -47,8 +47,8 @@ export function SampleReels() {
     if (video && next !== null) void video.play().catch(() => undefined);
   }
 
-  return <section className="tiny-reels" aria-label="Temporary legacy demos, not Fancy Cafe results">
-    <p className="tiny-art-note">Temporary demo gallery from our previous template. These are not Fancy Cafe outputs; the cafe example is being prepared.</p><div className="tiny-reels-grid">
+  return <section className="tiny-reels" aria-label="Three Fancy Cafe reference videos">
+    <p className="tiny-art-note">Three reference examples of the cafe meme, not generated customer results. Videos play muted by default; tap the sound icon to listen.</p><div className="tiny-reels-grid">
       {REELS.map((reel, index) => <div className="tiny-reel" key={reel.src}>
         <video
           ref={element => { videos.current[index] = element; }}

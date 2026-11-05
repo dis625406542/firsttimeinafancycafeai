@@ -56,8 +56,8 @@ export async function claimStorageAttempt(visitor: string, code: string): Promis
   const result = await pool().query(`UPDATE {schema}.video_jobs
     SET storage_attempts=storage_attempts+1, storage_error=NULL,
       storage_retry_at=now()+make_interval(secs => LEAST(3600,60*power(2,LEAST(storage_attempts,6)))::int), updated_at=now()
-    WHERE code=$1 AND visitor_hash=$2 AND (status='finished' OR (status='running' AND template_id='tiny-desk-ai' AND prompt_version IN ('tiny-desk-v2','tiny-desk-v3','tiny-desk-v4'))) AND r2_key IS NULL AND video_url IS NOT NULL
-      AND ((template_id='tiny-desk-ai' AND prompt_version IN ('tiny-desk-v2','tiny-desk-v3','tiny-desk-v4') AND completed_at IS NULL)
+    WHERE code=$1 AND visitor_hash=$2 AND (status='finished' OR (status='running' AND ((template_id='tiny-desk-ai' AND prompt_version IN ('tiny-desk-v2','tiny-desk-v3','tiny-desk-v4')) OR (template_id='fancy-cafe-ai' AND prompt_version='fancy-cafe-v1')))) AND r2_key IS NULL AND video_url IS NOT NULL
+      AND ((((template_id='tiny-desk-ai' AND prompt_version IN ('tiny-desk-v2','tiny-desk-v3','tiny-desk-v4')) OR (template_id='fancy-cafe-ai' AND prompt_version='fancy-cafe-v1')) AND completed_at IS NULL)
         OR COALESCE(completed_at,created_at)>now()-interval '30 days')
       AND (storage_retry_at IS NULL OR storage_retry_at<=now()) RETURNING code`, [code,visitor]);
   return Boolean(result.rowCount);

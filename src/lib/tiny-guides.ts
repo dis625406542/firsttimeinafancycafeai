@@ -13,10 +13,10 @@ export const allTinyGuides: TinyGuide[] = [
     "updatedAt": "2026-11-05",
     "category": "The meme & music",
     "minutes": "3 min read",
-    "image": "/tiny-band/guides/guide-01.webp",
+    "image": "/fancy-cafe-ai/guides/demo-1.webp",
     "imageClass": "",
-    "imageBadge": "TEMPORARY DEMO",
-    "imageAlt": "Legacy band demo placeholder; not a Fancy Cafe AI result",
+    "imageBadge": "CAFE REFERENCE",
+    "imageAlt": "Frame from a Fancy Cafe reference video, not a generated customer result",
     "sections": [
       {
         "heading": "Why is the person sitting on the table?",
@@ -36,7 +36,7 @@ export const allTinyGuides: TinyGuide[] = [
         "heading": "Is there one official template or original audio?",
         "paragraphs": [
           "Different editors and AI tools publish their own versions. A matching caption is not proof that a clip is the earliest source or that its soundtrack is licensed for reuse. Check the uploader and audio attribution on the platform where you found a clip.",
-          "Fancy Cafe AI is an independent tool, not an official TikTok or CapCut product. The current site contains clearly labeled legacy demo media while a cafe-specific reference is prepared."
+          "Fancy Cafe AI is an independent tool, not an official TikTok or CapCut product. The studio and example gallery now feature cafe reference videos. These are examples, not guaranteed AI-generated customer results."
         ]
       }
     ],
@@ -63,10 +63,10 @@ export const allTinyGuides: TinyGuide[] = [
     "updatedAt": "2026-11-05",
     "category": "Getting started",
     "minutes": "3 min read",
-    "image": "/tiny-band/guides/guide-01.webp",
+    "image": "/fancy-cafe-ai/guides/demo-2.webp",
     "imageClass": "",
-    "imageBadge": "TEMPORARY DEMO",
-    "imageAlt": "Legacy band demo placeholder; not a Fancy Cafe AI result",
+    "imageBadge": "CAFE REFERENCE",
+    "imageAlt": "Frame from a Fancy Cafe reference video, not a generated customer result",
     "sections": [
       {
         "heading": "What should I prepare first?",
@@ -82,7 +82,7 @@ export const allTinyGuides: TinyGuide[] = [
         ],
         "steps": [
           "Open the studio and add a portrait to Protagonist. Wait for the photo check.",
-          "Optionally expand Add a friend and upload the cafe regular separately.",
+          "The second slot is already open. Optionally upload a portrait to replace the woman in the cafe reference.",
           "Choose 480p or 720p, then 9:16 vertical or 16:9 horizontal. Confirm consent.",
           "Review the final price and delivery details before continuing to checkout.",
           "Return in the same browser to monitor the existing order, preview the result and download the MP4."
@@ -112,10 +112,10 @@ export const allTinyGuides: TinyGuide[] = [
     "updatedAt": "2026-11-05",
     "category": "Getting started",
     "minutes": "3 min read",
-    "image": "/tiny-band/guides/guide-01.webp",
+    "image": "/fancy-cafe-ai/guides/demo-3.webp",
     "imageClass": "",
-    "imageBadge": "TEMPORARY DEMO",
-    "imageAlt": "Legacy band demo placeholder; not a Fancy Cafe AI result",
+    "imageBadge": "CAFE REFERENCE",
+    "imageAlt": "Frame from a Fancy Cafe reference video, not a generated customer result",
     "sections": [
       {
         "heading": "Which photo belongs in each role?",
@@ -147,8 +147,8 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "heading": "What if I only upload one photo?",
         "paragraphs": [
-          "The one-photo mode uses the uploaded identity for the protagonist and a distinct fictional adult for the regular. Leaving the second slot empty is not a request to duplicate the first person.",
-          "If your friend needs to appear recognizably, provide their separate portrait with permission. The site does not infer your friend from the protagonist photo or from a name in a caption."
+          "The one-photo mode uses the uploaded identity for the protagonist; the reference guides the woman in the cafe. The model may generate a similar-looking woman rather than preserving the exact person. Leaving her slot empty does not request a duplicate protagonist.",
+          "If you want to replace the woman with someone recognizable, upload that person’s separate portrait with permission. A reference alone cannot guarantee the same face."
         ]
       },
       {
@@ -175,10 +175,10 @@ export const allTinyGuides: TinyGuide[] = [
     "updatedAt": "2026-11-05",
     "category": "Getting started",
     "minutes": "3 min read",
-    "image": "/tiny-band/guides/guide-01.webp",
+    "image": "/fancy-cafe-ai/guides/demo-1.webp",
     "imageClass": "",
-    "imageBadge": "TEMPORARY DEMO",
-    "imageAlt": "Legacy band demo placeholder; not a Fancy Cafe AI result",
+    "imageBadge": "CAFE REFERENCE",
+    "imageAlt": "Frame from a Fancy Cafe reference video, not a generated customer result",
     "sections": [
       {
         "heading": "Should I use a selfie or a full-body photo?",
@@ -195,7 +195,7 @@ export const allTinyGuides: TinyGuide[] = [
         "bullets": [
           "One person per upload, not a crowded group photo.",
           "No celebrity impersonation, minors or nonconsensual likeness use.",
-          "Do not upload a pet to this adult-portrait template; dog pictures in the studio are role placeholders, not cafe results.",
+          "Do not upload a pet to this adult-portrait template; the sample portraits show the two cafe roles and are not uploaded by default.",
           "Re-saving a small image at a larger size does not restore missing facial detail."
         ]
       },
@@ -223,10 +223,10 @@ export const allTinyGuides: TinyGuide[] = [
     "updatedAt": "2026-11-05",
     "category": "Questions & answers",
     "minutes": "3 min read",
-    "image": "/tiny-band/guides/guide-01.webp",
+    "image": "/fancy-cafe-ai/guides/demo-2.webp",
     "imageClass": "",
-    "imageBadge": "TEMPORARY DEMO",
-    "imageAlt": "Legacy band demo placeholder; not a Fancy Cafe AI result",
+    "imageBadge": "CAFE REFERENCE",
+    "imageAlt": "Frame from a Fancy Cafe reference video, not a generated customer result",
     "sections": [
       {
         "heading": "What is the difference between editing and generation?",
@@ -290,10 +290,10 @@ export const allTinyGuides: TinyGuide[] = [
     "updatedAt": "2026-11-05",
     "category": "Questions & answers",
     "minutes": "3 min read",
-    "image": "/tiny-band/guides/guide-01.webp",
+    "image": "/fancy-cafe-ai/guides/demo-3.webp",
     "imageClass": "",
-    "imageBadge": "TEMPORARY DEMO",
-    "imageAlt": "Legacy band demo placeholder; not a Fancy Cafe AI result",
+    "imageBadge": "CAFE REFERENCE",
+    "imageAlt": "Frame from a Fancy Cafe reference video, not a generated customer result",
     "sections": [
       {
         "heading": "Why does the wrong person get replaced?",
@@ -333,10 +333,10 @@ export const allTinyGuides: TinyGuide[] = [
     "updatedAt": "2026-11-05",
     "category": "The meme & music",
     "minutes": "3 min read",
-    "image": "/tiny-band/guides/guide-01.webp",
+    "image": "/fancy-cafe-ai/guides/demo-1.webp",
     "imageClass": "",
-    "imageBadge": "TEMPORARY DEMO",
-    "imageAlt": "Legacy band demo placeholder; not a Fancy Cafe AI result",
+    "imageBadge": "CAFE REFERENCE",
+    "imageAlt": "Frame from a Fancy Cafe reference video, not a generated customer result",
     "sections": [
       {
         "heading": "Does the meme require one specific song?",
@@ -349,7 +349,7 @@ export const allTinyGuides: TinyGuide[] = [
         "heading": "How will this studio handle audio?",
         "paragraphs": [
           "The configured pipeline requests silent footage first. A separate authorized audio asset can then be merged into the result. This does not ask the video model to reproduce a copyrighted song or clone a voice.",
-          "Audio is used only with permission; the older band demo soundtrack is not the cafe soundtrack. Do not use that placeholder to judge the final music."
+          "Audio is used only with permission; reference video audio does not automatically grant reuse rights. Confirm the audio in your finished video and your rights to use it."
         ]
       },
       {
@@ -381,10 +381,10 @@ export const allTinyGuides: TinyGuide[] = [
     "updatedAt": "2026-11-05",
     "category": "Questions & answers",
     "minutes": "3 min read",
-    "image": "/tiny-band/guides/guide-01.webp",
+    "image": "/fancy-cafe-ai/guides/demo-2.webp",
     "imageClass": "",
-    "imageBadge": "TEMPORARY DEMO",
-    "imageAlt": "Legacy band demo placeholder; not a Fancy Cafe AI result",
+    "imageBadge": "CAFE REFERENCE",
+    "imageAlt": "Frame from a Fancy Cafe reference video, not a generated customer result",
     "sections": [
       {
         "heading": "What does one payment cover?",
@@ -403,7 +403,7 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "heading": "What should I check before buying?",
         "paragraphs": [
-          "Watch a verified cafe example, read the photo instructions and understand the output limitations. The currently reused band videos are not evidence of cafe generation quality.",
+          "Watch a verified cafe example, read the photo instructions and understand the output limitations. The cafe reference videos show the intended story rather than guaranteed generated output.",
           "Keep your order reference and return in the same browser after checkout. If payment succeeds but delivery fails, use the existing order and contact support under the refund policy rather than paying again."
         ]
       }
@@ -418,22 +418,22 @@ export const allTinyGuides: TinyGuide[] = [
     "slug": "how-to-create-fancy-cafe-ai-video-on-phone",
     "title": "How to create a Fancy Cafe AI video on your phone",
     "description": "Prepare a Fancy Cafe AI video on your phone without installing an app. Choose portraits and format, and keep the same browser for delivery.",
-    "answer": "You can prepare a Fancy Cafe AI video in a mobile browser: select a protagonist portrait, optionally add a friend, and choose your format. No app installation is required for the studio. Confirm availability and the final price before paying.",
+    "answer": "You can prepare a Fancy Cafe AI video in a mobile browser: select a protagonist portrait, optionally replace the woman in the cafe, and choose your format. No app installation is required for the studio. Confirm availability and the final price before paying.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
     "updatedAt": "2026-11-05",
     "category": "Making & saving",
     "minutes": "3 min read",
-    "image": "/tiny-band/guides/guide-01.webp",
+    "image": "/fancy-cafe-ai/guides/demo-3.webp",
     "imageClass": "",
-    "imageBadge": "TEMPORARY DEMO",
-    "imageAlt": "Legacy band demo placeholder; not a Fancy Cafe AI result",
+    "imageBadge": "CAFE REFERENCE",
+    "imageAlt": "Frame from a Fancy Cafe reference video, not a generated customer result",
     "sections": [
       {
         "heading": "How do I prepare photos on mobile?",
         "paragraphs": [
           "Use the original photo from your camera roll when possible. If your image is HEIC, export a JPG or PNG before uploading because this studio accepts JPG, PNG and WebP. Check that only one adult is visible.",
-          "Tap the labeled protagonist upload circle first. The optional cafe regular role is inside Add a friend. Review the selected thumbnails before continuing; the order in your camera roll does not define the roles."
+          "Tap the labeled protagonist upload circle first. The optional woman role is visible below the protagonist. Review the selected thumbnails before continuing; the order in your camera roll does not define the roles."
         ]
       },
       {
@@ -467,10 +467,10 @@ export const allTinyGuides: TinyGuide[] = [
     "updatedAt": "2026-11-05",
     "category": "Making & saving",
     "minutes": "3 min read",
-    "image": "/tiny-band/guides/guide-01.webp",
+    "image": "/fancy-cafe-ai/guides/demo-1.webp",
     "imageClass": "",
-    "imageBadge": "TEMPORARY DEMO",
-    "imageAlt": "Legacy band demo placeholder; not a Fancy Cafe AI result",
+    "imageBadge": "CAFE REFERENCE",
+    "imageAlt": "Frame from a Fancy Cafe reference video, not a generated customer result",
     "sections": [
       {
         "heading": "Where will the finished video appear?",

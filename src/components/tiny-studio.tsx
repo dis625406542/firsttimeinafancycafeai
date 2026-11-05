@@ -16,8 +16,8 @@ const BAND_SLOTS: { id: SlotId; label: string; x: string; y: string }[] = [
   { id: "regular", label: "Cafe regular", x: "50%", y: "42%" },
 ];
 const SLOT_IMAGES: Record<SlotId, string> = {
-  protagonist: "/tiny-band/slots/band-lead.webp",
-  regular: "/tiny-band/slots/band-left.webp",
+  protagonist: "/fancy-cafe-ai/protagonist.webp",
+  regular: "/fancy-cafe-ai/regular.webp",
 };
 type Price = { resolution: "480p" | "720p"; amount_minor: number; currency: string; purchasable: boolean };
 type Order = { code: string; status: string; generationStatus: string; resolution?: "480p" | "720p"; aspectRatio?: "9:16" | "16:9" };
@@ -371,7 +371,7 @@ export function TinyStudio() {
     const price = prices.find(item => item.resolution === resolution);
     return price ? money(price.amount_minor, price.currency) : fallback;
   };
-  const buttonLabel = submitted && stage === "ready" ? "Your video is ready" : submitted && stage === "failed" ? "Check order status" : stage === "working" ? "Generating your video…" : stage === "redirecting" ? "Opening checkout…" : busy ? "Please wait…"
+  const buttonLabel = submitted && stage === "failed" ? "Check order status" : stage === "working" ? "Generating your video…" : stage === "redirecting" ? "Opening checkout…" : busy ? "Please wait…"
     : `Generate video · ${priceLabel(quality, quality === "480p" ? "$5.99" : "$8.99")}`;
   const finished = jobs.filter(job => job.status === "finished" && job.videoUrl);
   const shownProgress = stage === "ready" ? 100 : Math.min(98, Math.max(progress ?? 0, paid ? simulatedProgress : 0));
@@ -384,47 +384,50 @@ export function TinyStudio() {
   const anyChecking = BAND_SLOTS.some(slot => band[slot.id]?.status === "checking");
   const rejectedLabels = BAND_SLOTS.filter(slot => band[slot.id]?.status === "rejected").map(slot => slot.label);
 
-  // The visible circle is decorative; a transparent native file input sits on top of it.
+  // The visible circle is decorative; the native file input covers the whole portrait.
   // Clicking therefore targets the input directly — no label activation or JS click needed.
   const bandSlot = (id: SlotId) => {
     const config = BAND_SLOTS.find(item => item.id === id)!;
     const photo = band[id];
     const previewUrl = photo?.url ?? submittedFaces[id];
-    return <div key={id} className={`tiny-band-slot ${previewUrl ? `filled ${photo ? photo.status : "approved"}` : ""}`} style={{ left: config.x, top: config.y }}>
+    return <><div key={id} className={`tiny-band-slot ${previewUrl ? `filled ${photo ? photo.status : "approved"}` : ""}`} style={{ left: config.x, top: config.y }}>
       <div className="tiny-band-slot-visual" aria-hidden="true">
         {previewUrl ? <img src={previewUrl} alt="" /> : submitted ? <ShieldCheck size={18} aria-hidden="true" /> : <Plus size={16} strokeWidth={2.4} />}
         <span className="tiny-band-slot-label">{config.label}</span>
       </div>
-      <input type="file" className="tiny-band-slot-input" accept="image/jpeg,image/png,image/webp" aria-label={`${previewUrl ? "Change" : "Add"} ${config.label} photo`} title={`${previewUrl ? "Change" : "Add"} ${config.label} photo`} disabled={submitted} onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ""; if (file) void chooseSlotPhoto(id, file); }} />
       {!submitted && previewUrl && <button type="button" className="tiny-band-slot-x" aria-label={`Remove ${config.label} photo`} onClick={() => removeSlot(id)}><X size={11} /></button>}
-    </div>;
+    </div>
+    <input type="file" className="tiny-band-slot-input" accept="image/jpeg,image/png,image/webp" aria-label={`${previewUrl ? "Change" : "Add"} ${config.label} photo`} title={`${previewUrl ? "Change" : "Add"} ${config.label} photo`} disabled={submitted} onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ""; if (file) void chooseSlotPhoto(id, file); }} />
+    </>;
   };
 
   return <div className="tiny-studio-grid" aria-label="Fancy Cafe AI studio">
     <div className="tiny-studio-form">
       <div className="tiny-studio-heading"><h2>Make your Fancy Cafe<br/>AI video</h2><span>CAFE COMEDY</span></div>
-      <p className="tiny-photo-tip">Choose a clear adult portrait for the protagonist. Add a second person if you like. The dog portraits are temporary role placeholders, not cafe results.</p>
+      <p className="tiny-photo-tip">Choose a clear adult portrait for the protagonist. Add a second person if you like. The sample portraits show the two roles; tap either portrait to choose your own.</p>
       <div className="tiny-field-heading"><span>1</span><strong>YOUR MAIN CHARACTER</strong><em>Required</em></div>
       <div className="tiny-lead-upload">
-        <div className="tiny-band-tile"><img src={SLOT_IMAGES.protagonist} alt="Temporary dog portrait placeholder for the protagonist upload" />{bandSlot("protagonist")}</div>
+        <div className="tiny-band-tile"><img src={SLOT_IMAGES.protagonist} alt="Sample portrait of the cafe protagonist; tap to upload your photo" />{bandSlot("protagonist")}</div>
         <div><span className="tiny-kicker">PROTAGONIST · THE WRONG SEAT</span><h3>Make the awkward moment yours.</h3><p>This person mistakes the small round table for a seat. Add one clear portrait of yourself or a consenting adult.</p><a href="/blog/fancy-cafe-ai-two-people">See how the two roles work →</a></div>
       </div>
-      <details className="tiny-optional-band">
-        <summary>Add a friend <span>Optional · same price</span></summary>
-        <p>The cafe regular sits correctly on the bench and reveals the mistake. Leave this role empty for a fictional adult supporting character.</p>
-        <div className="tiny-lead-upload"><div className="tiny-band-tile"><img src={SLOT_IMAGES.regular} alt="Temporary dog portrait placeholder for the optional cafe regular" />{bandSlot("regular")}</div><div><span className="tiny-kicker">CAFE REGULAR · THE REVEAL</span><p>Use a separate photo. Roles follow these labels, not gender or upload timing.</p></div></div>
+      <details className="tiny-optional-band" open>
+        <summary>Optional female customer <span>Not required · upload to replace the woman in the meme</span></summary>
+        <p>The woman in the meme sits on the bench and reveals the mistake. You do not need to upload a second photo: the reference woman or a similar-style AI-generated woman can appear instead. AI may vary her appearance.</p>
+        <div className="tiny-lead-upload"><div className="tiny-band-tile"><img src={SLOT_IMAGES.regular} alt="Sample portrait of the woman in the cafe; tap to replace her" />{bandSlot("regular")}</div><div><span className="tiny-kicker">THE WOMAN · THE REVEAL</span><p>Optional: tap the portrait to replace her with a consenting adult. Without an upload, let the reference guide the woman in this role; an exact face is not guaranteed.</p></div></div>
       </details>
-      <div className="tiny-photo-tip"><span>✧</span><p>{submitted ? <><strong>{previewCount || displayFilledCount} of 2 portraits submitted.</strong> Keep this browser and do not pay again.</> : canceledCode ? <><strong>Your photos are saved for this order.</strong> You can review the same order without re-uploading.</> : <><strong>Start with the protagonist.</strong> One adult per photo. Clear JPG/PNG/WebP up to 10 MB. The optional second photo controls the cafe regular.</>}</p></div>
+      <div className="tiny-photo-tip"><span>✧</span><p>{submitted ? <><strong>{previewCount || displayFilledCount} of 2 portraits submitted.</strong> Keep this browser and do not pay again.</> : canceledCode ? <><strong>Your photos are saved for this order.</strong> You can review the same order without re-uploading.</> : <><strong>Start with the protagonist.</strong> One adult per photo. Clear JPG/PNG/WebP up to 10 MB. The second photo is optional and replaces the woman in the meme.</>}</p></div>
       <div className="tiny-field-heading"><span>2</span><strong>QUALITY</strong></div>
       <fieldset className="tiny-quality"><legend className="sr-only">Video quality</legend><label className={quality === "480p" ? "selected" : ""}><input type="radio" name="quality" value="480p" checked={quality === "480p"} onChange={() => setQuality("480p")} /><strong>480p</strong><small>{priceLabel("480p", "$5.99")} · Standard</small></label><label className={quality === "720p" ? "selected" : ""}><input type="radio" name="quality" value="720p" checked={quality === "720p"} onChange={() => setQuality("720p")} /><strong>720p</strong><small>{priceLabel("720p", "$8.99")} · HD</small></label></fieldset>
       <div className="tiny-field-heading"><span>3</span><strong>FORMAT</strong></div>
       <fieldset className="tiny-quality"><legend className="sr-only">Video aspect ratio</legend><label className={aspectRatio === "9:16" ? "selected" : ""}><input type="radio" name="aspect-ratio" value="9:16" checked={aspectRatio === "9:16"} disabled={submitted} onChange={() => setAspectRatio("9:16")} /><span className="tiny-format-line"><svg className="tiny-format-icon" width="20" height="26" viewBox="0 0 20 26" aria-hidden="true"><rect x="1.5" y="1.5" width="17" height="23" rx="3" fill="none" stroke="currentColor" strokeWidth="1.6" /></svg><strong>9:16</strong></span><small>Vertical · Reels / TikTok</small></label><label className={aspectRatio === "16:9" ? "selected" : ""}><input type="radio" name="aspect-ratio" value="16:9" checked={aspectRatio === "16:9"} disabled={submitted} onChange={() => setAspectRatio("16:9")} /><span className="tiny-format-line"><svg className="tiny-format-icon" width="28" height="22" viewBox="0 0 28 22" aria-hidden="true"><rect x="1.5" y="2.5" width="25" height="17" rx="3" fill="none" stroke="currentColor" strokeWidth="1.6" /></svg><strong>16:9</strong></span><small>Horizontal · YouTube</small></label></fieldset>
       <label className="tiny-consent"><input type="checkbox" checked={consent} onChange={event => setConsent(event.target.checked)} /><span>These are my photos or I have the permission of everyone shown. Everyone is an adult.</span></label>
-      <button type="button" className="tiny-generate" onClick={() => void prepareCheckout()} disabled={busy || submitted || effectiveFilled < 1 || !consent || anyChecking || stage === "working"}>{buttonLabel} <ArrowRight size={18} /></button>
+      {submitted && stage === "ready"
+        ? <button type="button" className="tiny-generate tiny-repeat-generate" onClick={() => { setSubmitted(false); setSubmittedFaces({}); setBand(current => { Object.values(current).forEach(photo => { if (photo) { URL.revokeObjectURL(photo.url); photoUrls.current.delete(photo.url); } }); return {}; }); setStage("idle"); setProgress(null); setVideoUrl(null); setPaid(false); sessionStorage.removeItem("fancy-cafe-code"); activeCode.current = null; generationStarted.current = false; setMessage(""); }}>Make another video <ArrowRight size={20} /></button>
+        : <button type="button" className="tiny-generate" onClick={() => void prepareCheckout()} disabled={busy || submitted || effectiveFilled < 1 || !consent || anyChecking || stage === "working"}>{buttonLabel} <ArrowRight size={18} /></button>}
+      {submitted && stage === "ready" && <p className="tiny-repeat-note">Your video is ready. Start a new order with new photos; your completed videos remain below.</p>}
       {rejectedLabels.length > 0 && <p className="tiny-upload-error" role="alert">{rejectedLabels.join(", ")} did not pass the AI check. Replace or remove them, or let the server decide at checkout.</p>}
       {message && !submitted && <p className="tiny-upload-error" role="alert">{message}</p>}
       <p className="tiny-studio-fine"><ShieldCheck size={15} /> {submitted ? `${previewCount || displayFilledCount}/2 faces already submitted.` : `${displayFilledCount}/2 roles filled — protagonist required.`} Photos are screened by AI before payment, stored privately and sent to the video provider only after payment is verified. Generation and downloads are available in this browser for 30 days.</p>
-      {submitted && stage === "ready" && <div className="tiny-submitted-actions"><button type="button" onClick={() => { setSubmitted(false); setSubmittedFaces({}); setBand(current => { Object.values(current).forEach(photo => { if (photo) { URL.revokeObjectURL(photo.url); photoUrls.current.delete(photo.url); } }); return {}; }); setStage("idle"); setProgress(null); setVideoUrl(null); setPaid(false); sessionStorage.removeItem("fancy-cafe-code"); activeCode.current = null; generationStarted.current = false; setMessage(""); }}>Make another video</button></div>}
     </div>
     <div className="tiny-studio-preview">
       <div className="tiny-preview-top">
@@ -444,8 +447,8 @@ export function TinyStudio() {
         {previewTab === "videos" ? (videoUrl
           ? <div className="tiny-sample-video" key={videoUrl}><video ref={previewVideo} controls autoPlay muted playsInline preload="metadata" src={videoUrl} aria-label="Your generated Fancy Cafe AI video" /></div>
           : <div className="tiny-empty-videos"><h3>{finished.length ? "Choose a video" : "No videos yet"}</h3><p>{finished.length ? "Pick one of your generated videos below to play it here." : "Videos generated in this browser will appear below."}</p></div>)
-          : <div className="tiny-sample-video"><video ref={previewVideo} controls autoPlay muted loop playsInline preload="auto" poster="/tiny-band/sample-poster.webp" src={sampleReady ? "/api/tiny-desk/sample" : undefined} aria-label="Temporary legacy demo: dogs performing, not a cafe generation">Your browser does not support video playback.</video></div>}
-        <p className="tiny-preview-caption">{previewTab === "videos" && videoUrl && displayedCode ? <>Your video is ready. <a href={`/api/video/file?code=${displayedCode}&download=1`} download>Download MP4</a> within 30 days.</> : previewTab === "videos" ? (finished.length ? "Choose one of your generated videos below." : "No videos yet. Your results will appear here.") : finished.length ? "Your video is ready — open your generated videos below to watch it." : "Temporary legacy band demo — not a Fancy Cafe result. Cafe example footage is being prepared."}</p>
+          : <div className="tiny-sample-video"><video ref={previewVideo} controls autoPlay muted loop playsInline preload="auto" poster="/fancy-cafe-ai/example-poster.webp" src={sampleReady ? "/fancy-cafe-ai/example.mp4" : undefined} aria-label="Fancy Cafe example video">Your browser does not support video playback.</video></div>}
+        <p className="tiny-preview-caption">{previewTab === "videos" && videoUrl && displayedCode ? <>Your video is ready. <a href={`/api/video/file?code=${displayedCode}&download=1`} download>Download MP4</a> within 30 days.</> : previewTab === "videos" ? (finished.length ? "Choose one of your generated videos below." : "No videos yet. Your results will appear here.") : finished.length ? "Your video is ready — open your generated videos below to watch it." : "Fancy Cafe example footage. Your generated video will use the portraits you upload and may differ from this example."}</p>
         <div className="tiny-history"><h3>Generated videos</h3>{finished.length ? <div className="tiny-history-grid">{finished.map(job => <div className={`tiny-history-card ${videoUrl === job.videoUrl ? "active" : ""}`} key={job.code}><button type="button" onClick={() => { activeCode.current = job.code; setVideoUrl(job.videoUrl); setStage("ready"); setPreviewTab("videos"); }} aria-label={`Play generated video ${job.code.slice(0,8)}`}><video muted playsInline preload="metadata" src={job.videoUrl ?? undefined} aria-hidden="true" /><span>▶ Play · {job.resolution} · {job.aspectRatio}</span></button><a href={`/api/video/file?code=${job.code}&download=1`} onClick={() => emitStudioEvent("video_download_clicked")} download aria-label={`Download video ${job.code.slice(0,8)}`}><Download size={15} /> Download</a></div>)}</div> : <p>Generated videos from this browser will appear here when ready. Download each one within 30 days.</p>}</div>
       </div>
     </div>
