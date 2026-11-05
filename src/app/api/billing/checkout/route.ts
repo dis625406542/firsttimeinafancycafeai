@@ -10,13 +10,16 @@ import { NextResponse } from "next/server";
 import { sameOrigin } from "@/lib/video-access";
 import { visitorFrom } from "@/lib/video-visitor";
 import { checkoutReady } from "@/lib/billing-ready";
-import { createOrder, saveOrderPhotos, checkoutFor, orderFor, completeLocalMockPayment, publicOrder } from "@/lib/billing-orders";
+import { createOrder, saveOrderPhotos, checkoutFor, orderFor, completeLocalMockPayment, publicOrder, type Order } from "@/lib/billing-orders";
 import { consumeLimit } from "@/lib/billing-catalog";
 import { ImageModerationError, moderatePortraits } from "@/lib/image-moderation";
 import { validatePhotos, validatePhotoBytes } from "@/lib/photo-validation";
 import { selectPromptScenario } from "@/lib/video-prompt";
 import { SITE_URL } from "@/lib/site";
 import { checkoutReturnOrigin } from "@/lib/checkout-origin";
+import { matchesOrderFormat } from "@/lib/checkout-retry-policy";
+import { readInputPhotos } from "@/lib/r2";
+import { stripeEnvironment } from "@/lib/stripe";
 export const runtime="nodejs";
 export const maxDuration=300;
 const json=(data:unknown,status=200)=>NextResponse.json(data,{status,headers:{"Cache-Control":"no-store"}});
@@ -44,6 +47,12 @@ export async function POST(request:Request) {
   let order=await orderFor(visitor,code);
   if(order && (order.provider==="local_mock")!==mockPayment) return json({error:"This order uses a different payment mode. Create a new video code."},409);
   if(order && order.template_id!==templateId) return json({error:"This order belongs to a different video template."},409);
+  const resolution=form.get("resolution"),aspect=form.get("aspectRatio") ?? "9:16";
+  if(!["480p","720p"].includes(String(resolution)) || !["9:16","16:9"].includes(String(aspect)) || form.get("consent")!=="yes") return json({error:"Confirm your photo permissions and choose a video format."},400);
+  // A Stripe session is tied to its original price. Never return its URL for a changed selection.
+  if(order && !matchesOrderFormat(order,resolution,aspect)) return json({error:"This order keeps its original format. Please start a new order to change the price or format."},409);
+  const sourceCode=String(form.get("sourceCode")||"");
+  if(sourceCode && (templateId!=="fancy-cafe-ai" || !/^[A-F0-9]{32}$/.test(sourceCode) || sourceCode===code || form.getAll("photos").length)) return json({error:"Invalid saved photo transfer. Please upload a new photo."},400);
   const version=order?.prompt_version??videoTemplate(templateId).promptVersion;
   const photoCount=templatePhotoCount(templateId,version);
   const tiny=needsComposition({templateId,promptVersion:version});
@@ -51,15 +60,25 @@ export async function POST(request:Request) {
   const photosInRange=order && order.input_photos.length>=photoCount.min && order.input_photos.length<=photoCount.max;
   if(!order || order.status==="pending" && !photosInRange) {
    const multi=templateId === "fancy-cafe-ai" || photoCount.max>2;
-   const resolution=form.get("resolution"),aspect=(multi || photoCount.max===1) ? (form.get("aspectRatio") ?? "9:16") : form.get("aspectRatio");
-   if(!["480p","720p"].includes(String(resolution)) || !["9:16","16:9"].includes(String(aspect)) || form.get("consent")!=="yes") return json({error:"Confirm your photo permissions and choose a video format."},400);
    const rawFiles=multi ? form.getAll("photos") : photoCount.max===1 ? [form.get("photo")] : [form.get("zombie"),form.get("survivor")];
    const slots=multi ? form.getAll("slots").map(String) : [];
-   if(templateId === "fancy-cafe-ai")validateCafeSlots(slots); else if(tiny)validateTinyDeskSlots(slots);
-   if (templateId === "fancy-cafe-ai" && rawFiles.length !== slots.length) return json({error:"Each uploaded portrait must have exactly one role."},400);
-   validatePhotos(rawFiles,photoCount);await Promise.all(rawFiles.map(validatePhotoBytes));
+   if(!sourceCode && templateId === "fancy-cafe-ai")validateCafeSlots(slots); else if(!sourceCode && tiny)validateTinyDeskSlots(slots);
+   if (!sourceCode && templateId === "fancy-cafe-ai" && rawFiles.length !== slots.length) return json({error:"Each uploaded portrait must have exactly one role."},400);
+   let source:Order|null=null;
+   if(sourceCode) {
+     source=await orderFor(visitor,sourceCode);
+     if(!source || source.template_id!==templateId || source.prompt_version!==version || source.status!=="pending" ||
+        source.environment!==(mockPayment?"test":stripeEnvironment()) ||
+        (source.provider==="local_mock")!==mockPayment || new Date(source.input_expires_at).getTime()<=Date.now() ||
+        source.input_photos.length<photoCount.min || source.input_photos.length>photoCount.max ||
+        !source.input_photos.every((photo,index)=>photo.slot===(index===0?"protagonist":"regular")))
+       return json({error:"Saved photos are no longer available. Please upload your photos again."},409);
+   }
    const files:File[]=[];
-   for(const file of rawFiles) files.push(tiny ? await normalizeTinyPortrait(file) : file);
+   if(!source) {
+     validatePhotos(rawFiles,photoCount);await Promise.all(rawFiles.map(validatePhotoBytes));
+     for(const file of rawFiles) files.push(tiny ? await normalizeTinyPortrait(file) : file);
+   }
    // Three photos per call keeps checkout fast; unclear portraits pass, so batching cannot false-block.
    const assessments=[] as Awaited<ReturnType<typeof moderatePortraits>>;
    for(let i=0;i<files.length;i+=3) {
@@ -76,9 +95,15 @@ export async function POST(request:Request) {
      }
    }
    const scenario=templateId==="zombie-couple"?selectPromptScenario(assessments):"gender_neutral";
-   if(order && (order.resolution!==resolution || order.aspect_ratio!==aspect)) return json({error:"This order keeps its original format. Use a new video code to change formats."},409);
+
    const created=order?{order,created:true}:await createOrder(visitor,code,resolution as "480p"|"720p",aspect as "9:16"|"16:9",templateId,mockPayment?request:undefined);
-   order=created.created?await saveOrderPhotos(created.order,files.map((file,index)=>({file,slot:slots[index]})),scenario):created.order;
+   // Copy already-moderated originals into this order's own R2 keys. Do not share keys:
+   // the original order may be cleaned up independently of the new purchase.
+   if(source) {
+     const originals=await readInputPhotos(source.input_photos);
+     const copied=originals.map((file,index)=>({file,slot:source!.input_photos[index].slot}));
+     order=await saveOrderPhotos(created.order,copied,source.prompt_scenario??scenario);
+   } else order=created.created?await saveOrderPhotos(created.order,files.map((file,index)=>({file,slot:slots[index]})),scenario):created.order;
   }
   if(email && order.status==="pending") await pool().query("UPDATE {schema}.billing_orders SET notification_email=$2 WHERE id=$1 AND status='pending'",[order.id,email]);
   if(mockPayment) {

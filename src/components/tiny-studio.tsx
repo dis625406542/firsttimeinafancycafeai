@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Download, Maximize2, Plus, ShieldCheck, X } from "lucide-react";
 import { loadSubmittedFaces, saveSubmittedFaces } from "@/lib/tiny-studio-previews";
+import { retryChoice } from "@/lib/checkout-retry-policy";
 import { fetchCheckoutCatalog } from "@/lib/billing-catalog-client";
 
 import { emitStudioEvent } from "@/lib/studio-analytics";
@@ -84,6 +85,7 @@ export function TinyStudio() {
   const [submitted, setSubmitted] = useState(false);
   const [submittedFaces, setSubmittedFaces] = useState<Partial<Record<SlotId, string>>>({});
   const [canceledCode, setCanceledCode] = useState<string | null>(null);
+  const [canceledFormat, setCanceledFormat] = useState<{resolution:string;aspectRatio:string}|null>(null);
   const [progress, setProgress] = useState<number | null>(null);
   const bootstrap = useRef<Promise<unknown> | null>(null);
   const activeCode = useRef<string | null>(null);
@@ -206,6 +208,7 @@ export function TinyStudio() {
       } else {
         // Cancelled at Stripe or a plain refresh: return to an editable state and reuse the saved order.
         setCanceledCode(code);
+        setCanceledFormat({resolution:order.resolution ?? "480p",aspectRatio:order.aspectRatio ?? "9:16"});
         setSubmitted(false);
         setSubmittedFaces(loadSubmittedFaces(sessionStorage, code));
         setStage("idle");
@@ -251,7 +254,7 @@ export function TinyStudio() {
       return;
     }
     setMessage("");
-    if (canceledCode) { setCanceledCode(null); setSubmittedFaces({}); } // Editing starts a fresh order.
+    if (canceledCode) { setCanceledCode(null); setCanceledFormat(null); setSubmittedFaces({}); } // Editing starts a fresh order.
     const url = URL.createObjectURL(file);
     photoUrls.current.add(url);
     setBand(current => {
@@ -317,23 +320,26 @@ export function TinyStudio() {
     const filled = BAND_SLOTS.map(slot => ({ slot: slot.id, label: slot.label, photo: band[slot.id] })).filter(entry => entry.photo);
     const checking = filled.some(entry => entry.photo!.status === "checking");
     if (!enabled || !selectedPrice?.purchasable) { setMessage("We could not start a video order right now. No payment was taken. Please try again later."); return; }
-    const reuse = !!canceledCode && filled.length === 0;
-    if (!reuse && filled.length < 1) { setMessage("Upload the protagonist photo first."); return; }
+    const choice = canceledCode && filled.length === 0 ? retryChoice(canceledFormat, quality, aspectRatio) : "fresh";
+    const reuse = choice === "reuse";
+    const copySaved = choice === "copy";
+    if (!reuse && !copySaved && filled.length < 1) { setMessage("Upload the protagonist photo first."); return; }
     if (checking) { setMessage("Wait until the selected photos finish the AI safety check."); return; }
     if (!consent) { setMessage("Confirm you have permission to use these photos first."); return; }
     if (emailEnabled && email && (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254)) { setMessage("Enter a valid email address, or leave it empty."); return; }
     setShowConfirm(false);
     const code = reuse ? canceledCode! : newVideoCode();
-    if (!reuse) { setSubmitted(false); setSubmittedFaces({}); setProgress(null); }
+    if (!reuse) { setSubmitted(false); if (!copySaved) setSubmittedFaces({}); setProgress(null); }
     setBusy(true); setStage("redirecting");
-    emitStudioEvent("checkout_started", { resolution: quality, aspect_ratio: aspectRatio, photo_count: reuse ? previewCount : filled.length });
+    emitStudioEvent("checkout_started", { resolution: quality, aspect_ratio: aspectRatio, photo_count: reuse || copySaved ? previewCount : filled.length });
     setMessage(testMode ? "Opening Stripe test checkout. Use a test card; no real money is charged." : "Opening secure checkout…");
     try {
       const form = new FormData();
       form.append("code", code); form.append("template", TINY_TEMPLATE);
       form.append("resolution", quality);
       form.append("aspectRatio", aspectRatio); form.append("consent", "yes");
-      if (!reuse) for (const entry of filled) { form.append("photos", entry.photo!.file); form.append("slots", entry.slot); }
+      if (copySaved) form.append("sourceCode", canceledCode!);
+      if (!reuse && !copySaved) for (const entry of filled) { form.append("photos", entry.photo!.file); form.append("slots", entry.slot); }
       if (emailEnabled && email) form.append("email", email.trim());
       const response = await fetch("/api/billing/checkout", { method: "POST", body: form });
       const data = await response.json();
@@ -344,6 +350,7 @@ export function TinyStudio() {
       if (!data.checkoutUrl) throw new Error("Checkout did not return a payment link.");
       // Stripe is a full-page redirect. Keep only tiny display previews for this order's return; the server already holds the original uploads.
       try {
+        if (copySaved) saveSubmittedFaces(sessionStorage, code, loadSubmittedFaces(sessionStorage, canceledCode!));
         const previews = await Promise.all(filled.map(async entry => {
           const image = await loadImage(entry.photo!.url);
           const canvas = document.createElement("canvas"); canvas.width = canvas.height = 96;
@@ -412,7 +419,7 @@ export function TinyStudio() {
         <p>The woman in the meme sits on the bench and reveals the mistake. You do not need to upload a second photo: the reference woman or a similar-style AI-generated woman can appear instead. AI may vary her appearance.</p>
         <div className="tiny-lead-upload"><div className="tiny-band-tile"><img src={band.regular?.url ?? submittedFaces.regular ?? SLOT_IMAGES.regular} alt="Sample portrait of the woman in the cafe; tap to replace her" />{bandSlot("regular")}</div><div><span className="tiny-kicker">THE WOMAN · THE REVEAL</span><p>Optional: tap the portrait to replace her with a consenting adult. Without an upload, let the reference guide the woman in this role; an exact face is not guaranteed.</p></div></div>
       </details>
-      <div className="tiny-photo-tip"><span>✧</span><p>{submitted ? <><strong>{previewCount || displayFilledCount} of 2 portraits submitted.</strong> Keep this browser and do not pay again.</> : canceledCode ? <><strong>Your photos are saved for this order.</strong> You can review the same order without re-uploading.</> : <><strong>Start with the protagonist.</strong> One adult per photo. Clear JPG/PNG/WebP up to 10 MB. The second photo is optional and replaces the woman in the meme.</>}</p></div>
+      <div className="tiny-photo-tip"><span>✧</span><p>{submitted ? <><strong>{previewCount || displayFilledCount} of 2 portraits submitted.</strong> Keep this browser and do not pay again.</> : canceledCode ? <><strong>Your portraits are saved.</strong> Keep the same options to retry checkout, or change quality/format to start a new order at the selected price without re-uploading.</> : <><strong>Start with the protagonist.</strong> One adult per photo. Clear JPG/PNG/WebP up to 10 MB. The second photo is optional and replaces the woman in the meme.</>}</p></div>
       <div className="tiny-field-heading"><span>2</span><strong>QUALITY</strong></div>
       <fieldset className="tiny-quality"><legend className="sr-only">Video quality</legend><label className={quality === "480p" ? "selected" : ""}><input type="radio" name="quality" value="480p" checked={quality === "480p"} onChange={() => setQuality("480p")} /><strong>480p</strong><small>{priceLabel("480p", "$6.99")} · Standard</small></label><label className={quality === "720p" ? "selected" : ""}><input type="radio" name="quality" value="720p" checked={quality === "720p"} onChange={() => setQuality("720p")} /><strong>720p</strong><small>{priceLabel("720p", "$9.99")} · HD</small></label></fieldset>
       <div className="tiny-field-heading"><span>3</span><strong>FORMAT</strong></div>
