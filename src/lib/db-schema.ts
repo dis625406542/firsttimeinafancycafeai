@@ -7,7 +7,7 @@ export function dbSchema() {
   const value = process.env.DATABASE_PRO_NAME?.trim();
   if (!value) throw new Error("DATABASE_PRO_NAME is required; set it to the schema this deployment should use.");
   if (!pattern.test(value)) throw new Error("DATABASE_PRO_NAME must be a plain PostgreSQL schema identifier.");
-  if (value !== "firsttimeinafancycafeai_pro") throw new Error("This site requires the firsttimeinafancycafeai_pro schema.");
+  if (value !== "firsttimeinafancycafeai_pro" && value !== "firsttimeinafancycafeai_test") throw new Error("This site requires a firsttimeinafancycafeai schema.");
   return value;
 }
 

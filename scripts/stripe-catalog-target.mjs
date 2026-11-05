@@ -8,7 +8,7 @@ const schemaPattern = /^[a-z_][a-z0-9_]{0,62}$/i;
 export function targetSchema(env) {
   const schema = env.DATABASE_PRO_NAME?.trim();
   if (!schema || !schemaPattern.test(schema)) throw new Error('DATABASE_PRO_NAME must be a plain PostgreSQL schema identifier.');
-  if (schema !== 'firsttimeinafancycafeai_pro') throw new Error('Wrong site schema');
+  if (schema !== 'firsttimeinafancycafeai_pro' && schema !== 'firsttimeinafancycafeai_test') throw new Error('Wrong site schema');
   return schema;
 }
 

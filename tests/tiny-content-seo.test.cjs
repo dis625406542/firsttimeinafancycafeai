@@ -48,6 +48,8 @@ test('sitemap uses content dates, includes all articles, and has unique canonica
  const source=fs.readFileSync(path.join(root,'src/app/sitemap.ts'),'utf8');
  assert.doesNotMatch(source,/new Date\(\)/);
  assert.match(source,/allTinyGuides/);assert.match(source,/updatedAt/);
+ // The homepage displays guide cards, so guide updates should refresh its sitemap revision too.
+ assert.match(source,/url:\s*SITE_URL,\s*lastModified:\s*latestArticle/);
  const urls=load('src/app/sitemap.ts').default();
  const {allTinyGuides}=load('src/lib/tiny-guides.ts');
  assert.equal(urls.length,19);

@@ -6,7 +6,7 @@ const { loadEnvConfig } = nextEnv;
 loadEnvConfig(process.cwd());
 const schema = process.env.DATABASE_PRO_NAME?.trim();
 if (!schema || !/^[a-z_][a-z0-9_]{0,62}$/i.test(schema)) throw new Error('DATABASE_PRO_NAME must be a plain PostgreSQL schema identifier; migration stopped.');
-if (schema !== 'firsttimeinafancycafeai_pro') throw new Error('Wrong site schema; migration stopped.');
+if (schema !== 'firsttimeinafancycafeai_pro' && schema !== 'firsttimeinafancycafeai_test') throw new Error('Wrong site schema; migration stopped.');
 const raw = process.env.DIRECT_PRO_URL;
 if (!raw) throw new Error('DIRECT_PRO_URL is required; never migrate with the pooled URL.');
 const url = new URL(raw);
