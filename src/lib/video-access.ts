@@ -1,6 +1,7 @@
 import "server-only";
 import { storageConfigured } from "./r2";
 import { localCafeStripeTestMode } from "./cafe-launch";
+import { stripeKeyEnvironment } from "./stripe-key";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { configured, selectedProvider, type ProviderName } from "./video-provider";
 
@@ -10,13 +11,16 @@ const attemptedCodes = new Set<string>();
 let used = 0;
 let since = Date.now();
 
+// Safe default: paid video submission stays paused until explicitly resumed.
+export function generationPaused() { return process.env.FANCY_CAFE_GENERATION_PAUSED !== "false"; }
 export function enabled() {
+  if (generationPaused()) return false;
   if (process.env.VIDEO_GENERATION_ENABLED !== "true") return false;
   try { return !!(process.env.ANTHROPIC_AUTH_TOKEN && process.env.ANTHROPIC_BASE_URL && process.env.ANTHROPIC_MODEL) && configured(selectedProvider()) && storageConfigured() && !!(process.env.DATABASE_PRO_URL || process.env.DIRECT_PRO_URL) && (process.env.VIDEO_HANDLE_SECRET?.length ?? 0) >= 32; } catch { return false; }
 }
-// Local demo mode: generation is off, so paid orders finish with the reference sample
-// instead of calling a provider. Never active in a production build.
+// While paused, only Stripe TEST payments can use the sample; live checkout stays closed.
 export function generationSimulated() {
+  if (generationPaused()) return process.env.STRIPE_ENABLED === "true" && stripeKeyEnvironment(process.env.STRIPE_SECRET_KEY) === "test";
   return process.env.FANCY_CAFE_STRIPE_TEST_MODE === "true" ? localCafeStripeTestMode() :
     process.env.VIDEO_GENERATION_ENABLED !== "true" && process.env.NODE_ENV !== "production";
 }

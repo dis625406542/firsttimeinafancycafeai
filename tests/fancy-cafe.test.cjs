@@ -32,8 +32,8 @@ test('cafe checkout requires explicit reviewed assets and launch opt-in, not leg
 test('Stripe checkout simulation is limited to a local test-key/test-schema deployment with generation disabled',()=>{
  const {cafeLaunchReady}=require('../src/lib/cafe-launch.ts');
  const {generationSimulated}=require('../src/lib/video-access.ts');
- const saved=Object.fromEntries(['NODE_ENV','VIDEO_GENERATION_ENABLED','FANCY_CAFE_STRIPE_TEST_MODE','DATABASE_PRO_NAME','DATABASE_PRO_URL','STRIPE_ENABLED','STRIPE_SECRET_KEY','STRIPE_WEBHOOK_SECRET','VERCEL','CI'].map(k=>[k,process.env[k]]));
- const env={NODE_ENV:'development',FANCY_CAFE_STRIPE_TEST_MODE:'true',DATABASE_PRO_NAME:'firsttimeinafancycafeai_test',DATABASE_PRO_URL:'postgresql://u:p@localhost:5432/postgres?schema=firsttimeinafancycafeai_test',STRIPE_ENABLED:'true',STRIPE_SECRET_KEY:'rk_test_'+ 'a'.repeat(32),STRIPE_WEBHOOK_SECRET:'whsec_'+ 'a'.repeat(32),VIDEO_GENERATION_ENABLED:'false'};
+ const saved=Object.fromEntries(['NODE_ENV','VIDEO_GENERATION_ENABLED','FANCY_CAFE_GENERATION_PAUSED','FANCY_CAFE_STRIPE_TEST_MODE','DATABASE_PRO_NAME','DATABASE_PRO_URL','STRIPE_ENABLED','STRIPE_SECRET_KEY','STRIPE_WEBHOOK_SECRET','VERCEL','CI'].map(k=>[k,process.env[k]]));
+ const env={NODE_ENV:'development',FANCY_CAFE_STRIPE_TEST_MODE:'true',DATABASE_PRO_NAME:'firsttimeinafancycafeai_test',DATABASE_PRO_URL:'postgresql://u:p@localhost:5432/postgres?schema=firsttimeinafancycafeai_test',STRIPE_ENABLED:'true',STRIPE_SECRET_KEY:'rk_test_'+ 'a'.repeat(32),STRIPE_WEBHOOK_SECRET:'whsec_'+ 'a'.repeat(32),VIDEO_GENERATION_ENABLED:'false',FANCY_CAFE_GENERATION_PAUSED:'false'};
  try {
   for(const k of Object.keys(saved))delete process.env[k];Object.assign(process.env,env);
   assert.equal(cafeLaunchReady(env),true);assert.equal(generationSimulated(),true);

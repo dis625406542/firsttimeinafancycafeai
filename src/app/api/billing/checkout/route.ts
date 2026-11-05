@@ -47,7 +47,7 @@ export async function POST(request:Request) {
   const version=order?.prompt_version??videoTemplate(templateId).promptVersion;
   const photoCount=templatePhotoCount(templateId,version);
   const tiny=needsComposition({templateId,promptVersion:version});
-  if(tiny && !mockPayment && process.env.VIDEO_GENERATION_ENABLED==="true")await assertTinyReady({templateId,promptVersion:version});
+  if(tiny && !mockPayment && generationEnabled())await assertTinyReady({templateId,promptVersion:version});
   const photosInRange=order && order.input_photos.length>=photoCount.min && order.input_photos.length<=photoCount.max;
   if(!order || order.status==="pending" && !photosInRange) {
    const multi=templateId === "fancy-cafe-ai" || photoCount.max>2;
