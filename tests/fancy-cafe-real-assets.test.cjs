@@ -7,7 +7,7 @@ test('cafe studio plays the real supplied cafe example, never the old band demo'
  const studio=read('src/components/tiny-studio.tsx');
  assert.match(studio,/poster="\/fancy-cafe-ai\/example-poster\.webp"/);
  assert.match(studio,/src=\{sampleReady \? "\/fancy-cafe-ai\/example\.mp4" : undefined\}/);
- assert.match(studio,/aria-label="Fancy Cafe example video"/);
+ assert.match(studio,/aria-label="Fancy Cafe reference clip, not an AI-generated result"/);
  assert.doesNotMatch(studio,/Temporary legacy band demo/);
  assert.ok(fs.statSync('public/fancy-cafe-ai/example.mp4').size>100000);
  assert.ok(fs.statSync('public/fancy-cafe-ai/example-poster.webp').size>1000);

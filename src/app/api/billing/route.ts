@@ -3,6 +3,7 @@ import { localMockPayments } from "@/lib/local-mock-payments";
 import { enabled as generationEnabled } from "@/lib/video-access";
 import { parseTemplate } from "@/lib/video-templates";
 import { NextResponse } from "next/server";
+import { videoTemplate } from "@/lib/video-templates";
 import { catalog, consumeLimit } from "@/lib/billing-catalog";
 import { ordersFor, orderFor, publicOrder, reconcileOrder } from "@/lib/billing-orders";
 import { newVisitor, visitorFrom } from "@/lib/video-visitor";
@@ -16,7 +17,7 @@ export async function GET(request:Request) {
   const templateId=parseTemplate(new URL(request.url).searchParams.get("template"));
   if(!templateId) return json({error:"Unknown video template."},400);
   const mockPayment=localMockPayments(request,templateId);
-  const prices=(await catalog(templateId)).map(price=>({...price,purchasable:price.purchasable || mockPayment && price.duration_seconds===15}));
+  const prices=(await catalog(templateId)).map(price=>({...price,purchasable:price.purchasable || mockPayment && price.duration_seconds===videoTemplate(templateId).durationSeconds}));
   const enabled=cafeLaunchReady() && (mockPayment ? generationEnabled() : checkoutReady()) && prices.some(price=>price.purchasable);
   const visitor=visitorFrom(request);
   if(!visitor) {const response=json({enabled,mockPayment,testMode:!mockPayment && stripeConfigured() && stripeEnvironment()==="test",emailEnabled:Boolean(process.env.RESEND_API_KEY && process.env.VIDEO_EMAIL_FROM),prices,orders:[]});newVisitor(response);return response;}

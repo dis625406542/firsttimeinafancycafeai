@@ -4,7 +4,7 @@ import { pool } from "./db";
 import { checkTinyAssets, compositionOutput, stageComposition, compositionUrls } from "./r2";
 import { fetchProviderVideo } from "./provider-video";
 import type { VideoJob } from "./video-jobs";
-import type { PromptContext } from "./video-templates";
+import { videoSpec, type PromptContext } from "./video-templates";
 // Runs inside the same Node application; no separately deployed composer.
 import { assertLocalCompositionReady, composeFromUrls, withLocalComposition } from "../../services/video-composer/local.mjs";
 export async function loadTinyPrompt(context:PromptContext) {
@@ -33,7 +33,7 @@ export async function composeTiny(row:VideoJob) {
     if(!row.video_url)throw new Error("Missing model output.");
     await stageComposition(id,()=>fetchProviderVideo(row.video_url!,signal),signal);
     console.info("media.compose.staged",{job:row.code.slice(0,8),elapsedMs:Date.now()-started});
-    await composeFromUrls({id,resolution:row.resolution,aspect:row.aspect_ratio,...await compositionUrls(id,row.prompt_version)},{signal});
+    await composeFromUrls({id,resolution:row.resolution,aspect:row.aspect_ratio,duration:videoSpec({templateId:row.template_id,promptVersion:row.prompt_version}).durationSeconds,...await compositionUrls(id,row.prompt_version)},{signal});
     const key=await compositionOutput(id,signal);
     if(!key)throw new Error("Composed output upload could not be verified.");
     console.info("media.compose.finished",{job:row.code.slice(0,8),elapsedMs:Date.now()-started});

@@ -119,18 +119,19 @@ export async function getTinyDeskSampleObject(range?: string) {
 export const TINY_REFERENCE_KEY = "tiny-desk-ai/v2/reference-first15-silent.mp4";
 export const TINY_REFERENCE_V3_KEY = "tiny-desk-ai/v3/reference-first15-silent.mp4";
 export function tinyReferenceKey(version: string) {
-  if (version === "fancy-cafe-v1") return cafeAssetKey("FANCY_CAFE_REFERENCE_KEY");
+  if (version === "fancy-cafe-v1") return process.env.FANCY_CAFE_V1_REFERENCE_KEY || "fancy-cafe-ai/v1/reference-first15-silent.mp4";
+  if (version === "fancy-cafe-v2") return cafeAssetKey("FANCY_CAFE_REFERENCE_KEY", "v2");
   if (version === "tiny-desk-v2" || version === "tiny-desk-v4") return TINY_REFERENCE_KEY;
   if (version === "tiny-desk-v3") return TINY_REFERENCE_V3_KEY;
   throw new Error("Unknown Tiny Desk reference version.");
 }
 export const TINY_AUDIO_KEY = "tiny-desk-ai/v2/soundtrack-first15.mp3";
-export function cafeAssetKey(name: "FANCY_CAFE_REFERENCE_KEY" | "FANCY_CAFE_AUDIO_KEY") {
+export function cafeAssetKey(name: "FANCY_CAFE_REFERENCE_KEY" | "FANCY_CAFE_AUDIO_KEY", version = "v2") {
   const key = process.env[name]?.trim();
-  if (!key || !/^fancy-cafe-ai\/v1\/[a-zA-Z0-9._-]+$/.test(key)) throw new Error("Cafe assets are not configured.");
+  if (!key || !new RegExp(`^fancy-cafe-ai/${version}/[a-zA-Z0-9._-]+$`).test(key)) throw new Error("Cafe assets are not configured.");
   return key;
 }
-function soundtrackKey(version: string) { return version === "fancy-cafe-v1" ? cafeAssetKey("FANCY_CAFE_AUDIO_KEY") : TINY_AUDIO_KEY; }
+function soundtrackKey(version: string) { return version === "fancy-cafe-v1" ? "fancy-cafe-ai/v1/soundtrack-first15.mp3" : version === "fancy-cafe-v2" ? cafeAssetKey("FANCY_CAFE_AUDIO_KEY", "v2") : TINY_AUDIO_KEY; }
 function compositionConfig(id: string) {
   const config=getR2Config();
   if(!config || !/^[A-F0-9]{32}-[a-f0-9]{16}$/.test(id)) throw new Error("Invalid composition configuration.");
@@ -140,7 +141,7 @@ export async function checkTinyAssets(version: string) {
   const config=getR2Config();if(!config)throw new Error("R2 unavailable.");
   for(const Key of [tinyReferenceKey(version),soundtrackKey(version)]) {
     const head=await r2Client(config).send(new HeadObjectCommand({Bucket:config.bucket,Key}),{abortSignal:AbortSignal.timeout(10000)});
-    if(!head.ContentLength)throw new Error("The first-15-second Tiny Desk assets have not been installed.");
+    if(!head.ContentLength)throw new Error("The versioned reference or soundtrack is missing from private storage.");
   }
 }
 export async function readTinyReference(version: string) {

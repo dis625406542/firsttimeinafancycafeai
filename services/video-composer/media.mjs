@@ -6,7 +6,7 @@ export function dimensions(resolution, aspect) {
   return aspect === '9:16' ? [h,w] : [w,h];
 }
 export function composeArgs(video,audio,output,resolution,aspect,duration=15) {
-  if (![5,15].includes(duration)) throw new Error('Unsupported duration');
+  if (![5,15,20].includes(duration)) throw new Error('Unsupported duration');
   const [w,h]=dimensions(resolution,aspect);
   return ['-nostdin','-hide_banner','-loglevel','error','-y','-filter_threads','2',
     '-protocol_whitelist','file','-threads','2','-i',video,
@@ -40,7 +40,7 @@ export function run(binary,args,options={}) {
 }
 /** @param {string} video @param {string} audio @param {string} output @param {string} resolution @param {string} aspect @param {number} duration @param {{signal?: AbortSignal}} options */
 export async function compose(video,audio,output,resolution,aspect,duration=15,options={}) {
-  if (![5,15].includes(duration)) throw new Error('Unsupported duration');
+  if (![5,15,20].includes(duration)) throw new Error('Unsupported duration');
   const probe=async(file)=>JSON.parse(await run(options.ffprobe||process.env.FFPROBE_PATH||'ffprobe',['-v','error','-protocol_whitelist','file','-show_format','-show_streams','-of','json',file],options));
   const input=await probe(video),song=await probe(audio);
   if(!Number.isFinite(Number(input.format?.duration)) || !Number.isFinite(Number(song.format?.duration)) || Number(input.format.duration)<duration-0.1 || Number(song.format.duration)<duration-0.1) throw new Error(`Inputs must contain the full first ${duration} seconds`);

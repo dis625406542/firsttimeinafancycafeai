@@ -36,7 +36,7 @@ export const allTinyGuides: TinyGuide[] = [
         "heading": "Is there one official template or original audio?",
         "paragraphs": [
           "Different editors and AI tools publish their own versions. A matching caption is not proof that a clip is the earliest source or that its soundtrack is licensed for reuse. Check the uploader and audio attribution on the platform where you found a clip.",
-          "Fancy Cafe AI is an independent tool, not an official TikTok or CapCut product. The studio and example gallery now feature cafe reference videos. These are examples, not guaranteed AI-generated customer results."
+          "Fancy Cafe AI is an independent tool, not an official TikTok or CapCut product. The example gallery labels one AI-generated result and two reference videos. They illustrate the format, not a guarantee of your result."
         ]
       }
     ],
@@ -56,7 +56,7 @@ export const allTinyGuides: TinyGuide[] = [
   {
     "slug": "how-to-make-first-time-in-a-fancy-cafe-ai-video",
     "title": "How to make a Your First Time in a Fancy Cafe AI video",
-    "description": "Learn how to prepare a protagonist photo, add an optional cafe regular, and create a 15-second wrong-seat video in the studio.",
+    "description": "Learn how to prepare a protagonist photo, add an optional cafe regular, and create a 20-second wrong-seat video in the studio.",
     "answer": "To make the Fancy Cafe AI meme, assign one adult portrait to the visitor who sits on the table, optionally add a second portrait for the cafe regular, and use a reference that preserves the reveal. The studio lets you choose the roles, resolution and aspect ratio before you check out.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
@@ -78,7 +78,7 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "heading": "How does the studio workflow work?",
         "paragraphs": [
-          "The site is designed for one 15-second result in a selected resolution and aspect ratio. Confirm the current price and order availability in the studio before paying."
+          "The site is designed for one 20-second result in a selected resolution and aspect ratio. Confirm the current price and order availability in the studio before paying."
         ],
         "steps": [
           "Open the studio and add a portrait to Protagonist. Wait for the photo check.",
@@ -374,8 +374,8 @@ export const allTinyGuides: TinyGuide[] = [
   {
     "slug": "fancy-cafe-ai-price-and-free-options",
     "title": "Is the Fancy Cafe AI video free? Video pricing explained",
-    "description": "Fancy Cafe AI pricing: $5.99 for 480p or $8.99 for 720p. Understand paid renders and what free editing options can do.",
-    "answer": "Fancy Cafe AI guides are free to browse. Personalized generation is priced at $5.99 for 480p or $8.99 for 720p, per 15-second video. Confirm the final price and availability at checkout; there is no free render or subscription offer.",
+    "description": "Fancy Cafe AI pricing: $6.99 for 480p or $9.99 for 720p. Understand paid renders and what free editing options can do.",
+    "answer": "Fancy Cafe AI guides are free to browse. Personalized generation is priced at $6.99 for 480p or $9.99 for 720p, per 20-second video. Confirm the final price and availability at checkout; there is no free render or subscription offer.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
     "updatedAt": "2026-11-05",
@@ -396,7 +396,7 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "heading": "Does HD improve the face or comic timing?",
         "paragraphs": [
-          "720p requests more output pixels than 480p. It does not promise a better likeness, a more accurate seating sequence or perfect hands. Both options use the same scene and 15-second target.",
+          "720p requests more output pixels than 480p. It does not promise a better likeness, a more accurate seating sequence or perfect hands. Both options use the same scene and 20-second target.",
           "For a phone feed, a vertical format is often practical; choose horizontal when the intended placement needs a wide frame. Resolution and aspect ratio are separate choices."
         ]
       },
@@ -461,7 +461,7 @@ export const allTinyGuides: TinyGuide[] = [
     "slug": "download-fancy-cafe-ai-video",
     "title": "How to download and find your Fancy Cafe AI video",
     "description": "Learn where completed cafe videos will appear, how to download an MP4, and why you should save a copy within 30 days of completion.",
-    "answer": "After a completed order, open the same browser, select the video in Generated videos and use Download MP4. The planned delivery window is up to 30 days from completion. Browser history stores access information, not a permanent copy of the video file.",
+    "answer": "After a completed order, open the same browser, select the video in Generated videos and use Download MP4. Video access is available for up to 30 days from completion. Browser history stores access information, not a permanent copy of the video file.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
     "updatedAt": "2026-11-05",

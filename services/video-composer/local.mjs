@@ -73,12 +73,14 @@ async function download(url,path,limit,signal) {
 
 /**
  * URLs must be generated server-side by compositionUrls(), never supplied by the browser.
- * @param {{id:string, videoUrl:string, audioUrl:string, outputUrl:string, resolution:string, aspect:string}} job
+ * @param {{id:string, videoUrl:string, audioUrl:string, outputUrl:string, resolution:string, aspect:string, duration:number}} job
  * @param {{signal?:AbortSignal, tempRoot?:string, processMedia?:typeof compose}} options
  */
 export async function composeFromUrls(job,options={}) {
   if(!/^[A-F0-9]{32}-[a-f0-9]{16}$/.test(job.id))throw new Error('Invalid composition id');
   dimensions(job.resolution,job.aspect);
+  const duration=job.duration??15; // Compatibility with existing v1 compositions.
+  if(![15,20].includes(duration))throw new Error("Unsupported composition duration");
   checkUrls([job.videoUrl,job.audioUrl,job.outputUrl]);
   const signal=options.signal??AbortSignal.timeout(220000);
   signal.throwIfAborted();
@@ -87,7 +89,7 @@ export async function composeFromUrls(job,options={}) {
     const video=join(dir,'video.mp4'),audio=join(dir,'soundtrack.mp3'),output=join(dir,'output.mp4');
     await download(job.videoUrl,video,MAX_VIDEO,signal);
     await download(job.audioUrl,audio,MAX_AUDIO,signal);
-    const result=await (options.processMedia??compose)(video,audio,output,job.resolution,job.aspect,15,{signal,...resolveMediaBinaries()});
+    const result=await (options.processMedia??compose)(video,audio,output,job.resolution,job.aspect,duration,{signal,...resolveMediaBinaries()});
     signal.throwIfAborted();
     const size=(await stat(output)).size;
     if(!result.audio||!size||size>MAX_VIDEO)throw new Error('Invalid composed video');

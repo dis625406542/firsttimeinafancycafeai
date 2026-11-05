@@ -21,11 +21,32 @@ test('cafe requests silent 15s Seedance with versioned prompt and correct role b
   assert.throws(()=>makeYirRequest(ids,'480p','9:16','gender_neutral',{...context,photoSlots:['regular']},ids[0]));
  }
 });
+test('v2 requests silent 20s footage with one or two distinct portrait identities',()=>{
+ const {makeYirRequest}=require('../src/lib/yir.ts');
+ const sql=fs.readFileSync('src/lib/fancy-cafe-v2.sql','utf8');
+ const databasePrompt=sql.split('$prompt$')[1];
+ const ids=['file_12345678-1234-4123-8123-123456789abc','file_87654321-4321-4321-8321-cba987654321'];
+ for(const count of [1,2]) {
+  const context={templateId:'fancy-cafe-ai',promptVersion:'fancy-cafe-v2',photoSlots:['protagonist','regular'].slice(0,count),databasePrompt};
+  const r=makeYirRequest(ids.slice(0,count),'480p','9:16','gender_neutral',context,ids[0]);
+  assert.equal(r.parameters.duration,20);assert.equal(r.parameters.generate_audio,false);
+  assert.match(r.input.prompt,/20-second/);
+  assert.doesNotMatch(r.input.prompt,/\{\{/);
+  if(count===1){assert.match(r.input.prompt,/No second portrait is provided/);assert.doesNotMatch(r.input.prompt,/uploaded woman's recognizable facial identity|SECOND uploaded portrait/);}
+  else{assert.match(r.input.prompt,/SECOND uploaded portrait/);assert.match(r.input.prompt,/preserve her face/);}
+ }
+});
+test('v2 delivery stays eligible for composition retries and migration refreshes its prompt',()=>{
+ const jobs=fs.readFileSync('src/lib/video-jobs.ts','utf8');
+ assert.match(jobs,/prompt_version IN \('fancy-cafe-v1','fancy-cafe-v2'\)/);
+ const sql=fs.readFileSync('src/lib/fancy-cafe-v2.sql','utf8');
+ assert.match(sql,/ON CONFLICT\(template_id,scene_id\) DO UPDATE/);
+});
 test('cafe checkout requires explicit reviewed assets and launch opt-in, not legacy flag',()=>{
  const {cafeLaunchReady}=require('../src/lib/cafe-launch.ts');
  assert.equal(cafeLaunchReady({TINY_DESK_CHECKOUT_ENABLED:'true'}),false);
  assert.equal(cafeLaunchReady({FANCY_CAFE_CHECKOUT_ENABLED:'true'}),false);
- const env={FANCY_CAFE_CHECKOUT_ENABLED:'true',FANCY_CAFE_ASSETS_APPROVED:'true',FANCY_CAFE_REFERENCE_KEY:'fancy-cafe-ai/v1/reference-first15-silent.mp4',FANCY_CAFE_AUDIO_KEY:'fancy-cafe-ai/v1/soundtrack-first15.mp3'};
+ const env={FANCY_CAFE_CHECKOUT_ENABLED:'true',FANCY_CAFE_ASSETS_APPROVED:'true',FANCY_CAFE_REFERENCE_KEY:'fancy-cafe-ai/v2/reference-first20-silent.mp4',FANCY_CAFE_AUDIO_KEY:'fancy-cafe-ai/v2/soundtrack-first20.mp3'};
  assert.equal(cafeLaunchReady(env),true);
  assert.equal(cafeLaunchReady({...env,FANCY_CAFE_REFERENCE_KEY:'tiny-desk-ai/v2/reference-first15-silent.mp4'}),false);
 });

@@ -164,7 +164,7 @@ ALTER TABLE {schema}.billing_orders ADD COLUMN IF NOT EXISTS notification_email 
 ALTER TABLE {schema}.billing_orders ADD COLUMN IF NOT EXISTS notification_sent_at timestamptz;
 ALTER TABLE {schema}.billing_orders ADD COLUMN IF NOT EXISTS notification_claimed_at timestamptz;
 
-UPDATE {schema}.product_prices SET duration_seconds=15 WHERE product_id='fancy-cafe-ai';
+UPDATE {schema}.product_prices SET duration_seconds=15 WHERE product_id='fancy-cafe-ai' AND id IN ('fancy-cafe-ai-480p','fancy-cafe-ai-720p') AND duration_seconds<>15;
 INSERT INTO {schema}.video_prompt_templates(template_id,scene_id,scene_description,base_prompt,prompt_version,is_active) VALUES
 ('fancy-cafe-ai','fancy-cafe-v1','Two-person wrong-seat cafe comedy, silent 15s reference-guided footage.',$prompt$
 Create a coherent 15-second photorealistic cafe comedy video in {{ASPECT_RATIO}}. The supplied silent video guides spatial layout and action timing only, never facial identity. Keep normal-speed movement and a readable pause of realization. Do not request or reproduce reference audio.

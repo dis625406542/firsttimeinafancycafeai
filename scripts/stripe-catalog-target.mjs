@@ -1,6 +1,6 @@
 // This is an operator-only Stripe synchronization target, not a runtime video dependency.
 export const TEMPLATE_ID = 'fancy-cafe-ai';
-export const PRICES = [['480p', 599], ['720p', 899]];
+export const PRICES = [['480p', 699], ['720p', 999]];
 
 const schemaPattern = /^[a-z_][a-z0-9_]{0,62}$/i;
 
@@ -31,7 +31,7 @@ export function catalogDbUrl(env, templateId = TEMPLATE_ID) {
 
 export const UPDATE_PRICE_SQL = `UPDATE {schema}.product_prices
   SET amount_minor=$2, currency='USD', updated_at=now()
-  WHERE resolution=$1 AND product_id=$3 AND is_active RETURNING id`;
+  WHERE resolution=$1 AND product_id=$3 AND is_active AND duration_seconds=20 RETURNING id`;
 export const UPSERT_MAPPING_SQL = `INSERT INTO {schema}.stripe_price_mappings
   (price_id,environment,stripe_product_id,stripe_price_id) VALUES($1,$2,$3,$4)
   ON CONFLICT(price_id,environment) DO UPDATE SET stripe_product_id=EXCLUDED.stripe_product_id,

@@ -462,18 +462,15 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 .tiny-band-side{display:grid;grid-template-rows:1fr 1fr;gap:8px;min-width:0}
 .tiny-band-tile{position:relative;border-radius:18px;overflow:hidden;background:#1b1026;min-height:0}
 .tiny-band-tile>img{display:block;width:100%;height:100%;object-fit:cover}
-.tiny-band-slot{position:absolute;transform:translate(-50%,-50%);width:clamp(46px,12%,68px);aspect-ratio:1;z-index:2;pointer-events:none}
-.tiny-band-slot-visual{position:absolute;inset:0;border-radius:50%;border:2px dashed #ff9ec9b0;background:#1a0d21cc;color:#ffd0e3;display:grid;place-items:center;transition:border-color .15s,transform .15s}
-.tiny-band-tile:hover .tiny-band-slot-visual,.tiny-band-tile:focus-within .tiny-band-slot-visual{border-color:var(--tiny-pink);transform:scale(1.06)}
-.tiny-band-slot.filled .tiny-band-slot-visual{border-style:solid;border-color:#ffb65e;background:#1a0d21}
-.tiny-band-slot.filled.approved .tiny-band-slot-visual{border-color:#66e3a4}
-.tiny-band-slot.filled.rejected .tiny-band-slot-visual{border-color:#ff6b8a}
-.tiny-band-slot.checking .tiny-band-slot-visual{border-color:#ffc46b;opacity:.85}
-.tiny-band-slot-visual>img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.tiny-band-tile>.tiny-band-slot-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:1;border-radius:18px}
-.tiny-band-slot-x{position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:#130b20;border:1px solid #77506c;color:#fff;display:grid;place-items:center;cursor:pointer;z-index:3;padding:0;pointer-events:auto;}
-.tiny-band-slot-label{position:absolute;left:50%;transform:translateX(-50%);bottom:-19px;white-space:nowrap;font-size:9px;font-weight:700;color:#ffd7ea;background:#130b20cc;padding:2px 7px;border-radius:99px;pointer-events:none}
-@media(max-width:650px){.tiny-band{gap:6px}.tiny-band-main,.tiny-band-tile{border-radius:14px}.tiny-band-side{gap:6px}.tiny-band-slot{width:clamp(34px,13%,50px)}.tiny-band-slot-visual{border-width:1.5px}.tiny-band-slot-label{font-size:8px;bottom:-16px;padding:1px 5px}}
+.tiny-band-slot{position:absolute;inset:0;border:3px solid #fc76b8;border-radius:18px;pointer-events:none;z-index:2;box-shadow:inset 0 0 0 1px #281a37;transition:border-color .15s}
+.tiny-band-tile:hover .tiny-band-slot,.tiny-band-tile:focus-within .tiny-band-slot{border-color:#ffb65e}
+.tiny-band-slot.filled.approved{border-color:#66e3a4}
+.tiny-band-slot.filled.rejected{border-color:#ff6b8a}
+.tiny-band-slot.checking{border-color:#ffc46b}
+.tiny-band-tile>.tiny-band-slot-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:3;border-radius:18px}
+.tiny-band-slot-x{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;background:#130b20;border:1px solid #77506c;color:#fff;display:grid;place-items:center;cursor:pointer;z-index:4;padding:0}
+.tiny-band-slot-label{position:absolute;left:8px;bottom:8px;white-space:nowrap;font-size:11px;font-weight:700;color:#fff;background:#130b20db;padding:3px 9px;border-radius:6px}
+@media(max-width:650px){.tiny-band{gap:6px}.tiny-band-main,.tiny-band-tile{border-radius:14px}.tiny-band-side{gap:6px}.tiny-band-slot{border-width:2px}.tiny-band-slot-label{font-size:9px;bottom:6px;left:6px;padding:2px 6px}}
 /* Paid-order status stays above the reference video, not below the checkout button. */
 .tiny-generation-status{margin:0 0 16px;padding:16px;border:1px solid #a05286;border-radius:17px;background:linear-gradient(130deg,#45213f,#251329);color:#fff}
 .tiny-generation-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:14px}
@@ -558,3 +555,25 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 /* Keep review additions legible on the existing dark theme. */
 .tiny-faq-group>h3{color:#ffb9cf}
 .tiny-article-faq details,.tiny-article-sources{border-color:#ffffff25}
+
+/* Actual before/after cafe preview — kept separate from the paid generation pipeline. */
+.tiny-cafe-comparison{margin-top:72px}
+.tiny-cafe-comparison-heading{max-width:760px;margin:0 auto 28px;text-align:center}
+.tiny-cafe-comparison-heading h3{font-family:'Unbounded',Arial,sans-serif;font-size:clamp(22px,3vw,34px);line-height:1.3;letter-spacing:-.035em}
+.tiny-cafe-comparison-heading h3 em{color:var(--tiny-pink);font-family:Georgia,serif;font-weight:700}
+.tiny-cafe-comparison-heading p{margin:14px auto 0;color:var(--tiny-muted);font-size:14px;line-height:1.75;max-width:650px}
+.tiny-cafe-comparison-grid{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:stretch}
+.tiny-cafe-comparison-card{min-width:0;margin:0;padding:15px;border:1px solid #503456;border-radius:24px;background:linear-gradient(160deg,#25162f,#1b1026);overflow:hidden}
+.tiny-cafe-comparison-card figcaption{display:flex;align-items:center;gap:12px;min-height:62px;padding:0 6px 14px}
+.tiny-cafe-comparison-step{display:grid;place-items:center;flex:none;width:34px;height:34px;border-radius:11px;background:#fa35a326;color:var(--tiny-pink);font-size:12px;font-weight:800}
+.tiny-cafe-comparison-card figcaption strong,.tiny-cafe-comparison-card figcaption small{display:block}
+.tiny-cafe-comparison-card figcaption strong{font-size:16px}
+.tiny-cafe-comparison-card figcaption small{margin-top:3px;color:var(--tiny-muted);font-size:11px;line-height:1.4}
+.tiny-cafe-comparison-media{position:relative;display:grid;place-items:center;height:min(52vw,530px);min-height:360px;border-radius:16px;overflow:hidden;background:#100b17}
+.tiny-cafe-comparison-media img,.tiny-cafe-comparison-media video{position:absolute;inset:0;display:block;width:100%;height:100%;min-width:0;min-height:0;object-fit:contain}
+.tiny-cafe-comparison-media video{pointer-events:none}
+.tiny-cafe-comparison-arrow{position:absolute;left:50%;top:calc(50% + 24px);z-index:2;display:grid;place-items:center;width:42px;height:42px;border:1px solid #ff73c5;border-radius:50%;background:var(--tiny-pink);color:#1b0b20;transform:translate(-50%,-50%);pointer-events:none}
+.tiny-cafe-comparison-sound{position:absolute;inset:0;display:flex;justify-content:center;align-items:flex-end;padding:16px;border:0;background:transparent;color:#fff;cursor:pointer}
+.tiny-cafe-comparison-sound:focus-visible{outline:3px solid var(--tiny-pink);outline-offset:-4px}
+.tiny-cafe-comparison-sound-pill{display:flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid #ffffff65;border-radius:99px;background:#1c1323d9;box-shadow:0 2px 12px #0008;font-size:12px;font-weight:700;pointer-events:none}
+@media(max-width:700px){.tiny-cafe-comparison{margin-top:56px}.tiny-cafe-comparison-grid{grid-template-columns:1fr;gap:20px}.tiny-cafe-comparison-card{padding:12px}.tiny-cafe-comparison-media{height:min(126vw,550px);min-height:340px}.tiny-cafe-comparison-arrow{left:50%;top:50%;transform:translate(-50%,-50%) rotate(90deg)}.tiny-cafe-comparison-heading{text-align:left}.tiny-cafe-comparison-card figcaption strong{font-size:14px}}

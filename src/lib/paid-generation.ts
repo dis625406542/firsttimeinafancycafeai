@@ -20,7 +20,6 @@ export async function startPaidOrder(id:string, retry=false) {
     await db.query("BEGIN");
     order=(await db.query<Order>("SELECT * FROM {schema}.billing_orders WHERE id=$1 FOR UPDATE",[id])).rows[0];
     if(!order || order.status!=="paid") throw new Error("A verified payment is required.");
-    if(generationSimulated() && order.environment!=="test") throw new Error("Simulated video delivery is available only for test payments.");
     if(order.provider==="local_mock" && !localMockRuntimeEnabled()) throw new Error("Simulated purchases are available only in local development.");
     const eligible=order.generation_status==="ready" || retry && order.generation_status==="failed";
     if(!eligible) { await db.query("COMMIT"); return; }
@@ -28,7 +27,7 @@ export async function startPaidOrder(id:string, retry=false) {
     if(order.attempts>=3 || new Date(order.input_expires_at).getTime()<=Date.now() || order.input_photos.length<photoRange.min || order.input_photos.length>photoRange.max)
       throw new Error("This purchase needs support assistance. Do not pay again; contact us with your video code.");
     if(generationSimulated()) {
-      // Stripe test/mock checkout: no provider request or charge; serve the bundled sample.
+      // Local-only payment simulation: serve the bundled sample without a provider request.
       const finished=(await db.query<Order>("UPDATE {schema}.billing_orders SET generation_status='finished',attempts=attempts+1,error=NULL,updated_at=now() WHERE id=$1 RETURNING *",[id])).rows[0];
       await db.query("INSERT INTO {schema}.video_generation_attempts(id,order_id,attempt_number,status) VALUES($1,$2,$3,'finished')",[randomId(),id,finished.attempts]);
       await db.query(`INSERT INTO {schema}.video_jobs(code,visitor_hash,provider,status,resolution,aspect_ratio,template_id,prompt_version,progress,video_url,completed_at)

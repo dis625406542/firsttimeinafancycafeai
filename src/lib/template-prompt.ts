@@ -14,7 +14,16 @@ export function templatePrompt(scenario: PromptScenario, aspectRatio: "9:16" | "
     const identity = "Image 1 is the protagonist who sits on the table. " + (slots.length === 2
       ? "Image 2 is the cafe regular who sits correctly on the bench. Preserve each uploaded adult identity independently."
       : "The cafe regular is a distinct fictional adult, not a duplicate of Image 1 and not the reference actor.");
-    return context.databasePrompt.replaceAll("{{ASPECT_RATIO}}", aspectRatio).replaceAll("{{IDENTITY_MAP}}", identity);
+    const femaleCharacter = slots.length === 2
+      ? "Use the SECOND uploaded portrait as the identity of the woman in the reference. Preserve her recognizable face, facial structure, eyes, hairstyle and skin tone in every shot. Keep the reference woman's black blazer, black inner top and dark trousers. Recreate her entrance, sitting down on the concrete platform, coffee-holding, upward glance and eye-roll directed at the man."
+      : "No second portrait is provided. Create a distinct fictional adult woman with a similar style to the reference woman, not a copy of the reference actor or the first uploaded portrait. Keep her black blazer, black inner top and dark trousers. Recreate her entrance, sitting down on the concrete platform, coffee-holding, upward glance and eye-roll directed at the man.";
+    return context.databasePrompt
+      .replaceAll("{{ASPECT_RATIO}}", aspectRatio === "16:9" ? "horizontal 16:9" : "vertical 9:16")
+      .replaceAll("{{IDENTITY_MAP}}", identity)
+      .replaceAll("{{FEMALE_CHARACTER}}", femaleCharacter)
+      .replaceAll("{{FEMALE_IDENTITY}}", slots.length === 2
+        ? "Use the SECOND uploaded portrait as the identity of the woman; preserve her face in every shot."
+        : "No second portrait is provided. Generate a distinct fictional adult woman styled after the reference; never copy the reference actor��s identity or duplicate Image 1.");
   }
   if (needsComposition(context)) {
     if (!context?.databasePrompt?.trim()) throw new Error("The versioned Tiny Desk database prompt is unavailable. No video was submitted.");

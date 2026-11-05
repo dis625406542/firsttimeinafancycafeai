@@ -23,7 +23,7 @@ export function localCafeStripeTestMode(env: LaunchEnv = process.env): boolean {
 
 export function cafeLaunchReady(env: LaunchEnv = process.env): boolean {
   if (localCafeStripeTestMode(env)) return true;
-  const safe = (key: string | undefined) => !!key && /^fancy-cafe-ai\/v1\/[a-zA-Z0-9._-]+$/.test(key);
+  const safe = (key: string | undefined, name: string) => key === `fancy-cafe-ai/v2/${name}`;
   return env.FANCY_CAFE_CHECKOUT_ENABLED === "true" && env.FANCY_CAFE_ASSETS_APPROVED === "true"
-    && safe(env.FANCY_CAFE_REFERENCE_KEY) && safe(env.FANCY_CAFE_AUDIO_KEY);
+    && safe(env.FANCY_CAFE_REFERENCE_KEY, "reference-first20-silent.mp4") && safe(env.FANCY_CAFE_AUDIO_KEY, "soundtrack-first20.mp3");
 }

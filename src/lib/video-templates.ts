@@ -9,12 +9,12 @@ type TemplateShape = {
 };
 export const VIDEO_TEMPLATES = {
   "fancy-cafe-ai": {
-    id: "fancy-cafe-ai", productId: "fancy-cafe-ai", path: "/", promptVersion: "fancy-cafe-v1", durationSeconds: 15, photoCount: { min: 1, max: 2 },
+    id: "fancy-cafe-ai", productId: "fancy-cafe-ai", path: "/", promptVersion: "fancy-cafe-v2", durationSeconds: 20, photoCount: { min: 1, max: 2 },
     title: "Your First Time in a Fancy Cafe AI Video Generator", overline: "YOUR MOMENT. THE WRONG SEAT.",
     heading: "Your photo.", emphasis: "That awkward moment.", intro: "Turn one or two consenting adult portraits into a cafe comedy video.",
     roles: ["Protagonist", "Cafe regular"], roleDescriptions: ["Mistakes the small round table for a seat.", "Sits on the bench and reveals the mistake."],
     instructions: "Photo 1: protagonist, required. Photo 2: cafe regular, optional. One consenting adult per image.",
-    purchase: "One 15-second cafe video in your chosen format. AI likeness and motion can vary.",
+    purchase: "One 20-second cafe video in your chosen format. AI likeness and motion can vary.",
     previewHeading: "THE WRONG-SEAT MOMENT", previewTitle: "Preview the studio", hasDemo: true,
   },
   "zombie-couple": {
@@ -71,7 +71,7 @@ export function templatePhotoCount(id: TemplateId = DEFAULT_TEMPLATE, version?: 
 export type PromptContext = { templateId: TemplateId; promptVersion: string; photoSlots?: string[]; databasePrompt?: string };
 export const TINY_DESK_SLOTS = ["back-left", "back-right", "keys", "lead", "sax"] as const;
 export function needsComposition(context?: { templateId: string; promptVersion: string }) {
-  return (context?.templateId === "fancy-cafe-ai" && context.promptVersion === "fancy-cafe-v1") || context?.templateId === "tiny-desk-ai" && ["tiny-desk-v2", "tiny-desk-v3", "tiny-desk-v4"].includes(context.promptVersion);
+  return (context?.templateId === "fancy-cafe-ai" && ["fancy-cafe-v1", "fancy-cafe-v2"].includes(context.promptVersion)) || context?.templateId === "tiny-desk-ai" && ["tiny-desk-v2", "tiny-desk-v3", "tiny-desk-v4"].includes(context.promptVersion);
 }
 export function validateTinyDeskSlots(slots: string[]) {
   // One to five portraits are allowed; slots must be known, unique and in canonical order.
@@ -87,7 +87,8 @@ export function validateTinyDeskSlots(slots: string[]) {
 // Resolve immutable order snapshots, not the latest template, when retrying a paid video.
 export function videoSpec(context?: PromptContext) {
   const template = videoTemplate(context?.templateId ?? DEFAULT_TEMPLATE);
-  if (template.id === "fancy-cafe-ai" && (!context || context.promptVersion === "fancy-cafe-v1")) return { durationSeconds: 15, referenceVideo: true, generateAudio: false } as const;
+  if (template.id === "fancy-cafe-ai" && context?.promptVersion === "fancy-cafe-v1") return { durationSeconds: 15, referenceVideo: true, generateAudio: false } as const;
+  if (template.id === "fancy-cafe-ai" && (!context || context.promptVersion === "fancy-cafe-v2")) return { durationSeconds: 20, referenceVideo: true, generateAudio: false } as const;
   const version = context?.promptVersion ?? template.promptVersion;
   if (template.id === "tiny-desk-ai" && (version === "tiny-desk-v2" || version === "tiny-desk-v3" || version === "tiny-desk-v4")) return { durationSeconds: 15, referenceVideo: true, generateAudio: false } as const;
   if (template.id === "tiny-desk-ai" && version === "tiny-desk-v1") return { durationSeconds: 8, referenceVideo: false, generateAudio: false } as const;

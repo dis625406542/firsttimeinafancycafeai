@@ -20,7 +20,7 @@ const root = new URL('../', import.meta.url);
 try {
   await client.connect();
   await client.query('BEGIN');
-  for (const file of ['src/lib/fancy-cafe.sql']) {
+  for (const file of ['src/lib/fancy-cafe.sql', 'src/lib/fancy-cafe-v2.sql']) {
     // SQL files use the {schema} marker; bind it to the configured schema before executing.
     await client.query(readFileSync(fileURLToPath(new URL(file, root)), 'utf8').replaceAll('{schema}', schema));
   }

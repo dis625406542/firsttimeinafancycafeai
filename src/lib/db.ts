@@ -26,8 +26,11 @@ export function pool() {
   if (!globalPool.__zvlPoolV2) {
     const connectionString = process.env.DATABASE_PRO_URL || process.env.DIRECT_PRO_URL;
     if (!connectionString) throw new Error("DATABASE_PRO_URL is required to save video history.");
-    dbSchema(); // Fail fast when DATABASE_PRO_NAME is missing or invalid.
+    const schema = dbSchema(); // Fail fast when DATABASE_PRO_NAME is missing or invalid.
     const url = new URL(connectionString);
+    if (url.searchParams.get("schema") !== schema) {
+      throw new Error("Database URL schema does not match DATABASE_PRO_NAME.");
+    }
     // Honor the existing libpq sslmode=require semantics on the configured Supabase pooler.
     // For certificate validation use sslmode=verify-full and a trusted CA instead.
     const requireTls = url.searchParams.get("sslmode") === "require";
