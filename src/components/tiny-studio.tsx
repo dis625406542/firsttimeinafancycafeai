@@ -121,6 +121,10 @@ export function TinyStudio() {
       return data.order;
     } catch (error) {
       emitStudioEvent("checkout_check_failed");
+      // Never expose a browser transport error (e.g. "Failed to fetch") as payment status.
+      if (error instanceof TypeError || error instanceof SyntaxError || error instanceof DOMException) {
+        throw new Error("Could not check this order right now. Keep this browser open and retry; do not pay again.");
+      }
       throw error;
     }
   }
@@ -162,8 +166,8 @@ export function TinyStudio() {
       }
       setMessage(`Generating your video… progress is estimated until the finished video is available. You can leave and return in this browser.`);
       poller.current = setTimeout(() => void checkVideo(code), 6000);
-    } catch (error) {
-      setMessage(`${error instanceof Error ? error.message : "Status unavailable."} Checking again shortly.`);
+    } catch {
+      setMessage("Could not check your video's progress. Your paid order is saved; checking again shortly. Do not pay again.");
       poller.current = setTimeout(() => void checkVideo(code), 12000);
     }
   }
@@ -182,7 +186,9 @@ export function TinyStudio() {
     } catch (error) {
       generationStarted.current = false;
       setStage("failed");
-      setMessage(error instanceof Error ? error.message : "Your paid order is saved. Do not pay again.");
+      setMessage(error instanceof TypeError || error instanceof SyntaxError
+        ? "Could not confirm video submission. Your paid order is saved; check its status here before retrying. Do not pay again."
+        : error instanceof Error ? error.message : "Your paid order is saved. Do not pay again.");
     }
   }
 
@@ -240,7 +246,7 @@ export function TinyStudio() {
         await refreshJobs();
         // Previous completed orders live on the server under this browser's signed cookie.
         // No sessionStorage or saved upload is required to recover their playable history.
-      } catch (error) { if (alive) setMessage(error instanceof Error ? error.message : "Could not load checkout details."); }
+      } catch { if (alive) setMessage("Could not check your saved orders right now. Refresh this page to retry. If you already paid, do not pay again."); }
     })();
     return () => { alive = false; };
     // Bootstrap once; resume() reads the URL and browser storage.
@@ -292,6 +298,18 @@ export function TinyStudio() {
     setMessage("");
   }
 
+  async function checkCurrentOrder() {
+    const code = activeCode.current;
+    if (!code || busy) return;
+    setBusy(true);
+    setMessage("Checking your existing order…");
+    try {
+      await resume(code);
+    } catch {
+      setMessage("Could not check your saved order right now. Please retry here; do not pay again.");
+    } finally { setBusy(false); }
+  }
+
   async function prepareCheckout() {
     if (busy) return;
     setMessage("");
@@ -305,12 +323,12 @@ export function TinyStudio() {
       setEmailEnabled(data.emailEnabled === true);
       setTestMode(data.testMode === true);
       if (!data.enabled || !price?.purchasable) {
-        setMessage("We couldn't start a video order right now. No payment was taken. Please try again later.");
+        setMessage("We couldn't start this video order right now. No payment was taken. Tap Generate video to check again shortly.");
         return;
       }
       setShowConfirm(true);
     } catch {
-      setMessage("We couldn't connect to the payment service right now. No payment was taken. Please try again later.");
+      setMessage("We couldn't check the live price right now. No payment was taken. Check your connection, then tap Generate video to retry.");
     } finally { setBusy(false); }
   }
 
@@ -369,7 +387,7 @@ export function TinyStudio() {
       setStage("idle");
       emitStudioEvent("checkout_error", { resolution: quality, aspect_ratio: aspectRatio });
       setMessage(error instanceof TypeError || (error instanceof DOMException && error.name === "AbortError")
-        ? "Could not connect to secure checkout. Please check your connection and try again; no new checkout request will be sent automatically."
+        ? "Could not confirm checkout due to a connection error. Check your orders in this browser before trying again; no payment was taken here."
         : error instanceof Error ? error.message : "Unable to open checkout. No payment was taken.");
     } finally { setBusy(false); }
   }
@@ -427,7 +445,7 @@ export function TinyStudio() {
       <label className="tiny-consent"><input type="checkbox" checked={consent} onChange={event => setConsent(event.target.checked)} /><span>These are my photos or I have the permission of everyone shown. Everyone is an adult.</span></label>
       {submitted && stage === "ready"
         ? <button type="button" className="tiny-generate tiny-repeat-generate" onClick={() => { setSubmitted(false); setSubmittedFaces({}); setBand(current => { Object.values(current).forEach(photo => { if (photo) { URL.revokeObjectURL(photo.url); photoUrls.current.delete(photo.url); } }); return {}; }); setStage("idle"); setProgress(null); setVideoUrl(null); setPaid(false); sessionStorage.removeItem("fancy-cafe-code"); activeCode.current = null; generationStarted.current = false; setMessage(""); }}>Make another video <ArrowRight size={20} /></button>
-        : <button type="button" className="tiny-generate" onClick={() => void prepareCheckout()} disabled={busy || submitted || effectiveFilled < 1 || !consent || anyChecking || stage === "working"}>{buttonLabel} <ArrowRight size={18} /></button>}
+        : <button type="button" className="tiny-generate" onClick={() => void (submitted && stage === "failed" ? checkCurrentOrder() : prepareCheckout())} disabled={busy || (submitted && stage !== "failed") || (!submitted && (effectiveFilled < 1 || !consent || anyChecking)) || stage === "working"}>{buttonLabel} <ArrowRight size={18} /></button>}
       {submitted && stage === "ready" && <p className="tiny-repeat-note">Your video is ready. Start a new order with new photos; your completed videos remain below.</p>}
       {rejectedLabels.length > 0 && <p className="tiny-upload-error" role="alert">{rejectedLabels.join(", ")} did not pass the AI check. Replace or remove them, or let the server decide at checkout.</p>}
       {message && !submitted && <p className="tiny-upload-error" role="alert">{message}</p>}
@@ -456,6 +474,6 @@ export function TinyStudio() {
         <div className="tiny-history"><h3>Generated videos</h3>{finished.length ? <div className="tiny-history-grid">{finished.map(job => <div className={`tiny-history-card ${videoUrl === job.videoUrl ? "active" : ""}`} key={job.code}><button type="button" onClick={() => { activeCode.current = job.code; setVideoUrl(job.videoUrl); setStage("ready"); setPreviewTab("videos"); }} aria-label={`Play generated video ${job.code.slice(0,8)}`}><video muted playsInline preload="metadata" src={job.videoUrl ?? undefined} aria-hidden="true" /><span>▶ Play · {job.resolution} · {job.aspectRatio}</span></button><a href={`/api/video/file?code=${job.code}&download=1`} onClick={() => emitStudioEvent("video_download_clicked")} download aria-label={`Download video ${job.code.slice(0,8)}`}><Download size={15} /> Download</a></div>)}</div> : <p>Generated videos from this browser will appear here when ready. Download each one within 30 days.</p>}</div>
       </div>
     </div>
-    {showConfirm && <div className="tiny-modal-backdrop" onClick={() => setShowConfirm(false)}><div className="tiny-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="tiny-confirm-title" onClick={event => event.stopPropagation()}><button type="button" className="tiny-modal-close" onClick={() => setShowConfirm(false)} aria-label="Close">×</button><h3 id="tiny-confirm-title">Ready to make your video?</h3><p>{Math.max(effectiveFilled, 0)} uploaded adult portrait{effectiveFilled === 1 ? "" : "s"} · 20 seconds · {quality} · {aspectRatio}. One-time payment: {selectedPrice ? money(selectedPrice.amount_minor, selectedPrice.currency) : priceLabel(quality, quality === "480p" ? "$6.99" : "$9.99")}. A video code is created when you continue; keep this browser and its cookies to see your result after payment.</p>{emailEnabled && <><label htmlFor="tiny-delivery-email">Email your download link (optional)</label><input id="tiny-delivery-email" type="email" autoComplete="email" placeholder="you@example.com" value={email} onChange={event => setEmail(event.target.value)} /><small>If you add an email, we will attempt to send your download link when the video is ready. You can also return in this browser.</small></>}<small>Your video is stored privately for up to 30 days from completion. Return in the same browser, keep its cookies, and download your MP4. {emailEnabled ? "Email is optional." : "Automatic email delivery is not currently available; save your order reference after checkout."}</small><div className="tiny-modal-actions"><button type="button" onClick={() => setShowConfirm(false)}>Cancel</button><button type="button" onClick={() => void startCheckout()}>Continue to {testMode ? "test" : "secure"} checkout</button></div></div></div>}
+    {showConfirm && <div className="tiny-modal-backdrop" onClick={() => setShowConfirm(false)}><div className="tiny-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="tiny-confirm-title" onClick={event => event.stopPropagation()}><button type="button" className="tiny-modal-close" onClick={() => setShowConfirm(false)} aria-label="Close">×</button><h3 id="tiny-confirm-title">Ready to make your video?</h3><p>{Math.max(effectiveFilled, 0)} uploaded adult portrait{effectiveFilled === 1 ? "" : "s"} · 20 seconds · {quality} · {aspectRatio}. One-time payment: {selectedPrice ? money(selectedPrice.amount_minor, selectedPrice.currency) : priceLabel(quality, quality === "480p" ? "$6.99" : "$9.99")}. A video code is created when you continue; keep this browser and its cookies to see your result after payment.</p>{emailEnabled && <><label htmlFor="tiny-delivery-email">Email your download link (optional)</label><input id="tiny-delivery-email" type="email" autoComplete="email" placeholder="you@example.com" value={email} onChange={event => setEmail(event.target.value)} /><small>If you add an email, we will attempt to send your download link when the video is ready. You can also return in this browser.</small></>}<small>Your video is stored privately for up to 30 days from completion. Return in the same browser, keep its cookies, and download your MP4. {emailEnabled ? "Email is optional." : "Save your order reference after checkout to help recover your video."}</small><div className="tiny-modal-actions"><button type="button" onClick={() => setShowConfirm(false)}>Cancel</button><button type="button" onClick={() => void startCheckout()}>Continue to {testMode ? "test" : "secure"} checkout</button></div></div></div>}
   </div>;
 }

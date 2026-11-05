@@ -421,7 +421,7 @@ export const allTinyGuides: TinyGuide[] = [
     "answer": "You can prepare a Fancy Cafe AI video in a mobile browser: select a protagonist portrait, optionally replace the woman in the cafe, and choose your format. No app installation is required for the studio. Confirm availability and the final price before paying.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
-    "updatedAt": "2026-11-05",
+    "updatedAt": "2026-11-06",
     "category": "Making & saving",
     "minutes": "3 min read",
     "image": "/fancy-cafe-ai/guides/demo-3.webp",
@@ -433,7 +433,7 @@ export const allTinyGuides: TinyGuide[] = [
         "heading": "How do I prepare photos on mobile?",
         "paragraphs": [
           "Use the original photo from your camera roll when possible. If your image is HEIC, export a JPG or PNG before uploading because this studio accepts JPG, PNG and WebP. Check that only one adult is visible.",
-          "Tap the labeled protagonist upload circle first. The optional woman role is visible below the protagonist. Review the selected thumbnails before continuing; the order in your camera roll does not define the roles."
+          "Tap the protagonist portrait to upload your photo first. The optional cafe regular (the woman in the meme) is visible below the protagonist; tap her portrait to replace her. Review the selected thumbnails before continuing; the order in your camera roll does not define the roles."
         ]
       },
       {
@@ -446,7 +446,7 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "heading": "Can I close the browser after payment?",
         "paragraphs": [
-          "The prepared workflow processes submitted jobs on the server, but recovery depends on keeping the same browser cookies and order reference. An optional delivery email is shown only when email delivery is configured.",
+          "Submitted jobs continue processing on the server. To recover your order, keep the same browser cookies and order reference. An optional delivery email is shown only when email delivery is configured.",
           "Do not clear site data or switch to private browsing while relying on browser recovery. On return, check the existing order before starting another. Download the finished MP4 instead of treating a browser history card as permanent storage."
         ]
       }
@@ -464,7 +464,7 @@ export const allTinyGuides: TinyGuide[] = [
     "answer": "After a completed order, open the same browser, select the video in Generated videos and use Download MP4. Video access is available for up to 30 days from completion. Browser history stores access information, not a permanent copy of the video file.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
-    "updatedAt": "2026-11-05",
+    "updatedAt": "2026-11-06",
     "category": "Making & saving",
     "minutes": "3 min read",
     "image": "/fancy-cafe-ai/guides/demo-1.webp",
@@ -475,8 +475,8 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "heading": "Where will the finished video appear?",
         "paragraphs": [
-          "The prepared studio shows generation progress for an order and then a playable result. Completed items appear in the history grid; selecting one moves it into the main player. Download applies to the selected result.",
-          "The temporary example player is not a purchased video and does not show your uploaded face."
+          "The studio shows estimated generation progress until the video is ready. Completed items appear in Generated videos; select one to play it in the main player, or use its Download button to save the MP4.",
+          "The Example tab plays sample footage, not your purchased result. Your finished video appears under My videos in the same browser."
         ]
       },
       {

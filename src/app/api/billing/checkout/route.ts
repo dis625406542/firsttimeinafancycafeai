@@ -25,7 +25,7 @@ export const maxDuration=300;
 const json=(data:unknown,status=200)=>NextResponse.json(data,{status,headers:{"Cache-Control":"no-store"}});
 export async function POST(request:Request) {
  // The legacy checkout is for a different product. Keep it inaccessible until the cafe assets and checkout are reviewed.
- if(!cafeLaunchReady()) return json({error:"Cafe generation is in preview. No payment was taken."},503);
+ if(!cafeLaunchReady()) return json({error:"We cannot start a video order right now. No payment was taken. Please try again later."},503);
  if(!sameOrigin(request)) return json({error:"Invalid request origin."},403);
  const visitor=visitorFrom(request);
  if(!visitor) return json({error:"Refresh this page first and keep your browser cookie."},401);

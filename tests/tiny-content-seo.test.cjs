@@ -22,7 +22,7 @@ test('ten distinct cafe guides use new URLs and have truthful dated content',()=
   assert.ok(g.answer.length>60,g.slug+' has a direct answer');
   assert.match(g.publishedAt,/^\d{4}-\d{2}-\d{2}$/);
   assert.ok(g.updatedAt>=g.publishedAt,g.slug+' dates');
-  assert.ok(g.updatedAt<='2026-11-05');
+  assert.ok(g.updatedAt<='2026-11-06');
   assert.ok(g.sections.length>=3);
   assert.ok(fs.existsSync(path.join(root,'public',g.image)),g.image);
   assert.ok(g.related.length>=2);
@@ -34,6 +34,9 @@ test('ten distinct cafe guides use new URLs and have truthful dated content',()=
  }
  const tutorial=allTinyGuides.find(g=>g.slug==='how-to-make-first-time-in-a-fancy-cafe-ai-video');
  assert.ok(tutorial.sections.some(s=>s.steps?.length>=3));
+ assert.equal(allTinyGuides.find(g=>g.slug==='how-to-create-fancy-cafe-ai-video-on-phone').updatedAt,'2026-11-06');
+ assert.equal(allTinyGuides.find(g=>g.slug==='download-fancy-cafe-ai-video').updatedAt,'2026-11-06');
+ assert.doesNotMatch(JSON.stringify(allTinyGuides),/upload circle|prepared workflow|prepared studio/);
  assert.doesNotMatch(JSON.stringify(tutorial),/Decide on a small-room concert mood/);
 });
 test('JSON-LD cannot close a script and round-trips strings',()=>{
@@ -53,6 +56,8 @@ test('sitemap uses content dates, includes all articles, and has unique canonica
  const urls=load('src/app/sitemap.ts').default();
  const {allTinyGuides}=load('src/lib/tiny-guides.ts');
  assert.equal(urls.length,19);
+ assert.equal(urls.find(u=>u.url==='https://firsttimeinafancycafeai.org')?.lastModified,'2026-11-06');
+ assert.equal(urls.find(u=>u.url==='https://firsttimeinafancycafeai.org/blog')?.lastModified,'2026-11-06');
  assert.equal(new Set(urls.map(u=>u.url)).size,urls.length);
  for(const g of allTinyGuides) {
   const entry=urls.find(u=>u.url==='https://firsttimeinafancycafeai.org/blog/'+g.slug);
@@ -88,4 +93,12 @@ test('llms summary lists every canonical article without pretending to be a sear
  const body=await response.text();
  for(const g of load('src/lib/tiny-guides.ts').allTinyGuides) assert.ok(body.includes('https://firsttimeinafancycafeai.org/blog/'+g.slug));
  assert.match(body,/30 days/);
+});
+
+test('paid order recovery never opens a fresh checkout and transport errors are human-readable',()=>{
+ const source=fs.readFileSync(path.join(root,'src/components/tiny-studio.tsx'),'utf8');
+ assert.match(source,/submitted && stage === "failed" \? checkCurrentOrder\(\) : prepareCheckout\(\)/);
+ assert.match(source,/await resume\(code\)/);
+ assert.match(source,/Could not check your saved order right now/);
+ assert.match(source,/Could not check your video's progress/);
 });
