@@ -26,8 +26,8 @@ test('both providers select just one English template and honor the uploaded rol
     for (const subjects of ['true', 'false']) {
       process.env.YIR_REFERENCE_SUBJECTS = subjects;
       for (const scenario of ['female_infected', 'male_infected', 'gender_neutral']) {
-        const poyo = makeSeedanceInput(['https://example.com/1.jpg', 'https://example.com/2.jpg'], '480p', '16:9', scenario);
-        const yir = makeYirRequest(ids, '720p', '16:9', scenario);
+        const poyo = makeSeedanceInput(['https://example.com/1.jpg', 'https://example.com/2.jpg'], '480p', '16:9', scenario, {templateId:'zombie-couple',promptVersion:'zombie-v1'});
+        const yir = makeYirRequest(ids, '720p', '16:9', scenario, {templateId:'zombie-couple',promptVersion:'zombie-v1'});
         for (const prompt of [poyo.prompt, yir.input.prompt]) {
           assert.match(prompt, /horizontal 16:9/);
           assert.doesNotMatch(prompt, /vertical 9:16|english[12]:/i);

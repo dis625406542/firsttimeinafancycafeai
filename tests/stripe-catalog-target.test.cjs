@@ -3,26 +3,26 @@ const assert = require('node:assert/strict');
 const { readFileSync } = require('node:fs');
 const { join } = require('node:path');
 
-test('Tiny Desk Stripe catalog accepts only this website schema and product', async () => {
+test('Fancy Cafe Stripe catalog accepts only this website schema and product', async () => {
   const target = await import('../scripts/stripe-catalog-target.mjs');
-  assert.equal(target.TEMPLATE_ID, 'tiny-desk-ai');
+  assert.equal(target.TEMPLATE_ID, 'fancy-cafe-ai');
   assert.deepEqual(target.PRICES, [['480p', 599], ['720p', 899]]);
-  const env = { DATABASE_PRO_NAME: 'tinydeskaivideo_pro', DIRECT_PRO_URL: 'postgresql://user:pass@localhost:5432/postgres?sslmode=require&schema=tinydeskaivideo_pro' };
-  assert.equal(target.catalogDbUrl(env, 'tiny-desk-ai'), env.DIRECT_PRO_URL);
-  assert.throws(() => target.catalogDbUrl(env, 'zombie-couple'), /Tiny Desk/i);
-  // Any valid schema is accepted, but the URL schema must match DATABASE_PRO_NAME.
+  const env = { DATABASE_PRO_NAME: 'firsttimeinafancycafeai_pro', DIRECT_PRO_URL: 'postgresql://user:pass@localhost:5432/postgres?sslmode=require&schema=firsttimeinafancycafeai_pro' };
+  assert.equal(target.catalogDbUrl(env, 'fancy-cafe-ai'), env.DIRECT_PRO_URL);
+  assert.throws(() => target.catalogDbUrl(env, 'zombie-couple'), /Fancy Cafe/i);
+  // Copied old schema names fail closed before Stripe or SQL writes.
   const testEnv = { DATABASE_PRO_NAME: 'tinydeskaivideo_test', DIRECT_PRO_URL: 'postgresql://user:pass@localhost:5432/postgres?sslmode=require&schema=tinydeskaivideo_test' };
-  assert.equal(target.catalogDbUrl(testEnv, 'tiny-desk-ai'), testEnv.DIRECT_PRO_URL);
-  assert.throws(() => target.catalogDbUrl({...env, DATABASE_PRO_NAME: 'zombievideolab_pro'}, 'tiny-desk-ai'), /zombievideolab_pro/);
-  assert.throws(() => target.catalogDbUrl({...env, DIRECT_PRO_URL: 'postgresql://user:pass@localhost:5432/postgres?sslmode=require&schema=zombievideolab_pro'}, 'tiny-desk-ai'), /tinydeskaivideo_pro/);
-  assert.throws(() => target.catalogDbUrl({...env, DATABASE_PRO_NAME: 'bad-name;drop'}, 'tiny-desk-ai'), /schema identifier/i);
-  assert.throws(() => target.catalogDbUrl({...env, DIRECT_PRO_URL: undefined, DATABASE_PRO_URL: undefined}, 'tiny-desk-ai'), /database/i);
+  assert.throws(() => target.catalogDbUrl(testEnv, 'fancy-cafe-ai'), /Wrong site schema/);
+  assert.throws(() => target.catalogDbUrl({...env, DATABASE_PRO_NAME: 'zombievideolab_pro'}, 'fancy-cafe-ai'), /Wrong site schema/);
+  assert.throws(() => target.catalogDbUrl({...env, DIRECT_PRO_URL: 'postgresql://user:pass@localhost:5432/postgres?sslmode=require&schema=zombievideolab_pro'}, 'fancy-cafe-ai'), /firsttimeinafancycafeai_pro/);
+  assert.throws(() => target.catalogDbUrl({...env, DATABASE_PRO_NAME: 'bad-name;drop'}, 'fancy-cafe-ai'), /schema identifier/i);
+  assert.throws(() => target.catalogDbUrl({...env, DIRECT_PRO_URL: undefined, DATABASE_PRO_URL: undefined}, 'fancy-cafe-ai'), /database/i);
   for (const sql of [target.UPDATE_PRICE_SQL, target.UPSERT_MAPPING_SQL]) {
     assert.match(sql, /\{schema\}\./);
-    assert.doesNotMatch(sql, /tinydeskaivideo_pro|zombievideolab_pro/);
+    assert.doesNotMatch(sql, /firsttimeinafancycafeai_pro|zombievideolab_pro/);
   }
-  assert.equal(target.resolveSql(target.UPDATE_PRICE_SQL, env).includes('tinydeskaivideo_pro.product_prices'), true);
-  assert.equal(target.resolveSql(target.UPDATE_PRICE_SQL, testEnv).includes('tinydeskaivideo_test.product_prices'), true);
+  assert.equal(target.resolveSql(target.UPDATE_PRICE_SQL, env).includes('firsttimeinafancycafeai_pro.product_prices'), true);
+  assert.throws(() => target.resolveSql(target.UPDATE_PRICE_SQL, testEnv), /Wrong site schema/);
 });
 
 test('operator script uses validated target and remains a manual operation', () => {

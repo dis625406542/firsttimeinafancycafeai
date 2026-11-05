@@ -6,6 +6,7 @@ const { loadEnvConfig } = nextEnv;
 loadEnvConfig(process.cwd());
 const schema = process.env.DATABASE_PRO_NAME?.trim();
 if (!schema || !/^[a-z_][a-z0-9_]{0,62}$/i.test(schema)) throw new Error('DATABASE_PRO_NAME must be a plain PostgreSQL schema identifier; migration stopped.');
+if (schema !== 'firsttimeinafancycafeai_pro') throw new Error('Wrong site schema; migration stopped.');
 const raw = process.env.DIRECT_PRO_URL;
 if (!raw) throw new Error('DIRECT_PRO_URL is required; never migrate with the pooled URL.');
 const url = new URL(raw);
@@ -19,13 +20,13 @@ const root = new URL('../', import.meta.url);
 try {
   await client.connect();
   await client.query('BEGIN');
-  for (const file of ['src/lib/tiny-desk-video-jobs.sql','src/lib/tiny-desk-billing.sql','src/lib/tiny-desk-v2.sql','src/lib/tiny-desk-v3.sql','src/lib/tiny-desk-v4.sql']) {
+  for (const file of ['src/lib/fancy-cafe.sql']) {
     // SQL files use the {schema} marker; bind it to the configured schema before executing.
     await client.query(readFileSync(fileURLToPath(new URL(file, root)), 'utf8').replaceAll('{schema}', schema));
   }
   await client.query('COMMIT');
   const tables = await client.query('SELECT table_name FROM information_schema.tables WHERE table_schema=$1 ORDER BY table_name', [schema]);
-  console.log(`Applied additive schema-only Tiny Desk migration: ${tables.rowCount} tables in ${schema}. No legacy products or orders copied.`);
+  console.log(`Applied additive schema-only Fancy Cafe migration: ${tables.rowCount} tables in ${schema}. No legacy products or orders copied.`);
 } catch (error) {
   await client.query('ROLLBACK').catch(() => {});
   console.error(`Migration stopped: ${error.message}`);

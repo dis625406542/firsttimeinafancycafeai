@@ -21,7 +21,7 @@ export class ImageModerationError extends Error {
   constructor(message: string, readonly status: number) { super(message); }
 }
 
-const instructions = `You are an image safety gate for a fictional NON-GRAPHIC, NON-SEXUAL AI short-video service that turns a consenting adult's portrait into a concert-inspired clip. Inspect EACH attached photo independently. The uploader separately confirms that all depicted people are consenting adults; an image cannot prove exact age or consent.
+const instructions = `You are an image safety gate for a fictional NON-GRAPHIC, NON-SEXUAL AI short-video service that turns a consenting adult's portrait into a fictional cafe comedy clip. Inspect EACH attached photo independently. The uploader separately confirms that all depicted people are consenting adults; an image cannot prove exact age or consent.
 
 ASSESS AGE SEPARATELY FROM CONTENT SAFETY:
 - Use age_assessment=clear_minor and decision=block/category=minor only when visible evidence makes you highly confident that a depicted person is a child or adolescent under 18. Do not guess an exact age.

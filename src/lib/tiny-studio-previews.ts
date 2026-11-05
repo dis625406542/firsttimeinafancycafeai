@@ -1,10 +1,10 @@
 // Short-lived, low-resolution display-only thumbnails. Original photos are stored server-side
 // with the paid order; never cache full-resolution uploads or reuse thumbnails as input files.
-type SavedFaces = Partial<Record<"back-left" | "back-right" | "keys" | "lead" | "sax", string>>;
+type SavedFaces = Partial<Record<"protagonist" | "regular", string>>;
 type SessionStore = Pick<Storage, "getItem" | "setItem">;
-const slots = ["back-left", "back-right", "keys", "lead", "sax"] as const;
+const slots = ["protagonist", "regular"] as const;
 const ttl = 3 * 24 * 60 * 60 * 1000;
-const key = (code: string) => `tiny-desk-submitted-faces:${code}`;
+const key = (code: string) => `fancy-cafe-submitted-faces:${code}`;
 const isCode = (code: string) => /^[A-F0-9]{32}$/.test(code);
 function validFaces(value: unknown): value is SavedFaces {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;

@@ -71,7 +71,7 @@ export async function startPaidOrder(id:string, retry=false) {
         throw error;
       }
     }
-    const scenario=order.template_id === DEFAULT_TEMPLATE ? (order.prompt_scenario ?? selectPromptScenario(assessments)) : "gender_neutral";
+    const scenario=order.template_id === "zombie-couple" ? (order.prompt_scenario ?? selectPromptScenario(assessments)) : "gender_neutral";
     const photoSlots=order.input_photos.map(photo=>photo.slot).filter((slot): slot is string => Boolean(slot));
     const task=await submitForProvider(order.video_provider,files,order.resolution,`${order.code}-${order.attempts}`,order.aspect_ratio,scenario,{templateId:order.template_id,promptVersion:order.prompt_version,photoSlots},async()=>{
       // Uploads and YIR quote are preparation. Only the final chargeable submit is ambiguous on timeout.

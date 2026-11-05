@@ -3,10 +3,10 @@ const EVENTS = new Set(["photo_approved", "photo_rejected", "checkout_started", 
 export function studioEvent(name: string, input: Record<string, unknown> = {}) {
   if (!EVENTS.has(name)) return null;
   const params: Record<string, string | number> = {};
-  if (["back-left", "back-right", "keys", "lead", "sax"].includes(String(input.role))) params.role = String(input.role);
+  if (["protagonist", "regular"].includes(String(input.role))) params.role = String(input.role);
   if (["480p", "720p"].includes(String(input.resolution))) params.resolution = String(input.resolution);
   if (["9:16", "16:9"].includes(String(input.aspect_ratio))) params.aspect_ratio = String(input.aspect_ratio);
-  if (typeof input.photo_count === "number" && Number.isInteger(input.photo_count) && input.photo_count >= 1 && input.photo_count <= 5) params.photo_count = input.photo_count;
+  if (typeof input.photo_count === "number" && Number.isInteger(input.photo_count) && input.photo_count >= 1 && input.photo_count <= 2) params.photo_count = input.photo_count;
   return { name, params };
 }
 export function emitStudioEvent(name: string, params: Record<string, unknown> = {}) {

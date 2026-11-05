@@ -1,5 +1,5 @@
-// This branch is a separate website: never let an old deployment env point SEO to the previous domain.
-export const SITE_URL = "https://tinydeskaivideos.com";
-export const SITE_NAME = "Tiny Desk AI Videos";
-export const TITLE = "Tiny Desk AI Video Generator | Outstanding Meme";
-export const DESCRIPTION = "Make an Outstanding-style Tiny Desk AI video from 1 to 5 portraits. Get a 15-second band clip with music; no account or credits. One-time pricing: $5.99 for 480p or $8.99 for 720p. Independent and unofficial.";
+// This deployment is a separate site; never derive canonical URLs from legacy env.
+export const SITE_URL = "https://firsttimeinafancycafeai.org";
+export const SITE_NAME = "Fancy Cafe AI";
+export const TITLE = "Your First Time in a Fancy Cafe AI Video Generator";
+export const DESCRIPTION = "Explore the Your First Time in a Fancy Cafe AI meme. Choose a protagonist and an optional friend for the wrong-seat moment. Studio preview and photo guides.";

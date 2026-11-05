@@ -1,11 +1,11 @@
-import { tinyCheckoutEnabled } from "@/lib/tiny-checkout-policy";
+import { cafeLaunchReady } from "@/lib/cafe-launch";
 import { pool } from "@/lib/db";
 import { normalizeTinyPortrait } from "@/lib/portrait-normalization";
 import { assertTinyReady } from "@/lib/tiny-composition";
-import { needsComposition, validateTinyDeskSlots, videoTemplate } from "@/lib/video-templates";
+import { needsComposition, validateCafeSlots, validateTinyDeskSlots, videoTemplate } from "@/lib/video-templates";
 import { localMockPayments } from "@/lib/local-mock-payments";
 import { enabled as generationEnabled } from "@/lib/video-access";
-import { DEFAULT_TEMPLATE, parseTemplate, templatePhotoCount } from "@/lib/video-templates";
+import { parseTemplate, templatePhotoCount } from "@/lib/video-templates";
 import { NextResponse } from "next/server";
 import { sameOrigin } from "@/lib/video-access";
 import { visitorFrom } from "@/lib/video-visitor";
@@ -21,8 +21,8 @@ export const runtime="nodejs";
 export const maxDuration=300;
 const json=(data:unknown,status=200)=>NextResponse.json(data,{status,headers:{"Cache-Control":"no-store"}});
 export async function POST(request:Request) {
- // The legacy checkout is for a different product. Keep it inaccessible until a Tiny Desk-specific checkout is reviewed.
- if(!tinyCheckoutEnabled(process.env.TINY_DESK_CHECKOUT_ENABLED)) return json({error:"Tiny Desk checkout is not available yet. No payment was taken."},503);
+ // The legacy checkout is for a different product. Keep it inaccessible until the cafe assets and checkout are reviewed.
+ if(!cafeLaunchReady()) return json({error:"Cafe generation is in preview. No payment was taken."},503);
  if(!sameOrigin(request)) return json({error:"Invalid request origin."},403);
  const visitor=visitorFrom(request);
  if(!visitor) return json({error:"Refresh this page first and keep your browser cookie."},401);
@@ -50,12 +50,13 @@ export async function POST(request:Request) {
   if(tiny && !mockPayment && process.env.VIDEO_GENERATION_ENABLED==="true")await assertTinyReady({templateId,promptVersion:version});
   const photosInRange=order && order.input_photos.length>=photoCount.min && order.input_photos.length<=photoCount.max;
   if(!order || order.status==="pending" && !photosInRange) {
-   const multi=photoCount.max>2;
+   const multi=templateId === "fancy-cafe-ai" || photoCount.max>2;
    const resolution=form.get("resolution"),aspect=(multi || photoCount.max===1) ? (form.get("aspectRatio") ?? "9:16") : form.get("aspectRatio");
    if(!["480p","720p"].includes(String(resolution)) || !["9:16","16:9"].includes(String(aspect)) || form.get("consent")!=="yes") return json({error:"Confirm your photo permissions and choose a video format."},400);
    const rawFiles=multi ? form.getAll("photos") : photoCount.max===1 ? [form.get("photo")] : [form.get("zombie"),form.get("survivor")];
    const slots=multi ? form.getAll("slots").map(String) : [];
-   if(tiny)validateTinyDeskSlots(slots);
+   if(templateId === "fancy-cafe-ai")validateCafeSlots(slots); else if(tiny)validateTinyDeskSlots(slots);
+   if (templateId === "fancy-cafe-ai" && rawFiles.length !== slots.length) return json({error:"Each uploaded portrait must have exactly one role."},400);
    validatePhotos(rawFiles,photoCount);await Promise.all(rawFiles.map(validatePhotoBytes));
    const files:File[]=[];
    for(const file of rawFiles) files.push(tiny ? await normalizeTinyPortrait(file) : file);
@@ -74,7 +75,7 @@ export async function POST(request:Request) {
        throw error;
      }
    }
-   const scenario=templateId===DEFAULT_TEMPLATE?selectPromptScenario(assessments):"gender_neutral";
+   const scenario=templateId==="zombie-couple"?selectPromptScenario(assessments):"gender_neutral";
    if(order && (order.resolution!==resolution || order.aspect_ratio!==aspect)) return json({error:"This order keeps its original format. Use a new video code to change formats."},409);
    const created=order?{order,created:true}:await createOrder(visitor,code,resolution as "480p"|"720p",aspect as "9:16"|"16:9",templateId,mockPayment?request:undefined);
    order=created.created?await saveOrderPhotos(created.order,files.map((file,index)=>({file,slot:slots[index]})),scenario):created.order;
@@ -86,7 +87,7 @@ export async function POST(request:Request) {
   }
   const origin=checkoutReturnOrigin(request,{
    production:process.env.NODE_ENV==="production",siteUrl:SITE_URL,
-   allowedDevOrigins:process.env.DEV_ALLOWED_ORIGINS || "frontpage-rice-stem-stripes.trycloudflare.com"
+   allowedDevOrigins:process.env.DEV_ALLOWED_ORIGINS || ""
   });
   const url=await checkoutFor(order,origin);
   return json({checkoutUrl:url,code:order.code});

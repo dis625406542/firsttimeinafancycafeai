@@ -14,16 +14,16 @@ function load(file) {
  };
  new Function('exports','module','require',compiled)(mod.exports,mod,localRequire);return mod.exports;
 }
-test('twenty-four distinct guides retain old URLs and have truthful dated content',()=>{
+test('ten distinct cafe guides use new URLs and have truthful dated content',()=>{
  const {allTinyGuides}=load('src/lib/tiny-guides.ts');
- assert.equal(allTinyGuides.length,24);
- assert.equal(new Set(allTinyGuides.map(g=>g.slug)).size,24);
+ assert.equal(allTinyGuides.length,10);
+ assert.equal(new Set(allTinyGuides.map(g=>g.slug)).size,10);
  for(const g of allTinyGuides){
   assert.ok(g.answer.length>60,g.slug+' has a direct answer');
   assert.match(g.publishedAt,/^\d{4}-\d{2}-\d{2}$/);
   assert.ok(g.updatedAt>=g.publishedAt,g.slug+' dates');
   assert.ok(g.updatedAt<='2026-11-05');
-  assert.ok(g.sections.length>=4);
+  assert.ok(g.sections.length>=3);
   assert.ok(fs.existsSync(path.join(root,'public',g.image)),g.image);
   assert.ok(g.related.length>=2);
   for(const slug of g.related) assert.ok(allTinyGuides.some(x=>x.slug===slug)&&slug!==g.slug,slug);
@@ -32,8 +32,8 @@ test('twenty-four distinct guides retain old URLs and have truthful dated conten
    if(s.image){ assert.ok(fs.existsSync(path.join(root,'public',s.image.src)));assert.match(s.image.caption,/reference|illustration|studio/i); }
   }
  }
- const tutorial=allTinyGuides.find(g=>g.slug==='tiny-desk-ai-video-guide');
- assert.ok(tutorial.sections.some(s=>s.steps?.length>=4));
+ const tutorial=allTinyGuides.find(g=>g.slug==='how-to-make-first-time-in-a-fancy-cafe-ai-video');
+ assert.ok(tutorial.sections.some(s=>s.steps?.length>=3));
  assert.doesNotMatch(JSON.stringify(tutorial),/Decide on a small-room concert mood/);
 });
 test('JSON-LD cannot close a script and round-trips strings',()=>{
@@ -50,27 +50,27 @@ test('sitemap uses content dates, includes all articles, and has unique canonica
  assert.match(source,/allTinyGuides/);assert.match(source,/updatedAt/);
  const urls=load('src/app/sitemap.ts').default();
  const {allTinyGuides}=load('src/lib/tiny-guides.ts');
- assert.equal(urls.length,33);
+ assert.equal(urls.length,19);
  assert.equal(new Set(urls.map(u=>u.url)).size,urls.length);
  for(const g of allTinyGuides) {
-  const entry=urls.find(u=>u.url==='https://tinydeskaivideos.com/blog/'+g.slug);
+  const entry=urls.find(u=>u.url==='https://firsttimeinafancycafeai.org/blog/'+g.slug);
   assert.equal(entry?.lastModified,g.updatedAt);
  }
 });
 test('analytics only describes known guide-to-studio links, never query strings or private codes',()=>{
  const {guideCtaEvent}=load('src/lib/guide-analytics.ts');
- assert.deepEqual(guideCtaEvent('/blog/tiny-desk-ai-video-guide','/#studio'),{guide_slug:'tiny-desk-ai-video-guide',cta_target:'studio'});
+ assert.deepEqual(guideCtaEvent('/blog/how-to-make-first-time-in-a-fancy-cafe-ai-video','/#studio'),{guide_slug:'how-to-make-first-time-in-a-fancy-cafe-ai-video',cta_target:'studio'});
  assert.equal(guideCtaEvent('/blog/not-a-guide','/#studio'),null);
- assert.equal(guideCtaEvent('/blog/tiny-desk-ai-video-guide','/api/video?code=secret'),null);
+ assert.equal(guideCtaEvent('/blog/how-to-make-first-time-in-a-fancy-cafe-ai-video','/api/video?code=secret'),null);
  assert.equal(guideCtaEvent('/','/#studio'),null);
  const source=fs.readFileSync(path.join(root,'src/components/google-analytics.tsx'),'utf8');
  assert.match(source,/consent !== "granted"/);
 });
 
-test('mobile instructions illustrate the actual studio and avoid legacy delivery claims',()=>{
+test('mobile instructions explain the current roles and avoid legacy delivery claims',()=>{
  const {allTinyGuides}=load('src/lib/tiny-guides.ts');
- const phone=allTinyGuides.find(g=>g.slug==='how-to-make-tiny-desk-ai-video-on-phone');
- assert.ok(phone.sections.some(s=>s.image?.src.endsWith('studio-mobile.webp')));
+ const phone=allTinyGuides.find(g=>g.slug==='how-to-create-fancy-cafe-ai-video-on-phone');
+ assert.match(JSON.stringify(phone),/protagonist/i); assert.match(JSON.stringify(phone),/regular/i); assert.match(JSON.stringify(phone),/phone|mobile/i);
  assert.doesNotMatch(JSON.stringify(allTinyGuides),/results stay in your browser|all band spots in one row|does not copy the original audio/);
  const {guideCtaEvent}=load('src/lib/guide-analytics.ts');
  for(const g of allTinyGuides) assert.equal(guideCtaEvent('/blog/'+g.slug,'/#studio')?.guide_slug,g.slug);
@@ -84,6 +84,6 @@ test('llms summary lists every canonical article without pretending to be a sear
  const response=await load('src/app/llms.txt/route.ts').GET();
  assert.match(response.headers.get('content-type'),/text\/plain/);
  const body=await response.text();
- for(const g of load('src/lib/tiny-guides.ts').allTinyGuides) assert.ok(body.includes('https://tinydeskaivideos.com/blog/'+g.slug));
- assert.match(body,/stored privately on the server/);
+ for(const g of load('src/lib/tiny-guides.ts').allTinyGuides) assert.ok(body.includes('https://firsttimeinafancycafeai.org/blog/'+g.slug));
+ assert.match(body,/30 days/);
 });

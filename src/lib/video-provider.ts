@@ -1,3 +1,4 @@
+import { cafeLaunchReady } from "./cafe-launch";
 import { normalizeTinyPortrait } from "./portrait-normalization";
 import "server-only";
 import { getVideoStatus as poyoStatus, submitVideo as poyoSubmit, uploadPortrait as poyoUpload, type Resolution, type AspectRatio } from "./poyo";
@@ -23,8 +24,9 @@ export function configured(provider: ProviderName) {
     : !!(process.env.YIR_API_KEY && process.env.VIDEO_HANDLE_SECRET?.length && process.env.VIDEO_HANDLE_SECRET.length >= 32);
 }
 export async function submitForProvider(provider: ProviderName, files: File[], resolution: Resolution, code: string, aspectRatio: AspectRatio = "9:16", scenario: PromptScenario = "gender_neutral", context?: PromptContext, beforeSubmit?: () => Promise<void>): Promise<string> {
+  if (context?.templateId === "fancy-cafe-ai" && !cafeLaunchReady()) throw new Error("Cafe reference assets are not approved; no video was submitted.");
   const tiny=needsComposition(context);
-  if(tiny) {if(provider!=="yir")throw new Error("Tiny Desk requires Yir Seedance 2.5.");context=await loadTinyPrompt(context!);}
+  if(tiny) {if(provider!=="yir")throw new Error("Cafe video generation requires Yir Seedance 2.5.");context=await loadTinyPrompt(context!);}
   const spec = videoSpec(context);
   const upload = provider === "poyo" ? poyoUpload : uploadYirPortrait;
   const urls = [];
@@ -33,10 +35,10 @@ export async function submitForProvider(provider: ProviderName, files: File[], r
   if (spec.referenceVideo) {
     // Server-owned asset only: never fetch a reference URL supplied by a browser.
     const bytes = tiny ? await readTinyReference(context!.promptVersion) : await readFile(join(process.cwd(), "public", "tiptoeing-reference.mp4"));
-    referenceVideo = await upload(new File([new Uint8Array(bytes)], tiny ? "tiny-desk-first15-silent.mp4" : "tiptoeing-reference.mp4", { type: "video/mp4" }));
+    referenceVideo = await upload(new File([new Uint8Array(bytes)], tiny ? "cafe-first15-silent.mp4" : "tiptoeing-reference.mp4", { type: "video/mp4" }));
   }
   const options = { referenceVideo, beforeSubmit };
-  return provider === "poyo" ? poyoSubmit(urls, resolution, aspectRatio, scenario, context, options) : submitYirVideo(urls, resolution, `zvl-${code}`, aspectRatio, scenario, context, options);
+  return provider === "poyo" ? poyoSubmit(urls, resolution, aspectRatio, scenario, context, options) : submitYirVideo(urls, resolution, `cafe-${code}`, aspectRatio, scenario, context, options);
 }
 export async function statusForProvider(provider: ProviderName, id: string) {
   return provider === "poyo" ? poyoStatus(id) : getYirStatus(id);

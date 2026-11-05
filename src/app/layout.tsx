@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: "/" },
-  openGraph: { title: TITLE, description: DESCRIPTION, url: SITE_URL, siteName: SITE_NAME, type: "website", images: [{ url: "/social-preview.png", width: 1200, height: 630, alt: "Tiny Desk AI Videos — A little desk. A big moment." }] },
-  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: [{ url: "/social-preview.png", alt: "Tiny Desk AI Videos — A little desk. A big moment." }] },
+  openGraph: { title: TITLE, description: DESCRIPTION, url: SITE_URL, siteName: SITE_NAME, type: "website", images: [{ url: "/social-preview.png", width: 1200, height: 630, alt: "Fancy Cafe AI — One wrong seat. One unforgettable cafe moment." }] },
+  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: [{ url: "/social-preview.png", alt: "Fancy Cafe AI — One wrong seat. One unforgettable cafe moment." }] },
   robots: { index: true, follow: true },
   ...(process.env.GOOGLE_SITE_VERIFICATION ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } } : {}),
 };

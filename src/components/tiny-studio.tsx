@@ -7,23 +7,17 @@ import { fetchCheckoutCatalog } from "@/lib/billing-catalog-client";
 
 import { emitStudioEvent } from "@/lib/studio-analytics";
 
-export const TINY_TEMPLATE = "tiny-desk-ai";
+export const TINY_TEMPLATE = "fancy-cafe-ai";
 type LocalPhoto = { file: File; url: string };
-type SlotId = "back-left" | "back-right" | "keys" | "lead" | "sax";
+type SlotId = "protagonist" | "regular";
 type SlotPhoto = LocalPhoto & { status: "checking" | "approved" | "rejected"; error?: string };
 const BAND_SLOTS: { id: SlotId; label: string; x: string; y: string }[] = [
-  { id: "back-left", label: "Back left", x: "17%", y: "18%" },
-  { id: "back-right", label: "Back right", x: "72%", y: "20%" },
-  { id: "keys", label: "Keys", x: "44%", y: "48%" },
-  { id: "lead", label: "Lead", x: "50%", y: "42%" },
-  { id: "sax", label: "Sax", x: "44%", y: "40%" },
+  { id: "protagonist", label: "Protagonist", x: "50%", y: "42%" },
+  { id: "regular", label: "Cafe regular", x: "50%", y: "42%" },
 ];
 const SLOT_IMAGES: Record<SlotId, string> = {
-  "back-left": "/tiny-band/slots/band-left.webp",
-  "back-right": "/tiny-band/slots/band-left.webp",
-  keys: "/tiny-band/slots/band-left.webp",
-  lead: "/tiny-band/slots/band-lead.webp",
-  sax: "/tiny-band/slots/band-sax.webp",
+  protagonist: "/tiny-band/slots/band-lead.webp",
+  regular: "/tiny-band/slots/band-left.webp",
 };
 type Price = { resolution: "480p" | "720p"; amount_minor: number; currency: string; purchasable: boolean };
 type Order = { code: string; status: string; generationStatus: string; resolution?: "480p" | "720p"; aspectRatio?: "9:16" | "16:9" };
@@ -48,7 +42,7 @@ function loadImage(url: string): Promise<HTMLImageElement> {
 }
 
 // Keep the long edge at 1600px (enough for the vision gate and the video model) and cap each
-// file at 750 KB so five photos still fit under the serverless request-body limit.
+// file at 750 KB so two photos still fit under the serverless request-body limit.
 async function optimizePhoto(file: File, source: string): Promise<File> {
   const image = await loadImage(source);
   const scale = Math.min(1, 1600 / Math.max(image.naturalWidth, image.naturalHeight));
@@ -236,7 +230,7 @@ export function TinyStudio() {
         setSubmittedFaces(loadSubmittedFaces(sessionStorage, code));
         setStage("idle");
         setMessage(mode === "cancel" ? "Payment was cancelled. Your photos are saved — edit them or generate again." : "");
-        sessionStorage.setItem("tiny-desk-code", code);
+        sessionStorage.setItem("fancy-cafe-code", code);
       }
     } else {
       setStage("failed");
@@ -253,11 +247,11 @@ export function TinyStudio() {
         const params = new URLSearchParams(window.location.search);
         const returned = params.get("code");
         if (returned && /^[A-F0-9]{32}$/.test(returned)) {
-          sessionStorage.setItem("tiny-desk-code", returned);
+          sessionStorage.setItem("fancy-cafe-code", returned);
           history.replaceState(null, "", "/#studio");
           await resume(returned, params.get("checkout") === "cancel" ? "cancel" : "success");
         } else {
-          const saved = sessionStorage.getItem("tiny-desk-code");
+          const saved = sessionStorage.getItem("fancy-cafe-code");
           if (saved) await resume(saved);
         }
         await refreshJobs();
@@ -316,12 +310,13 @@ export function TinyStudio() {
   }
 
   async function startCheckout() {
+    if (!band.protagonist && !submittedFaces.protagonist) { setMessage("Add the protagonist photo first."); return; }
     if (busy) return;
     const filled = BAND_SLOTS.map(slot => ({ slot: slot.id, label: slot.label, photo: band[slot.id] })).filter(entry => entry.photo);
     const checking = filled.some(entry => entry.photo!.status === "checking");
     if (!enabled || !selectedPrice?.purchasable) { setMessage("Checkout is not available yet. No payment was taken."); return; }
     const reuse = !!canceledCode && filled.length === 0;
-    if (!reuse && filled.length < 1) { setMessage("Upload at least one performer photo first."); return; }
+    if (!reuse && filled.length < 1) { setMessage("Upload the protagonist photo first."); return; }
     if (checking) { setMessage("Wait until the selected photos finish the AI safety check."); return; }
     if (!consent) { setMessage("Confirm you have permission to use these photos first."); return; }
     if (emailEnabled && email && (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254)) { setMessage("Enter a valid email address, or leave it empty."); return; }
@@ -341,9 +336,9 @@ export function TinyStudio() {
       const response = await fetch("/api/billing/checkout", { method: "POST", body: form });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Could not open secure checkout.");
-      if (data.mockPayment === true) { sessionStorage.setItem("tiny-desk-code", data.code); await resume(data.code); return; }
+      if (data.mockPayment === true) { sessionStorage.setItem("fancy-cafe-code", data.code); await resume(data.code); return; }
       if (!data.checkoutUrl) throw new Error("Checkout did not return a payment link.");
-      // Stripe is a full-page redirect. Keep only tiny display previews for this order's return; the server already holds the original five uploads.
+      // Stripe is a full-page redirect. Keep only tiny display previews for this order's return; the server already holds the original uploads.
       try {
         const previews = await Promise.all(filled.map(async entry => {
           const image = await loadImage(entry.photo!.url);
@@ -356,7 +351,7 @@ export function TinyStudio() {
         }));
         saveSubmittedFaces(sessionStorage, code, Object.fromEntries(previews));
       } catch { /* Previews are optional; never block checkout. */ }
-      sessionStorage.setItem("tiny-desk-code", code);
+      sessionStorage.setItem("fancy-cafe-code", code);
       emitStudioEvent("checkout_redirect", { resolution: quality, aspect_ratio: aspectRatio });
       window.location.assign(data.checkoutUrl);
     } catch (error) {
@@ -373,7 +368,7 @@ export function TinyStudio() {
     return price ? money(price.amount_minor, price.currency) : fallback;
   };
   const buttonLabel = submitted && stage === "ready" ? "Your video is ready" : submitted && stage === "failed" ? "Check order status" : stage === "working" ? "Generating your video…" : stage === "redirecting" ? "Opening checkout…" : busy ? "Please wait…"
-    : `Generate video · ${priceLabel(quality, quality === "480p" ? "$5.99" : "$8.99")}`;
+    : !enabled ? "Studio preview · generation coming soon" : `Generate video · ${priceLabel(quality, quality === "480p" ? "$5.99" : "$8.99")}`;
   const finished = jobs.filter(job => job.status === "finished" && job.videoUrl);
   const shownProgress = stage === "ready" ? 100 : Math.min(98, Math.max(progress ?? 0, paid ? simulatedProgress : 0));
   const selectedJob = finished.find(job => job.videoUrl === videoUrl);
@@ -401,26 +396,21 @@ export function TinyStudio() {
     </div>;
   };
 
-  return <div className="tiny-studio-grid" aria-label="Tiny Desk AI studio">
+  return <div className="tiny-studio-grid" aria-label="Fancy Cafe AI studio">
     <div className="tiny-studio-form">
-      <div className="tiny-studio-heading"><h2>Make your Tiny Desk<br/>AI video</h2><span>AI CONCERT</span></div>
-      <div className="tiny-field-heading"><span>1</span><strong>YOUR MAIN CHARACTER</strong><em>One photo is enough</em></div>
+      <div className="tiny-studio-heading"><h2>Make your Fancy Cafe<br/>AI video</h2><span>CAFE COMEDY</span></div>
+      <p className="tiny-photo-tip">Studio preview · Cafe reference assets are being prepared. Checkout stays closed until the template is verified. Dog images below are temporary role placeholders, not cafe results.</p>
+      <div className="tiny-field-heading"><span>1</span><strong>YOUR MAIN CHARACTER</strong><em>Required</em></div>
       <div className="tiny-lead-upload">
-        <div className="tiny-band-tile"><img src={SLOT_IMAGES.lead} alt="Dog reference for the Lead singer close-up" />{bandSlot("lead")}</div>
-        <div><span className="tiny-kicker">LEAD · YOUR CLOSE-UP</span><h3>Put yourself behind the mic.</h3><p>Tap the Lead circle to add your portrait. This is the singer role in the reference, not the keyboard player.</p><a href="/blog/multiple-photos-tiny-desk-concert-video">See who goes where →</a></div>
+        <div className="tiny-band-tile"><img src={SLOT_IMAGES.protagonist} alt="Temporary dog portrait placeholder for the protagonist upload" />{bandSlot("protagonist")}</div>
+        <div><span className="tiny-kicker">PROTAGONIST · THE WRONG SEAT</span><h3>Make the awkward moment yours.</h3><p>This person mistakes the small round table for a seat. Add one clear portrait of yourself or a consenting adult.</p><a href="/blog/fancy-cafe-ai-two-people">See how the two roles work →</a></div>
       </div>
       <details className="tiny-optional-band">
-        <summary>Add up to four friends <span>Optional · same price</span></summary>
-        <p>Fill any extra roles you want. The dogs identify the reference positions; upload adult portraits, not a group photo. Empty roles have no supplied identity.</p>
-        <div className="tiny-band">
-          <div className="tiny-band-main">
-            <img src="/tiny-band/slots/band-left.webp" alt="Tiny Desk dog band reference: back left, back right, and front center" />
-            {(["back-left", "back-right", "keys"] as SlotId[]).map(bandSlot)}
-          </div>
-          <div className="tiny-band-tile"><img src={SLOT_IMAGES.sax} alt="Dog reference for the Sax role" />{bandSlot("sax")}</div>
-        </div>
+        <summary>Add a friend <span>Optional · same price</span></summary>
+        <p>The cafe regular sits correctly on the bench and reveals the mistake. Leave this role empty for a fictional adult supporting character.</p>
+        <div className="tiny-lead-upload"><div className="tiny-band-tile"><img src={SLOT_IMAGES.regular} alt="Temporary dog portrait placeholder for the optional cafe regular" />{bandSlot("regular")}</div><div><span className="tiny-kicker">CAFE REGULAR · THE REVEAL</span><p>Use a separate photo. Roles follow these labels, not gender or upload timing.</p></div></div>
       </details>
-      <div className="tiny-photo-tip"><span>✧</span><p>{submitted ? <><strong>{previewCount || displayFilledCount} of 5 faces submitted with this order.</strong> These display-only previews stay in this browser tab. Do not upload or pay again.</> : canceledCode ? <><strong>Your photos are saved.</strong> Edit any spot or generate again — no need to re-upload.</> : <><strong>Start with Lead, or choose any role.</strong> Add friends only if you want to fill more of the band. One consenting adult per photo. Clear, well-lit JPG/PNG/WebP portraits up to 10 MB. Your 15-second video includes a soundtrack.</>}</p></div>
+      <div className="tiny-photo-tip"><span>✧</span><p>{submitted ? <><strong>{previewCount || displayFilledCount} of 2 portraits submitted.</strong> Keep this browser and do not pay again.</> : canceledCode ? <><strong>Your photos are saved for this order.</strong> You can review the same order without re-uploading.</> : <><strong>Start with the protagonist.</strong> One adult per photo. Clear JPG/PNG/WebP up to 10 MB. The optional second photo controls the cafe regular.</>}</p></div>
       <div className="tiny-field-heading"><span>2</span><strong>QUALITY</strong></div>
       <fieldset className="tiny-quality"><legend className="sr-only">Video quality</legend><label className={quality === "480p" ? "selected" : ""}><input type="radio" name="quality" value="480p" checked={quality === "480p"} onChange={() => setQuality("480p")} /><strong>480p</strong><small>{priceLabel("480p", "$5.99")} · Standard</small></label><label className={quality === "720p" ? "selected" : ""}><input type="radio" name="quality" value="720p" checked={quality === "720p"} onChange={() => setQuality("720p")} /><strong>720p</strong><small>{priceLabel("720p", "$8.99")} · HD</small></label></fieldset>
       <div className="tiny-field-heading"><span>3</span><strong>FORMAT</strong></div>
@@ -429,11 +419,11 @@ export function TinyStudio() {
       <button type="button" className="tiny-generate" onClick={() => setShowConfirm(true)} disabled={busy || submitted || !billingReady || !enabled || !selectedPrice?.purchasable || effectiveFilled < 1 || !consent || anyChecking || stage === "working"}>{buttonLabel} <ArrowRight size={18} /></button>
       {!billingReady && <p className="tiny-studio-fine" role="status">Checking payment options…</p>}
       {billingError && <div className="tiny-billing-retry" role="alert"><p>{billingError}</p><button type="button" disabled={!billingReady} onClick={() => void refreshBilling()}>Retry checkout check</button></div>}
-      {billingReady && !billingError && !enabled && <p className="tiny-studio-fine">Payments are currently paused. No payment has been taken. <button type="button" onClick={() => void refreshBilling()}>Check again</button></p>}
+      {billingReady && !billingError && !enabled && <p className="tiny-studio-fine">Studio preview: cafe reference and audio are being prepared. No payment is taken. <button type="button" onClick={() => void refreshBilling()}>Check again</button></p>}
       {rejectedLabels.length > 0 && <p className="tiny-upload-error" role="alert">{rejectedLabels.join(", ")} did not pass the AI check. Replace or remove them, or let the server decide at checkout.</p>}
       {message && !submitted && <p className="tiny-upload-error" role="alert">{message}</p>}
-      <p className="tiny-studio-fine"><ShieldCheck size={15} /> {submitted ? `${previewCount || displayFilledCount}/5 faces already submitted.` : `${displayFilledCount}/5 band spots filled — at least one is required.`} Photos are screened by AI before payment, stored privately and sent to the video provider only after payment is verified. Generation and downloads are available in this browser for 30 days.</p>
-      {submitted && stage === "ready" && <div className="tiny-submitted-actions"><button type="button" onClick={() => { setSubmitted(false); setSubmittedFaces({}); setBand(current => { Object.values(current).forEach(photo => { if (photo) { URL.revokeObjectURL(photo.url); photoUrls.current.delete(photo.url); } }); return {}; }); setStage("idle"); setProgress(null); setVideoUrl(null); setPaid(false); sessionStorage.removeItem("tiny-desk-code"); activeCode.current = null; generationStarted.current = false; setMessage(""); }}>Make another video</button></div>}
+      <p className="tiny-studio-fine"><ShieldCheck size={15} /> {submitted ? `${previewCount || displayFilledCount}/2 faces already submitted.` : `${displayFilledCount}/2 roles filled — protagonist required.`} Photos are screened by AI before payment, stored privately and sent to the video provider only after payment is verified. Generation and downloads are available in this browser for 30 days.</p>
+      {submitted && stage === "ready" && <div className="tiny-submitted-actions"><button type="button" onClick={() => { setSubmitted(false); setSubmittedFaces({}); setBand(current => { Object.values(current).forEach(photo => { if (photo) { URL.revokeObjectURL(photo.url); photoUrls.current.delete(photo.url); } }); return {}; }); setStage("idle"); setProgress(null); setVideoUrl(null); setPaid(false); sessionStorage.removeItem("fancy-cafe-code"); activeCode.current = null; generationStarted.current = false; setMessage(""); }}>Make another video</button></div>}
     </div>
     <div className="tiny-studio-preview">
       <div className="tiny-preview-top">
@@ -451,10 +441,10 @@ export function TinyStudio() {
       </div>}
       <div className="tiny-preview-content">
         {previewTab === "videos" ? (videoUrl
-          ? <div className="tiny-sample-video" key={videoUrl}><video ref={previewVideo} controls autoPlay muted playsInline preload="metadata" src={videoUrl} aria-label="Your generated Tiny Desk AI video" /></div>
+          ? <div className="tiny-sample-video" key={videoUrl}><video ref={previewVideo} controls autoPlay muted playsInline preload="metadata" src={videoUrl} aria-label="Your generated Fancy Cafe AI video" /></div>
           : <div className="tiny-empty-videos"><h3>{finished.length ? "Choose a video" : "No videos yet"}</h3><p>{finished.length ? "Pick one of your generated videos below to play it here." : "Videos generated in this browser will appear below."}</p></div>)
-          : <div className="tiny-sample-video"><video ref={previewVideo} controls autoPlay muted loop playsInline preload="auto" poster="/tiny-band/sample-poster.webp" src={sampleReady ? "/api/tiny-desk/sample" : undefined} aria-label="Example: five dogs performing at a desk-side concert">Your browser does not support video playback.</video></div>}
-        <p className="tiny-preview-caption">{previewTab === "videos" && videoUrl && displayedCode ? <>Your video is ready. <a href={`/api/video/file?code=${displayedCode}&download=1`} download>Download MP4</a> within 30 days.</> : previewTab === "videos" ? (finished.length ? "Choose one of your generated videos below." : "No videos yet. Your results will appear here.") : finished.length ? "Your video is ready — open My videos to watch it." : testMode ? "Stripe test mode is active: use a test card. No real money is charged." : "This is an example. Pick your band to make your own."}</p>
+          : <div className="tiny-sample-video"><video ref={previewVideo} controls autoPlay muted loop playsInline preload="auto" poster="/tiny-band/sample-poster.webp" src={sampleReady ? "/api/tiny-desk/sample" : undefined} aria-label="Temporary legacy demo: dogs performing, not a cafe generation">Your browser does not support video playback.</video></div>}
+        <p className="tiny-preview-caption">{previewTab === "videos" && videoUrl && displayedCode ? <>Your video is ready. <a href={`/api/video/file?code=${displayedCode}&download=1`} download>Download MP4</a> within 30 days.</> : previewTab === "videos" ? (finished.length ? "Choose one of your generated videos below." : "No videos yet. Your results will appear here.") : finished.length ? "Your video is ready — open your generated videos below to watch it." : "Temporary legacy band demo — not a Fancy Cafe result. Cafe example footage is being prepared."}</p>
         <div className="tiny-history"><h3>Generated videos</h3>{finished.length ? <div className="tiny-history-grid">{finished.map(job => <div className={`tiny-history-card ${videoUrl === job.videoUrl ? "active" : ""}`} key={job.code}><button type="button" onClick={() => { activeCode.current = job.code; setVideoUrl(job.videoUrl); setStage("ready"); setPreviewTab("videos"); }} aria-label={`Play generated video ${job.code.slice(0,8)}`}><video muted playsInline preload="metadata" src={job.videoUrl ?? undefined} aria-hidden="true" /><span>▶ Play · {job.resolution} · {job.aspectRatio}</span></button><a href={`/api/video/file?code=${job.code}&download=1`} onClick={() => emitStudioEvent("video_download_clicked")} download aria-label={`Download video ${job.code.slice(0,8)}`}><Download size={15} /> Download</a></div>)}</div> : <p>Generated videos from this browser will appear here when ready. Download each one within 30 days.</p>}</div>
       </div>
     </div>

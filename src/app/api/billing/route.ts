@@ -1,4 +1,4 @@
-import { tinyCheckoutEnabled } from "@/lib/tiny-checkout-policy";
+import { cafeLaunchReady } from "@/lib/cafe-launch";
 import { localMockPayments } from "@/lib/local-mock-payments";
 import { enabled as generationEnabled } from "@/lib/video-access";
 import { parseTemplate } from "@/lib/video-templates";
@@ -17,7 +17,7 @@ export async function GET(request:Request) {
   if(!templateId) return json({error:"Unknown video template."},400);
   const mockPayment=localMockPayments(request,templateId);
   const prices=(await catalog(templateId)).map(price=>({...price,purchasable:price.purchasable || mockPayment && price.duration_seconds===15}));
-  const enabled=tinyCheckoutEnabled(process.env.TINY_DESK_CHECKOUT_ENABLED) && (mockPayment ? generationEnabled() : checkoutReady()) && prices.some(price=>price.purchasable);
+  const enabled=cafeLaunchReady() && (mockPayment ? generationEnabled() : checkoutReady()) && prices.some(price=>price.purchasable);
   const visitor=visitorFrom(request);
   if(!visitor) {const response=json({enabled,mockPayment,testMode:!mockPayment && stripeConfigured() && stripeEnvironment()==="test",emailEnabled:Boolean(process.env.RESEND_API_KEY && process.env.VIDEO_EMAIL_FROM),prices,orders:[]});newVisitor(response);return response;}
   const code=new URL(request.url).searchParams.get("code");

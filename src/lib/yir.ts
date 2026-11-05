@@ -1,6 +1,6 @@
 import { type PromptScenario } from "./video-prompt";
 import { templatePrompt } from "./template-prompt";
-import { videoSpec, needsComposition, validateTinyDeskSlots, type PromptContext } from "./video-templates";
+import { videoSpec, needsComposition, validateCafeSlots, validateTinyDeskSlots, type PromptContext } from "./video-templates";
 import { isIP } from "node:net";
 import type { Resolution, AspectRatio } from "./poyo";
 
@@ -58,7 +58,10 @@ export function makeYirRequest(ids: string[], resolution: Resolution, aspectRati
   const tiny = needsComposition(context);
   if (tiny) {
     if (ids.length < 1 || ids.length > 5) throw new Error("One to five Tiny Desk portraits are required.");
-    validateTinyDeskSlots(context?.photoSlots ?? []);
+    if (context?.templateId === "fancy-cafe-ai") {
+      validateCafeSlots(context.photoSlots ?? []);
+      if (ids.length !== context.photoSlots?.length) throw new Error("Photo and role counts must match.");
+    } else validateTinyDeskSlots(context?.photoSlots ?? []);
   }
   if (spec.referenceVideo && !referenceVideo) throw new Error("The dance reference video is required.");
   // YIR subject grouping only supports all-image references, not mixed video inputs.

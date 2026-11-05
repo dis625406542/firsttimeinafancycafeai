@@ -40,14 +40,14 @@ export async function sendReadyVideoEmail() {
      RETURNING o.id,o.code,o.visitor_hash,o.notification_email`);
   const order = claimed.rows[0];
   if (!order) return;
-  const site = "https://tinydeskaivideos.com";
+  const site = "https://firsttimeinafancycafeai.org";
   const url = `${site}/api/video/email?code=${order.code}&token=${deliveryToken(order.id, order.notification_email)}`;
   try {
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST", signal: AbortSignal.timeout(15000),
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", "Idempotency-Key": `tiny-desk-ready-${order.id}` },
-      body: JSON.stringify({ from, to: [order.notification_email], subject: "Your Tiny Desk AI video is ready",
-        text: `Your video is ready. Download it within 30 days of completion: ${url}\n\nThis private link grants access to your video. Do not forward it. If the link expires, your video may still be available in the original browser. Your video code: ${order.code}\n\nTiny Desk AI Videos` }),
+      body: JSON.stringify({ from, to: [order.notification_email], subject: "Your Fancy Cafe AI video is ready",
+        text: `Your video is ready. Download it within 30 days of completion: ${url}\n\nThis private link grants access to your video. Do not forward it. If the link expires, your video may still be available in the original browser. Your video code: ${order.code}\n\nFancy Cafe AI` }),
     });
     if (!response.ok) throw new Error(`Email provider returned ${response.status}`);
     await pool().query("UPDATE {schema}.billing_orders SET notification_sent_at=now() WHERE id=$1 AND notification_sent_at IS NULL AND notification_claimed_at IS NOT NULL", [order.id]);

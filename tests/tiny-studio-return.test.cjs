@@ -18,15 +18,15 @@ test('Stripe redirect restores only the current order\'s lightweight session thu
   const data = new Map();
   const storage = { setItem: (key, value) => data.set(key, value), getItem: key => data.get(key) ?? null };
   const code = 'A'.repeat(32);
-  const faces = Object.fromEntries(['back-left', 'back-right', 'keys', 'lead', 'sax'].map(slot => [slot, 'data:image/jpeg;base64,AAA']));
+  const faces = Object.fromEntries(['protagonist', 'regular'].map(slot => [slot, 'data:image/jpeg;base64,AAA']));
   assert.equal(saveSubmittedFaces(storage, code, faces, 1000), true);
   assert.deepEqual(loadSubmittedFaces(storage, code, 2000), faces);
   assert.deepEqual(loadSubmittedFaces(storage, 'B'.repeat(32), 2000), {});
   assert.deepEqual(loadSubmittedFaces(storage, code, 1000 + 3 * 86400000 + 1), {});
-  // Orders may use one to five portraits, so a single thumbnail is valid.
-  assert.equal(saveSubmittedFaces(storage, code, { 'back-left': 'data:image/jpeg;base64,AAA' }, 1000), true);
+  // Orders may use one or two portraits, so a single thumbnail is valid.
+  assert.equal(saveSubmittedFaces(storage, code, { 'protagonist': 'data:image/jpeg;base64,AAA' }, 1000), true);
   assert.equal(saveSubmittedFaces(storage, code, {}, 1000), false);
-  assert.equal(saveSubmittedFaces(storage, code, { ...faces, lead: 'data:text/html;base64,AAA' }, 1000), false);
+  assert.equal(saveSubmittedFaces(storage, code, { ...faces, protagonist: 'data:text/html;base64,AAA' }, 1000), false);
 });
 
 test('Stripe return shows saved faces read-only and visible real/indeterminate status instead of a blank upload form', () => {

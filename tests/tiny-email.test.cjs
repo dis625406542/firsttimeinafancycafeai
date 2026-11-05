@@ -37,7 +37,7 @@ test('ready email uses a private 30-day-gated token, never just a guessable orde
  global.fetch = async (_url, init) => { message = JSON.parse(init.body); return { ok: true }; };
  try {
   await sendReadyVideoEmail();
-  assert.match(message.text, /https:\/\/tinydeskaivideos\.com\/api\/video\/email\?/);
+  assert.match(message.text, /https:\/\/firsttimeinafancycafeai\.org\/api\/video\/email\?/);
   assert.equal(message.to[0], order.notification_email);
   assert.ok(queries.some(sql => sql.includes('notification_sent_at=now()')));
   const link = new URL(message.text.match(/https:\/\/\S+/)[0]);

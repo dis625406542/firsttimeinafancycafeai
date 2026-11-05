@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 
 const REELS = [
-  { src: "/tiny-band/reels/reel-1-human.mp4", poster: "/tiny-band/reels/poster-1.webp", label: "THE HUMAN BAND", alt: "Sample reel: a human band performing at a desk" },
-  { src: "/tiny-band/reels/reel-2-nfl.mp4", poster: "/tiny-band/reels/poster-2.webp", label: "THE COACHES' DESK", alt: "Sample reel: NFL coaches performing at a desk" },
-  { src: "/tiny-band/reels/reel-3-dogs.mp4", poster: "/tiny-band/reels/poster-3.webp", label: "THE DOG BAND", alt: "Sample reel: a dog band performing at a desk" },
+  { src: "/tiny-band/reels/reel-1-human.mp4", poster: "/tiny-band/reels/poster-1.webp", label: "LEGACY DEMO · PEOPLE", alt: "Sample reel: a human band performing at a desk" },
+  { src: "/tiny-band/reels/reel-2-nfl.mp4", poster: "/tiny-band/reels/poster-2.webp", label: "LEGACY DEMO · GROUP", alt: "Sample reel: NFL coaches performing at a desk" },
+  { src: "/tiny-band/reels/reel-3-dogs.mp4", poster: "/tiny-band/reels/poster-3.webp", label: "LEGACY DEMO · DOGS", alt: "Sample reel: a dog band performing at a desk" },
 ] as const;
 
 export function SampleReels() {
@@ -47,8 +47,8 @@ export function SampleReels() {
     if (video && next !== null) void video.play().catch(() => undefined);
   }
 
-  return <section className="tiny-reels" aria-label="Tiny Desk AI sample reels">
-    <div className="tiny-reels-grid">
+  return <section className="tiny-reels" aria-label="Temporary legacy demos, not Fancy Cafe results">
+    <p className="tiny-art-note">Temporary demo gallery from our previous template. These are not Fancy Cafe outputs; the cafe example is being prepared.</p><div className="tiny-reels-grid">
       {REELS.map((reel, index) => <div className="tiny-reel" key={reel.src}>
         <video
           ref={element => { videos.current[index] = element; }}

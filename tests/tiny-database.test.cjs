@@ -1,5 +1,19 @@
-const test=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const path=require('node:path');const root=path.join(__dirname,'..');const read=p=>fs.readFileSync(path.join(root,p),'utf8');
-test('new site runtime never queries the legacy production schema',()=>{for(const dir of ['src/lib','src/app/api']){for(const f of fs.readdirSync(path.join(root,dir),{recursive:true,withFileTypes:true})){if(!f.isFile()||!f.name.endsWith('.ts'))continue;const source=read(path.relative(root,path.join(f.parentPath,f.name)));assert.doesNotMatch(source,/zombievideolab_pro/i,f.name)}}});
-test('new migration targets the configured schema without copying legacy products',()=>{const text=read('scripts/migrate-billing.mjs');assert.match(text,/DATABASE_PRO_NAME/);assert.match(text,/replaceAll\('\{schema\}'/);assert.doesNotMatch(text,/zombievideolab_pro/);for(const file of ['src/lib/tiny-desk-video-jobs.sql','src/lib/tiny-desk-billing.sql']){const sql=read(file);assert.match(sql,/\{schema\}\./);assert.doesNotMatch(sql,/tinydeskaivideo_pro|zombievideolab_pro|zombie-couple|tiptoeing-in-my-jordans/i); if(file.includes('billing')) assert.match(sql,/tiny-desk-ai-480p/) }});
-
-test('runtime SQL resolves {schema} from DATABASE_PRO_NAME',()=>{const ts=require('typescript');const Module=require('node:module');require.extensions['.ts']=(module,filename)=>module._compile(ts.transpileModule(fs.readFileSync(filename,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,filename);const original=Module._load;Module._load=function(request,parent,...args){if(parent?.filename.endsWith('db-schema.ts')&&request==='server-only')return {};return original.call(this,request,parent,...args)};const {dbSchema,resolveSchemaSql}=require('../src/lib/db-schema.ts');Module._load=original;const previous=process.env.DATABASE_PRO_NAME;try{process.env.DATABASE_PRO_NAME='tinydeskaivideo_test';assert.equal(dbSchema(),'tinydeskaivideo_test');assert.equal(resolveSchemaSql('SELECT * FROM {schema}.products JOIN {schema}.product_prices ON true'),'SELECT * FROM tinydeskaivideo_test.products JOIN tinydeskaivideo_test.product_prices ON true');process.env.DATABASE_PRO_NAME='zombievideolab_pro';assert.equal(resolveSchemaSql('SELECT 1 FROM {schema}.billing_orders'),'SELECT 1 FROM zombievideolab_pro.billing_orders');process.env.DATABASE_PRO_NAME='bad-name;drop';assert.throws(()=>dbSchema(),/identifier/i);delete process.env.DATABASE_PRO_NAME;assert.throws(()=>dbSchema(),/required/i);}finally{if(previous===undefined)delete process.env.DATABASE_PRO_NAME;else process.env.DATABASE_PRO_NAME=previous}});
+const test=require('node:test'),assert=require('node:assert/strict');
+const {load,read}=require('./site-test-helpers.cjs');
+test('only the new cafe migration runs, with no old products or customer copies',()=>{
+ const script=read('scripts/migrate-billing.mjs'),sql=read('src/lib/fancy-cafe.sql');
+ assert.match(script,/fancy-cafe.sql/);assert.doesNotMatch(script,/tiny-desk.*\.sql/);
+ assert.match(sql,/fancy-cafe-ai-480p/);assert.match(sql,/fancy-cafe-ai-720p/);assert.match(sql,/fancy-cafe-v1/);
+ assert.doesNotMatch(sql,/tinydeskaivideo_pro|zombievideolab_pro|zombie-couple|SELECT \* FROM|\bDROP\b|\bTRUNCATE\b/i);
+});
+test('runtime schema is explicitly site-bound and rejects old or injected identifiers',()=>{
+ const {dbSchema,resolveSchemaSql}=load('src/lib/db-schema.ts');const saved=process.env.DATABASE_PRO_NAME;
+ try {process.env.DATABASE_PRO_NAME='firsttimeinafancycafeai_pro';assert.equal(dbSchema(),process.env.DATABASE_PRO_NAME);assert.equal(resolveSchemaSql('SELECT * FROM {schema}.products'),'SELECT * FROM firsttimeinafancycafeai_pro.products');
+ for(const name of ['tinydeskaivideo_pro','zombievideolab_pro','bad-name;drop']){process.env.DATABASE_PRO_NAME=name;assert.throws(()=>dbSchema());}
+ delete process.env.DATABASE_PRO_NAME;assert.throws(()=>dbSchema(),/required/);
+ }finally{if(saved===undefined)delete process.env.DATABASE_PRO_NAME;else process.env.DATABASE_PRO_NAME=saved;}
+});
+test('private R2 writes have site-specific prefixes and no shared generated prefix',()=>{
+ const s=read('src/lib/r2.ts');for(const prefix of ['generated','inputs','composition-inputs'])assert.ok(s.includes('`fancy-cafe-ai/'+prefix+'/'));
+ assert.doesNotMatch(s,/`(?:generated|inputs|composition-inputs)\//);
+});

@@ -62,6 +62,7 @@ test('catalog configuration accepts all four server key types before validating 
 
 test('the public billing endpoint stays readable when Stripe is not configured', async () => {
   const stubs = {
+    '@/lib/cafe-launch': {cafeLaunchReady:()=>false},
     '@/lib/tiny-checkout-policy': require('../src/lib/tiny-checkout-policy.ts'),
     'next/server': { NextResponse: { json: (body, init) => Response.json(body, init) } },
     '@/lib/billing-catalog': { catalog: async () => [], consumeLimit: async () => false },

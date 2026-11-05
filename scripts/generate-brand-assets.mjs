@@ -42,9 +42,9 @@ const card = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" h
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect x="28" y="28" width="1144" height="574" rx="28" fill="none" stroke="#493052"/>
   <g font-family="Arial, sans-serif">
-    <text x="80" y="348" font-size="62" font-weight="700" fill="#fff3fb">Tiny Desk <tspan fill="#ff79ca">AI</tspan> Videos</text>
-    <text x="83" y="412" font-size="30" fill="#d0bad8">A little desk. A big moment.</text>
-    <text x="83" y="536" font-size="23" fill="#f6cc74">tinydeskaivideos.com</text>
+    <text x="80" y="348" font-size="62" font-weight="700" fill="#fff3fb">Fancy Cafe <tspan fill="#ff79ca">AI</tspan></text>
+    <text x="83" y="412" font-size="30" fill="#d0bad8">Your first time. One awkward seat.</text>
+    <text x="83" y="536" font-size="23" fill="#f6cc74">firsttimeinafancycafeai.org</text>
   </g>
 </svg>`);
 await sharp(card).composite([{ input: await raster(140), left: 80, top: 94 }])

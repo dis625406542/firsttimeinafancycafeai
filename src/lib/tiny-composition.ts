@@ -9,11 +9,11 @@ import type { PromptContext } from "./video-templates";
 import { assertLocalCompositionReady, composeFromUrls, withLocalComposition } from "../../services/video-composer/local.mjs";
 export async function loadTinyPrompt(context:PromptContext) {
   const result=await pool().query<{base_prompt:string}>("SELECT base_prompt FROM {schema}.video_prompt_templates WHERE template_id=$1 AND scene_id=$2 AND prompt_version=$2 AND is_active=true",[context.templateId,context.promptVersion]);
-  if(!result.rows[0]?.base_prompt.trim())throw new Error("The versioned Tiny Desk database prompt is unavailable.");
+  if(!result.rows[0]?.base_prompt.trim())throw new Error("The versioned cafe database prompt is unavailable.");
   return {...context,databasePrompt:result.rows[0].base_prompt};
 }
 export async function assertTinyReady(context:PromptContext) {
-  if(process.env.VIDEO_PROVIDER?.trim().toLowerCase()!=="yir")throw new Error("Tiny Desk requires VIDEO_PROVIDER=yir.");
+  if(process.env.VIDEO_PROVIDER?.trim().toLowerCase()!=="yir")throw new Error("Cafe video generation requires VIDEO_PROVIDER=yir.");
   await Promise.all([loadTinyPrompt(context),checkTinyAssets(context.promptVersion),assertLocalCompositionReady()]);
 }
 export function compositionId(row:VideoJob) {
@@ -33,7 +33,7 @@ export async function composeTiny(row:VideoJob) {
     if(!row.video_url)throw new Error("Missing model output.");
     await stageComposition(id,()=>fetchProviderVideo(row.video_url!,signal),signal);
     console.info("media.compose.staged",{job:row.code.slice(0,8),elapsedMs:Date.now()-started});
-    await composeFromUrls({id,resolution:row.resolution,aspect:row.aspect_ratio,...await compositionUrls(id)},{signal});
+    await composeFromUrls({id,resolution:row.resolution,aspect:row.aspect_ratio,...await compositionUrls(id,row.prompt_version)},{signal});
     const key=await compositionOutput(id,signal);
     if(!key)throw new Error("Composed output upload could not be verified.");
     console.info("media.compose.finished",{job:row.code.slice(0,8),elapsedMs:Date.now()-started});

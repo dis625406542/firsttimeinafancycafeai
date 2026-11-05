@@ -1,5 +1,5 @@
 // This is an operator-only Stripe synchronization target, not a runtime video dependency.
-export const TEMPLATE_ID = 'tiny-desk-ai';
+export const TEMPLATE_ID = 'fancy-cafe-ai';
 export const PRICES = [['480p', 599], ['720p', 899]];
 
 const schemaPattern = /^[a-z_][a-z0-9_]{0,62}$/i;
@@ -8,6 +8,7 @@ const schemaPattern = /^[a-z_][a-z0-9_]{0,62}$/i;
 export function targetSchema(env) {
   const schema = env.DATABASE_PRO_NAME?.trim();
   if (!schema || !schemaPattern.test(schema)) throw new Error('DATABASE_PRO_NAME must be a plain PostgreSQL schema identifier.');
+  if (schema !== 'firsttimeinafancycafeai_pro') throw new Error('Wrong site schema');
   return schema;
 }
 
@@ -17,7 +18,7 @@ export function resolveSql(sql, env) {
 
 // Guard both the database name and selected URL before any Stripe or SQL writes.
 export function catalogDbUrl(env, templateId = TEMPLATE_ID) {
-  if (templateId !== TEMPLATE_ID) throw new Error('Only the Tiny Desk product may be configured on this website.');
+  if (templateId !== TEMPLATE_ID) throw new Error('Only the Fancy Cafe product may be configured on this website.');
   const schema = targetSchema(env);
   const raw = env.DIRECT_PRO_URL || env.DATABASE_PRO_URL;
   if (!raw) throw new Error('Database configuration is required.');

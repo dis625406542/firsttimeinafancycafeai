@@ -15,6 +15,7 @@ function providerHarness() {
   const uploads = [], submits = [], referenceVersions = [];
   const mocks = {
     'server-only': {},
+    './cafe-launch': {cafeLaunchReady:()=>false},
     './portrait-normalization': { normalizeTinyPortrait },
     './poyo': {},
     './yir': {
@@ -53,7 +54,7 @@ test('production provider path normalizes all five demos in slot order and keeps
     assert.equal(metadata.width, 768); assert.equal(metadata.height, 768); assert.equal(metadata.format, 'jpeg');
   }
   assert.equal(provider.uploads[5].type, 'video/mp4');
-  assert.equal(provider.uploads[5].name, 'tiny-desk-first15-silent.mp4');
+  assert.equal(provider.uploads[5].name, 'cafe-first15-silent.mp4');
   assert.equal(provider.submits.length, 1); assert.equal(chargedGate, 1);
   assert.equal(provider.submits[0][5].databasePrompt, 'Versioned database prompt');
   assert.equal(provider.submits[0][6].referenceVideo, 'file_6');

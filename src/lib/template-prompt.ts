@@ -1,18 +1,27 @@
 import { TIPTOEING_STORYBOARD_V2, TIPTOEING_STORYBOARD_V3, TIPTOEING_STORYBOARD_V4 } from "./tiptoeing-storyboard";
 import { buildTinyDeskPrompt, buildVideoPrompt, type PromptScenario } from "./video-prompt";
-import { DEFAULT_TEMPLATE, needsComposition, videoSpec, videoTemplate, type PromptContext } from "./video-templates";
+import { DEFAULT_TEMPLATE, validateCafeSlots, needsComposition, videoSpec, videoTemplate, type PromptContext } from "./video-templates";
 
 // Keep old prompt versions executable for paid-order retries. Do not silently upgrade snapshots.
 export function templatePrompt(scenario: PromptScenario, aspectRatio: "9:16" | "16:9", tagged = false, context?: PromptContext): string {
   const template = videoTemplate(context?.templateId ?? DEFAULT_TEMPLATE);
   const version = context?.promptVersion ?? template.promptVersion;
   videoSpec(context);
+  if (template.id === "fancy-cafe-ai") {
+    if (!context?.databasePrompt?.trim()) throw new Error("The versioned cafe database prompt is unavailable. No video was submitted.");
+    const slots = context.photoSlots ?? [];
+    validateCafeSlots(slots);
+    const identity = "Image 1 is the protagonist who sits on the table. " + (slots.length === 2
+      ? "Image 2 is the cafe regular who sits correctly on the bench. Preserve each uploaded adult identity independently."
+      : "The cafe regular is a distinct fictional adult, not a duplicate of Image 1 and not the reference actor.");
+    return context.databasePrompt.replaceAll("{{ASPECT_RATIO}}", aspectRatio).replaceAll("{{IDENTITY_MAP}}", identity);
+  }
   if (needsComposition(context)) {
     if (!context?.databasePrompt?.trim()) throw new Error("The versioned Tiny Desk database prompt is unavailable. No video was submitted.");
     return context.databasePrompt.replaceAll("{{ASPECT_RATIO}}", aspectRatio);
   }
   if (template.id === "tiny-desk-ai") return buildTinyDeskPrompt(aspectRatio, tagged, context?.photoSlots ?? []);
-  if (template.id === DEFAULT_TEMPLATE) return buildVideoPrompt(scenario, aspectRatio, tagged);
+  if (template.id === "zombie-couple") return buildVideoPrompt(scenario, aspectRatio, tagged);
   const first = tagged ? "@Image1" : "Image 1";
   const second = tagged ? "@Image2" : "Image 2";
   if (version === "tiptoeing-v2" || version === "tiptoeing-v3" || version === "tiptoeing-v4") {

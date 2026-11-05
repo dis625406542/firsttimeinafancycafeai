@@ -3,9 +3,9 @@ import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { TinyGuides } from "@/components/tiny-guides";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
-const title = "Tiny Desk AI Guides | " + SITE_NAME;
-const description = "Find the Outstanding song and original concert, compare video workflows, and learn how to create, personalize and download a Tiny Desk AI video.";
-const image = { url: "/tiny-band/guides/guide-01.webp", alt: "Tiny Desk AI reference video frames" };
+const title = "Fancy Cafe AI Guides | " + SITE_NAME;
+const description = "Understand the Your First Time in a Fancy Cafe meme. Learn how photo roles, AI generation, music, pricing and private video downloads work.";
+const image = { url: "/tiny-band/guides/guide-01.webp", alt: "Temporary legacy demo artwork, not a generated cafe scene" };
 export const metadata: Metadata = {
   title,
   description,

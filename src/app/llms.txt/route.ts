@@ -1,31 +1,19 @@
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 import { allTinyGuides } from "@/lib/tiny-guides";
-
 export const dynamic = "force-static";
-
-// Experimental discovery summary, not an indexing requirement or a ranking signal.
+// Discovery summary only; not an indexing requirement or a ranking guarantee.
 export async function GET() {
-  const pages = [
-    { title: "Home — Tiny Desk AI Video Generator", url: SITE_URL, desc: "Turn 1 to 5 adult portraits into a 15-second Outstanding-style concert-inspired AI video." },
-    ...allTinyGuides.map(guide => ({ title: guide.title, url: `${SITE_URL}/blog/${guide.slug}`, desc: guide.description })),
-  ];
-  const lines = [
-    `# ${SITE_NAME}`,
-    "",
-    "> Turn one to five adult portraits into a 15-second Outstanding-style concert-inspired AI video. Independent and unofficial; not affiliated with NPR or Tiny Desk Concerts.",
-    "",
-    "## Facts",
-    "- Start with Lead for the singer; Keys is the front performer in the opening group. Extra roles are optional.",
-    "- Upload 1 to 5 adult portraits; each photo must show one consenting adult.",
-    "- Output: 15 seconds, fixed soundtrack, 480p or 720p, 9:16 or 16:9.",
-    "- Price: one-time $5.99 (480p) or $8.99 (720p) via Stripe; no subscription or credits.",
-    "- Exact lip sync and pixel-perfect likeness are not guaranteed.",
-    "- Video files are stored privately on the server, with download access for up to 30 days from completion. Keep the original browser and its cookies; browser storage is not a video backup.",
-    "- The scene prompt and soundtrack are fixed; there is no custom prompt editor.",
-    "",
-    "## Pages",
-    ...pages.map(page => `- [${page.title}](${page.url}): ${page.desc}`),
-    "",
-  ];
-  return new Response(lines.join("\n"), { headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=86400" } });
+ const lines = [
+  `# ${SITE_NAME}`, "", "> Your First Time in a Fancy Cafe AI: an independent wrong-seat meme video studio. Currently in preview.", "",
+  "## Facts", "- The protagonist mistakes a round table for a seat. A cafe regular demonstrates the bench; the protagonist quietly corrects the mistake.",
+  "- Required: one consenting adult portrait for the protagonist. Optional: a second adult portrait for the regular.",
+  "- Planned output: 15 seconds, 480p or 720p, 9:16 or 16:9. Exact likeness and motion are not guaranteed.",
+  "- Planned one-time prices: USD 5.99 / 8.99. No free personalized render, credit pack or subscription.",
+  "- Checkout is closed until cafe reference assets are approved. Current images and video demos are labeled legacy placeholders, not cafe results.",
+  "- Silent model generation; separately authorized audio only. No promise of the original song.",
+  "- Completed-video access is intended for up to 30 days. Keep the same browser and download your own copy.",
+  "- Independent of TikTok, CapCut, Media.io and the original creators.", "", "## Pages", `- [Studio](${SITE_URL}): Preview the upload roles and formats.`,
+  ...allTinyGuides.map(g=>`- [${g.title}](${SITE_URL}/blog/${g.slug}): ${g.description}`), "",
+ ];
+ return new Response(lines.join("\n"),{headers:{"Content-Type":"text/plain; charset=utf-8","Cache-Control":"public, max-age=86400"}});
 }

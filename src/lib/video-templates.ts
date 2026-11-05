@@ -1,5 +1,5 @@
 // Public-safe allowlist: never accept prompts, product IDs or redirect paths from a client.
-export const DEFAULT_TEMPLATE = "zombie-couple";
+export const DEFAULT_TEMPLATE = "fancy-cafe-ai";
 export type PhotoRange = { min:number; max:number };
 type TemplateShape = {
   id:string; productId:string; path:string; promptVersion:string; durationSeconds:number; photoCount:PhotoRange;
@@ -8,6 +8,15 @@ type TemplateShape = {
   instructions:string; purchase:string; previewHeading:string; previewTitle:string; hasDemo:boolean;
 };
 export const VIDEO_TEMPLATES = {
+  "fancy-cafe-ai": {
+    id: "fancy-cafe-ai", productId: "fancy-cafe-ai", path: "/", promptVersion: "fancy-cafe-v1", durationSeconds: 15, photoCount: { min: 1, max: 2 },
+    title: "Your First Time in a Fancy Cafe AI Video Generator", overline: "YOUR MOMENT. THE WRONG SEAT.",
+    heading: "Your photo.", emphasis: "That awkward moment.", intro: "Turn one or two consenting adult portraits into a cafe comedy video.",
+    roles: ["Protagonist", "Cafe regular"], roleDescriptions: ["Mistakes the small round table for a seat.", "Sits on the bench and reveals the mistake."],
+    instructions: "Photo 1: protagonist, required. Photo 2: cafe regular, optional. One consenting adult per image.",
+    purchase: "One 15-second cafe video in your chosen format. AI likeness and motion can vary.",
+    previewHeading: "THE WRONG-SEAT MOMENT", previewTitle: "Preview the studio", hasDemo: true,
+  },
   "zombie-couple": {
     id: "zombie-couple", productId: "zombie-couple", path: "/", promptVersion: "zombie-v1", durationSeconds: 8, photoCount: { min: 2, max: 2 },
     title: "Zombie couple video generator", overline: "THE STORY BEGINS HERE",
@@ -38,7 +47,7 @@ export const VIDEO_TEMPLATES = {
   },
   "tiny-desk-ai": {
     id: "tiny-desk-ai", productId: "tiny-desk-ai", path: "/", promptVersion: "tiny-desk-v4", durationSeconds: 15, photoCount: { min: 1, max: 5 },
-    title: "Tiny Desk AI Video Generator", overline: "YOUR MOMENT BEHIND THE MIC",
+    title: "First Time in a Fancy Cafe AI Video Generator", overline: "YOUR MOMENT BEHIND THE MIC",
     heading: "Your photo.", emphasis: "Center stage.",
     intro: "Five adult portraits. One 15-second concert-inspired AI video with a soundtrack. No account needed.",
     roles: ["Back left", "Back right", "Front center", "Lead", "Sax"],
@@ -52,7 +61,7 @@ export const VIDEO_TEMPLATES = {
 export type TemplateId = keyof typeof VIDEO_TEMPLATES;
 export function parseTemplate(value: unknown): TemplateId | null {
   if (value === null || value === undefined) return DEFAULT_TEMPLATE;
-  return typeof value === "string" && Object.hasOwn(VIDEO_TEMPLATES, value) ? value as TemplateId : null;
+  return value === "fancy-cafe-ai" ? value : null;
 }
 export function videoTemplate(id: TemplateId = DEFAULT_TEMPLATE) { return VIDEO_TEMPLATES[id]; }
 export function templatePhotoCount(id: TemplateId = DEFAULT_TEMPLATE, version?: string): PhotoRange {
@@ -62,7 +71,7 @@ export function templatePhotoCount(id: TemplateId = DEFAULT_TEMPLATE, version?: 
 export type PromptContext = { templateId: TemplateId; promptVersion: string; photoSlots?: string[]; databasePrompt?: string };
 export const TINY_DESK_SLOTS = ["back-left", "back-right", "keys", "lead", "sax"] as const;
 export function needsComposition(context?: { templateId: string; promptVersion: string }) {
-  return context?.templateId === "tiny-desk-ai" && ["tiny-desk-v2", "tiny-desk-v3", "tiny-desk-v4"].includes(context.promptVersion);
+  return (context?.templateId === "fancy-cafe-ai" && context.promptVersion === "fancy-cafe-v1") || context?.templateId === "tiny-desk-ai" && ["tiny-desk-v2", "tiny-desk-v3", "tiny-desk-v4"].includes(context.promptVersion);
 }
 export function validateTinyDeskSlots(slots: string[]) {
   // One to five portraits are allowed; slots must be known, unique and in canonical order.
@@ -78,6 +87,7 @@ export function validateTinyDeskSlots(slots: string[]) {
 // Resolve immutable order snapshots, not the latest template, when retrying a paid video.
 export function videoSpec(context?: PromptContext) {
   const template = videoTemplate(context?.templateId ?? DEFAULT_TEMPLATE);
+  if (template.id === "fancy-cafe-ai" && (!context || context.promptVersion === "fancy-cafe-v1")) return { durationSeconds: 15, referenceVideo: true, generateAudio: false } as const;
   const version = context?.promptVersion ?? template.promptVersion;
   if (template.id === "tiny-desk-ai" && (version === "tiny-desk-v2" || version === "tiny-desk-v3" || version === "tiny-desk-v4")) return { durationSeconds: 15, referenceVideo: true, generateAudio: false } as const;
   if (template.id === "tiny-desk-ai" && version === "tiny-desk-v1") return { durationSeconds: 8, referenceVideo: false, generateAudio: false } as const;
@@ -86,4 +96,10 @@ export function videoSpec(context?: PromptContext) {
   if (template.id === "tiptoeing-in-my-jordans" && version === "tiptoeing-v2") return { durationSeconds: 15, referenceVideo: true, generateAudio: false } as const;
   if (template.id === "tiptoeing-in-my-jordans" && (version === "tiptoeing-v3" || version === "tiptoeing-v4")) return { durationSeconds: 15, referenceVideo: true, generateAudio: true } as const;
   throw new Error("This purchase uses an unavailable prompt version. Contact support; do not pay again.");
+}
+
+export function validateCafeSlots(slots: string[]) {
+  if (!(slots.length === 1 && slots[0] === "protagonist" || slots.length === 2 && slots[0] === "protagonist" && slots[1] === "regular")) {
+    throw new Error("Upload the protagonist first, followed by an optional cafe regular.");
+  }
 }
