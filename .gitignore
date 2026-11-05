@@ -1,0 +1,25 @@
+# Local product plans and notes — never commit
+/docs/
+
+# Dependencies / output
+/node_modules/
+/.next/
+/.next-dev/
+/out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Local credentials
+.env
+.env.*
+!.env.example
+
+# Local tools
+.idea/
+.vscode/
+*.log
+.DS_Store
+
+# Local MCP tools and runtime dependencies
+/.codex/
+/.playwright-mcp/

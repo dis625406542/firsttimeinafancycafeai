@@ -1,0 +1,18 @@
+services:
+  composer:
+    build: .
+    restart: unless-stopped
+    init: true
+    ports:
+      - "127.0.0.1:8787:8787"
+    environment:
+      COMPOSER_TOKEN: ${COMPOSER_TOKEN:?required}
+      COMPOSER_R2_HOST: ${COMPOSER_R2_HOST:?required}
+    volumes:
+      - jobs:/data/jobs
+    mem_limit: 2g
+    cpus: 2
+    security_opt:
+      - no-new-privileges:true
+volumes:
+  jobs:
