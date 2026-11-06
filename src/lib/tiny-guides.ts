@@ -5,51 +5,151 @@ export type TinyGuide = { slug: string; title: string; description: string; answ
 export const allTinyGuides: TinyGuide[] = [
   {
     "slug": "your-first-time-in-a-fancy-cafe-meme-explained",
-    "title": "What is the Your First Time in a Fancy Cafe meme?",
-    "description": "An explanation of the wrong-seat cafe meme: the round table, the bench, the awkward realization, and what AI photo replacement changes.",
-    "answer": "The Your First Time in a Fancy Cafe meme is a visual wrong-seat joke: a visitor sits on a small round table, sees another customer use the bench correctly, and quietly fixes the mistake. AI versions replace the characters while keeping the reveal.",
+    "title": "What is the first time in a fancy cafe meme?",
+    "description": "The Fancy Cafe meme explained: the wrong-seat joke, POV meaning, origin, creator, song and AI versions, with answers to eight common questions.",
+    "answer": "The First Time in a Fancy Cafe meme is a wrong-seat comedy scene: a visitor mistakes a small table for a stool, watches a cafe regular sit on the bench, then quietly moves. AI remakes put different people into the same awkward reveal. The joke is about unfamiliar furniture, not ordering coffee.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
-    "updatedAt": "2026-11-05",
+    "updatedAt": "2026-11-06",
     "category": "The meme & music",
-    "minutes": "3 min read",
+    "minutes": "6 min read",
     "image": "/fancy-cafe-ai/guides/demo-1.webp",
     "imageClass": "",
     "imageBadge": "CAFE REFERENCE",
     "imageAlt": "Frame from a Fancy Cafe reference video, not a generated customer result",
     "sections": [
       {
-        "heading": "Why is the person sitting on the table?",
+        "heading": "What is the first time in a fancy cafe meme?",
         "paragraphs": [
-          "The cafe furniture is the setup. Small round tables are mounted near a low bench, and the first visitor treats a tabletop as a stool. The visitor looks comfortable until a second customer shows the intended arrangement.",
-          "The joke needs the viewer to see the furniture clearly. A close-up that hides the bench removes the evidence that the visitor chose the wrong seat. The final correction works because the visitor tries to act as though nothing happened."
+          "The First Time in a Fancy Cafe meme is a short visual joke about mistaking a small cafe table for a seat. A visitor sits on the tabletop, sees another customer sit on the actual bench, realizes the mistake and moves while trying to look casual.",
+          "The caption “your first time in a fancy cafe” frames the visitor as someone unfamiliar with the furniture. The reveal works without an explanation of coffee or cafe etiquette. AI remakes change the characters while retaining the same seating mistake."
+        ],
+        "bullets": [
+          "Setup: the visitor sits on the small table beside the bench.",
+          "Contrast: the cafe regular sits on the bench and uses the table normally.",
+          "Realization: the visitor notices the different seating arrangement.",
+          "Payoff: the visitor moves to the bench as though that was the plan."
         ]
       },
       {
-        "heading": "What changes in the AI version?",
+        "heading": "What does POV your first time in a fancy cafe mean?",
         "paragraphs": [
-          "An AI recreation can assign an uploaded portrait to the mistaken visitor and another portrait to the regular customer. The plot remains the same: mistaken seat, demonstration, realization, correction. A different face alone does not make the staging correct.",
-          "This is a cafe comedy format, not a coffee-ordering tutorial or a music performance. Search results about espresso, cafe etiquette or cafe interior design answer a different question."
+          "POV means “point of view”. In this meme, “POV your first time in a fancy cafe” asks the viewer to imagine being the embarrassed first-time visitor. The caption describes a situation; the camera does not have to show a literal view through the visitor’s eyes.",
+          "A wide shot can show the person, tabletop and bench together. That framing lets the audience spot the mistake and understand the correction. A POV caption alone does not turn an unrelated coffee video into this particular meme."
+        ],
+        "links": [
+          {
+            "href": "/blog/how-to-make-pov-first-time-in-a-fancy-cafe-ai-video-for-reels",
+            "label": "Make a POV version for TikTok or Reels"
+          }
         ]
       },
       {
-        "heading": "Is there one official template or original audio?",
+        "heading": "Why is everyone posting the fancy cafe video?",
         "paragraphs": [
-          "Different editors and AI tools publish their own versions. A matching caption is not proof that a clip is the earliest source or that its soundtrack is licensed for reuse. Check the uploader and audio attribution on the platform where you found a clip.",
-          "Fancy Cafe AI is an independent tool, not an official TikTok or CapCut product. The example gallery labels one AI-generated result and two reference videos. They illustrate the format, not a guarantee of your result."
+          "The Fancy Cafe video is easy to remix because the joke stays recognizable when the characters change. The visual setup, embarrassing realization and quiet correction also make the scene understandable without much dialogue. Those are reasons the format can appeal to viewers, not measured proof of why a feed recommends it.",
+          "Know Your Meme documents character-replacement versions of the cafe scene. Seeing many versions in your own feed does not establish that everyone is posting it or that a new upload will get the same attention. A personalized version can still be fun without chasing a view count."
+        ]
+      },
+      {
+        "heading": "Where did the fancy cafe meme come from?",
+        "paragraphs": [
+          "Know Your Meme traces the Fancy Cafe meme to a TikTok post by @leehoustonx that it dates to November 1, 2026. Its entry describes an AI-generated wrong-seat skit followed by character-replacement versions on TikTok and Instagram.",
+          "The entry remains under evaluation, and we have not independently verified the earliest upload or its exact publication date. Treat that account as a documented source lead rather than proof that no earlier version exists. A later AI template page is not the same thing as the original post."
+        ],
+        "links": [
+          {
+            "href": "https://knowyourmeme.com/memes/your-first-time-in-a-fancy-cafe",
+            "label": "Read Know Your Meme’s origin account"
+          },
+          {
+            "href": "/blog/first-time-in-a-fancy-cafe-meme-origin",
+            "label": "Origin, creator credit and what is verified"
+          }
+        ]
+      },
+      {
+        "heading": "Who started the first time in a fancy cafe trend?",
+        "paragraphs": [
+          "Know Your Meme credits @leehoustonx with the originating TikTok post. The linked TikTok page does identify @leehoustonx, but seeing an uploader name does not independently establish who invented the joke or made the earliest version.",
+          "The creator of a source clip, a popular remixer and the developer of an AI generator can be different people. We distinguish those roles instead of crediting the trend to whichever repost has the most visibility. Our November 6, 2026 check found the encyclopedia entry still under review."
+        ],
+        "links": [
+          {
+            "href": "https://www.tiktok.com/@leehoustonx/video/7703227788160961806",
+            "label": "View the linked @leehoustonx post"
+          }
+        ]
+      },
+      {
+        "heading": "Why is the guy sitting on the table?",
+        "paragraphs": [
+          "The guy sits on the small table because, in the skit, he mistakes it for a stool. The cafe regular sits on the bench instead, showing both the protagonist and the viewer how the furniture is meant to be used.",
+          "The funny moment is the attempt to correct an obvious mistake discreetly. The table and bench need to remain visible for that reveal to work. If an AI remake hides the furniture or moves the protagonist before the regular sits down, the same caption will not rescue the joke."
+        ]
+      },
+      {
+        "heading": "What's the song in the fancy cafe meme?",
+        "paragraphs": [
+          "Know Your Meme identifies the track in the @leehoustonx clip as “Oh Yeah?” by Steve Lacy. That is a secondary-source attribution: the TikTok page we checked displays “original sound - leehoustonx”, which does not independently confirm a recording title.",
+          "Reposts can change or speed up audio, so check the sound attached to the specific video you mean. Our completed videos include the original music from the Fancy Cafe reference video; you do not need to add it yourself. We have not independently matched our audio asset to a named commercial recording."
+        ],
+        "links": [
+          {
+            "href": "/blog/fancy-cafe-ai-music-and-captions",
+            "label": "Reference soundtrack, song attribution and captions"
+          }
+        ]
+      },
+      {
+        "heading": "Is the fancy cafe video AI-generated?",
+        "paragraphs": [
+          "The @leehoustonx version is described as AI-generated by Know Your Meme, and videos created with this website are AI-generated recreations. The caption “first time in a fancy cafe” alone cannot prove whether a different clip is generated, filmed or edited.",
+          "For a particular repost, check the uploader’s disclosure and trace the source. Odd hands or changing furniture can raise questions, but one visual artifact is not conclusive evidence. A natural-looking result is not proof of real footage either."
+        ],
+        "links": [
+          {
+            "href": "/blog/is-first-time-in-a-fancy-cafe-video-ai-generated",
+            "label": "How to check a Fancy Cafe clip’s provenance"
+          }
+        ]
+      },
+      {
+        "heading": "How can I make my own Fancy Cafe meme video?",
+        "paragraphs": [
+          "Fancy Cafe AI at firsttimeinafancycafeai.org lets you turn a portrait into a 20-second version of the wrong-seat joke. Upload one consenting adult portrait for the protagonist. Add an optional second portrait to replace the cafe regular; otherwise, keep the reference-style regular.",
+          "Choose 480p for $6.99 or 720p for $9.99, and 9:16 vertical or 16:9 landscape. The completed MP4 includes the original music from the Fancy Cafe reference video. This is a reference-guided AI recreation, not an exact edit of every original frame, so faces and comic timing can vary.",
+          "The studio is a convenient way to try a funny personalized version without filming the cafe scene yourself. Review the result, download it within 30 days and share it through your chosen app. Fancy Cafe AI is independent of the original creators, TikTok and CapCut."
+        ],
+        "links": [
+          {
+            "href": "/#studio",
+            "label": "Make your own Fancy Cafe AI video"
+          },
+          {
+            "href": "/blog/how-to-make-first-time-in-a-fancy-cafe-ai-video",
+            "label": "See the photo-to-video steps"
+          }
         ]
       }
     ],
     "related": [
-      "how-to-make-first-time-in-a-fancy-cafe-ai-video",
-      "fancy-cafe-ai-two-people",
-      "fancy-cafe-ai-vs-capcut-template"
+      "first-time-in-a-fancy-cafe-meme-origin",
+      "is-first-time-in-a-fancy-cafe-video-ai-generated",
+      "fancy-cafe-ai-music-and-captions",
+      "how-to-make-pov-first-time-in-a-fancy-cafe-ai-video-for-reels",
+      "how-to-make-first-time-in-a-fancy-cafe-ai-video"
     ],
     "sources": [
       {
-        "label": "Media.io — First Time in a Fancy Cafe AI",
-        "href": "https://www.media.io/ai/br/explore/zone/first-time-in-a-fancy-cafe-ai",
-        "note": "Example of how another tool describes the wrong-seat setup and photo roles. Its capabilities and offers are not ours."
+        "label": "Know Your Meme — Your First Time In a Fancy Cafe",
+        "href": "https://knowyourmeme.com/memes/your-first-time-in-a-fancy-cafe",
+        "note": "Read November 6, 2026. A submission still under evaluation; creator, date, AI and song attributions below are its reporting, not our independent proof of the earliest upload."
+      },
+      {
+        "label": "TikTok — @leehoustonx cafe post",
+        "href": "https://www.tiktok.com/@leehoustonx/video/7703227788160961806",
+        "note": "Checked November 6, 2026. The visible post identifies @leehoustonx and “original sound - leehoustonx”. That sound label does not name the underlying recording."
       }
     ]
   },
@@ -325,19 +425,36 @@ export const allTinyGuides: TinyGuide[] = [
   },
   {
     "slug": "fancy-cafe-ai-music-and-captions",
-    "title": "How to add music and captions to a Fancy Cafe meme video",
-    "description": "Your Fancy Cafe AI video includes the reference video’s original music. Learn how the soundtrack is added, where to place captions, and what to check before sharing.",
+    "title": "What song is in the Fancy Cafe meme? Music and caption guide",
+    "description": "Song attribution for the Fancy Cafe meme, the original reference music included in your generated MP4, and where to place a POV caption.",
     "answer": "Your completed 20-second video includes the original music from the Fancy Cafe reference video; you do not need to add it yourself. Download the MP4 and add a short POV caption in your editor if desired. Music supports the joke, but the seating reveal must work visually. Inclusion does not grant a separate commercial music license.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
     "updatedAt": "2026-11-06",
     "category": "The meme & music",
-    "minutes": "3 min read",
+    "minutes": "4 min read",
     "image": "/fancy-cafe-ai/guides/demo-1.webp",
     "imageClass": "",
     "imageBadge": "CAFE REFERENCE",
     "imageAlt": "Frame from a Fancy Cafe reference video, not a generated customer result",
     "sections": [
+      {
+        "heading": "What's the song in the fancy cafe meme?",
+        "paragraphs": [
+          "Know Your Meme names “Oh Yeah?” by Steve Lacy as the track in the @leehoustonx Fancy Cafe clip. The TikTok page we checked instead shows “original sound - leehoustonx”. We can report the encyclopedia’s attribution, but that generic platform label does not independently verify the song.",
+          "Different reposts can use different edits or sounds. To identify the music in a specific version, open that post’s sound page and compare its artist and title credits with the actual recording. We have not independently identified our reference audio as a named commercial recording."
+        ],
+        "links": [
+          {
+            "href": "https://knowyourmeme.com/memes/your-first-time-in-a-fancy-cafe",
+            "label": "Read the reported song attribution"
+          },
+          {
+            "href": "https://www.tiktok.com/@leehoustonx/video/7703227788160961806",
+            "label": "Check the linked post’s sound label"
+          }
+        ]
+      },
       {
         "heading": "Does the meme require one specific song?",
         "paragraphs": [
@@ -367,8 +484,21 @@ export const allTinyGuides: TinyGuide[] = [
     ],
     "related": [
       "your-first-time-in-a-fancy-cafe-meme-explained",
-      "how-to-make-first-time-in-a-fancy-cafe-ai-video",
+      "first-time-in-a-fancy-cafe-meme-origin",
+      "how-to-make-pov-first-time-in-a-fancy-cafe-ai-video-for-reels",
       "download-fancy-cafe-ai-video"
+    ],
+    "sources": [
+      {
+        "label": "Know Your Meme — Your First Time In a Fancy Cafe",
+        "href": "https://knowyourmeme.com/memes/your-first-time-in-a-fancy-cafe",
+        "note": "Read November 6, 2026. A submission still under evaluation; creator, date, AI and song attributions below are its reporting, not our independent proof of the earliest upload."
+      },
+      {
+        "label": "TikTok — @leehoustonx cafe post",
+        "href": "https://www.tiktok.com/@leehoustonx/video/7703227788160961806",
+        "note": "Checked November 6, 2026. The visible post identifies @leehoustonx and “original sound - leehoustonx”. That sound label does not name the underlying recording."
+      }
     ]
   },
   {
@@ -525,6 +655,10 @@ export const allTinyGuides: TinyGuide[] = [
           {
             "href": "/blog/your-first-time-in-a-fancy-cafe-meme-explained",
             "label": "See the four beats of the wrong-seat meme"
+          },
+          {
+            "href": "/blog/is-first-time-in-a-fancy-cafe-video-ai-generated",
+            "label": "Is the scene AI-generated or filmed?"
           }
         ]
       },
@@ -590,6 +724,253 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "question": "Does Fancy Cafe AI upload the finished video to TikTok or Reels?",
         "answer": "No. Download the completed MP4 in the same browser, then upload it yourself through your chosen platform. You can add a short POV caption in your editor."
+      }
+    ]
+  },
+  {
+    "slug": "first-time-in-a-fancy-cafe-meme-origin",
+    "title": "Where did the First Time in a Fancy Cafe meme come from?",
+    "description": "Who started the Fancy Cafe trend? Follow the reported @leehoustonx source, separate creator credit from remixes, and understand the limits of the evidence.",
+    "answer": "Know Your Meme traces the Fancy Cafe meme to @leehoustonx on TikTok and dates the post to November 1, 2026. We verified the linked account and sound label, not that it was the earliest upload. The encyclopedia entry is still under evaluation, so its creator credit should be attributed rather than treated as settled history.",
+    "date": "November 6, 2026",
+    "publishedAt": "2026-11-06",
+    "updatedAt": "2026-11-06",
+    "category": "The meme & music",
+    "minutes": "4 min read",
+    "image": "/fancy-cafe-ai/guides/demo-2.webp",
+    "imageClass": "",
+    "imageBadge": "CAFE REFERENCE",
+    "imageAlt": "Fancy Cafe reference scene illustrating the wrong-seat joke, not evidence of the earliest upload",
+    "sections": [
+      {
+        "heading": "Who is credited with the original Fancy Cafe video?",
+        "paragraphs": [
+          "Know Your Meme credits TikTok user @leehoustonx with the source video for the First Time in a Fancy Cafe trend. Its origin account describes the visitor mistaking a table for a chair, then correcting the mistake after a woman sits on the bench.",
+          "This is a useful lead, but the encyclopedia labels the entry as a submission under evaluation. We have not independently established the earliest upload. Calling someone the uploader of the linked clip is narrower and more defensible than claiming that person invented every version of the joke."
+        ],
+        "links": [
+          {
+            "href": "https://knowyourmeme.com/memes/your-first-time-in-a-fancy-cafe",
+            "label": "Read the attributed origin report"
+          }
+        ]
+      },
+      {
+        "heading": "What could we verify on the source post?",
+        "paragraphs": [
+          "The TikTok post checked on November 6, 2026 displayed the account @leehoustonx, a 21-second player and the label “original sound - leehoustonx”. Those details identify the linked post; they do not independently establish the recording title or the exact upload date.",
+          "The date November 1, 2026 comes from Know Your Meme. TikTok showed a relative date during our check, so we do not present an exact timestamp as independently confirmed. Our generator’s 20-second output is a product setting, not a claim about the length of every source or remix."
+        ],
+        "table": {
+          "caption": "Source evidence and its limits",
+          "headers": [
+            "Evidence",
+            "What it supports",
+            "What it does not establish"
+          ],
+          "rows": [
+            [
+              "TikTok account and post",
+              "A specific @leehoustonx upload",
+              "Earliest authorship or ownership of every element"
+            ],
+            [
+              "Know Your Meme origin section",
+              "An attributed creator and date account",
+              "An independently verified complete upload history"
+            ],
+            [
+              "TikTok original-sound label",
+              "The sound page attached to that post",
+              "A named song or a reuse licence"
+            ],
+            [
+              "Matching caption on another upload",
+              "Use of the same meme phrase",
+              "Same creator, same footage or same soundtrack"
+            ]
+          ]
+        },
+        "links": [
+          {
+            "href": "https://www.tiktok.com/@leehoustonx/video/7703227788160961806",
+            "label": "Open the linked TikTok post"
+          }
+        ]
+      },
+      {
+        "heading": "Why do several accounts appear in searches for the original?",
+        "paragraphs": [
+          "Searches can return source clips, character remixes, reposts and generator tutorials together. All can use the same Fancy Cafe caption. Their titles do not tell you which account filmed or generated the source, which remixed it, or which merely reposted it.",
+          "A useful credit distinguishes the roles: source post, remake creator, and tool used. Fancy Cafe AI is an independent generation tool, not the original uploader. A visible watermark is a clue to trace, not automatic proof that the watermarked account originated the scene."
+        ]
+      },
+      {
+        "heading": "How can I check a claim about the original creator?",
+        "paragraphs": [
+          "Start with a direct post link rather than a cropped screenshot or a search snippet. Compare the account, visible publication information, caption and source credit. If the post is unavailable or login-gated, say what you could verify instead of inventing a missing date.",
+          "Two different uploads can reuse the same joke without being the same file. A changed face, shortened ending or new sound may indicate a remix, but those differences alone do not prove the direction of copying."
+        ],
+        "steps": [
+          "Save the direct URL of the clip you want to identify.",
+          "Read the uploader’s caption and any source credit.",
+          "Follow the credited source and compare the actual scenes.",
+          "Keep uploader identity separate from claims about earliest authorship."
+        ]
+      },
+      {
+        "heading": "How can I make a personal version of the cafe joke?",
+        "paragraphs": [
+          "Use Fancy Cafe AI to create a new reference-guided version from your own consenting adult portrait instead of presenting another creator’s upload as yours. The protagonist replaces the visitor on the table; the optional second portrait replaces the cafe regular.",
+          "The studio makes a 20-second MP4 with the original music from the Fancy Cafe reference video. Choose 480p or 720p and vertical or landscape framing before checkout. This is a way to try the same funny setup with a new cast, not proof of affiliation with the source creator."
+        ],
+        "links": [
+          {
+            "href": "/#studio",
+            "label": "Try the Fancy Cafe video generator"
+          },
+          {
+            "href": "/blog/your-first-time-in-a-fancy-cafe-meme-explained",
+            "label": "Read all eight meme questions and answers"
+          }
+        ]
+      }
+    ],
+    "related": [
+      "your-first-time-in-a-fancy-cafe-meme-explained",
+      "is-first-time-in-a-fancy-cafe-video-ai-generated",
+      "fancy-cafe-ai-music-and-captions",
+      "how-to-make-first-time-in-a-fancy-cafe-ai-video"
+    ],
+    "sources": [
+      {
+        "label": "Know Your Meme — Your First Time In a Fancy Cafe",
+        "href": "https://knowyourmeme.com/memes/your-first-time-in-a-fancy-cafe",
+        "note": "Read November 6, 2026. A submission still under evaluation; creator, date, AI and song attributions below are its reporting, not our independent proof of the earliest upload."
+      },
+      {
+        "label": "TikTok — @leehoustonx cafe post",
+        "href": "https://www.tiktok.com/@leehoustonx/video/7703227788160961806",
+        "note": "Checked November 6, 2026. The visible post identifies @leehoustonx and “original sound - leehoustonx”. That sound label does not name the underlying recording."
+      }
+    ]
+  },
+  {
+    "slug": "is-first-time-in-a-fancy-cafe-video-ai-generated",
+    "title": "Is the First Time in a Fancy Cafe video AI-generated?",
+    "description": "Understand which Fancy Cafe videos are described as AI, how to check a repost, and how photo-guided generation differs from editing the original clip.",
+    "answer": "Fancy Cafe AI generates new videos, and Know Your Meme describes the linked @leehoustonx source as AI-generated. That does not classify every video with the same caption. Check the particular uploader and source; visual glitches alone cannot prove that a clip is AI.",
+    "date": "November 6, 2026",
+    "publishedAt": "2026-11-06",
+    "updatedAt": "2026-11-06",
+    "category": "The meme & music",
+    "minutes": "4 min read",
+    "image": "/fancy-cafe-ai/guides/demo-3.webp",
+    "imageClass": "",
+    "imageBadge": "CAFE REFERENCE",
+    "imageAlt": "Fancy Cafe reference scene illustrating the wrong-seat joke, not evidence of the earliest upload",
+    "sections": [
+      {
+        "heading": "Is the original Fancy Cafe clip AI or real footage?",
+        "paragraphs": [
+          "Know Your Meme describes the @leehoustonx Fancy Cafe source clip as AI-generated. That is an attributed description, not a forensic conclusion we reached from the video file. Its entry is still under evaluation.",
+          "The wrong-seat scene could also be staged by people in a real cafe. A caption naming the meme does not resolve how a specific repost was made. Separate the story shown in the clip from the process used to produce it."
+        ],
+        "links": [
+          {
+            "href": "https://knowyourmeme.com/memes/your-first-time-in-a-fancy-cafe",
+            "label": "Read the source’s AI classification"
+          },
+          {
+            "href": "/blog/first-time-in-a-fancy-cafe-meme-origin",
+            "label": "See the creator-attribution limits"
+          }
+        ]
+      },
+      {
+        "heading": "How can I tell whether a particular Fancy Cafe repost uses AI?",
+        "paragraphs": [
+          "Check the uploader’s generation disclosure, credited tool or linked source before judging the pixels. Direct information about how a clip was made is more useful than assuming that every video using the Fancy Cafe caption has the same production history.",
+          "Changing furniture, inconsistent hands or shifting faces can be reasons to inspect a clip more closely. They are not proof on their own: compression, edits and motion blur can also produce odd frames. Equally, an absence of visible glitches does not prove that a scene was filmed."
+        ],
+        "steps": [
+          "Find the direct post and read the caption or production notes.",
+          "Follow source credits rather than relying on a repost’s title.",
+          "Watch the table, bench, faces and contact with furniture across the sequence.",
+          "If the origin remains unclear, describe it as unverified rather than assigning certainty."
+        ]
+      },
+      {
+        "heading": "Does this website swap faces into the exact original frames?",
+        "paragraphs": [
+          "No. Fancy Cafe AI uses portraits and a scene reference to generate new frames around the wrong-seat sequence. The finished MP4 is an AI recreation, not a literal frame-by-frame face edit of the source video.",
+          "One portrait identifies the protagonist. A second portrait is optional and identifies the cafe regular. The model can vary faces, furniture and timing, so a reference is guidance rather than a guarantee of exact staging or likeness."
+        ],
+        "links": [
+          {
+            "href": "/blog/fancy-cafe-ai-two-people",
+            "label": "Understand the two photo roles"
+          },
+          {
+            "href": "/blog/fix-fancy-cafe-ai-face-and-seat-errors",
+            "label": "Check face and seating problems"
+          }
+        ]
+      },
+      {
+        "heading": "Does real music mean the video itself is real?",
+        "paragraphs": [
+          "No. A video can combine generated pictures with an existing soundtrack. Fancy Cafe AI first creates silent AI footage, then merges the original music from the Fancy Cafe reference video into the delivered 20-second MP4.",
+          "The soundtrack does not establish that the people were filmed in a cafe or that the AI model generated the music. Users do not need to add the reference soundtrack manually. Music inclusion also does not grant a separate commercial reuse licence."
+        ],
+        "links": [
+          {
+            "href": "/blog/fancy-cafe-ai-music-and-captions",
+            "label": "How the included soundtrack works"
+          }
+        ]
+      },
+      {
+        "heading": "How should I describe my generated version when sharing?",
+        "paragraphs": [
+          "Describe a result made here as an AI recreation of the Fancy Cafe meme, not footage of a real event. Use consenting adult portraits, and do not suggest that someone actually visited the cafe or endorsed the video.",
+          "A simple description such as “My AI version of the fancy cafe seating joke” explains both the format and the creation method. Watch the full result before posting so the faces, seating reveal and caption communicate what you intended."
+        ]
+      },
+      {
+        "heading": "How can I try making a Fancy Cafe AI video?",
+        "paragraphs": [
+          "Open the Fancy Cafe AI studio to turn a portrait into your own 20-second wrong-seat scene. Upload the protagonist, optionally replace the cafe regular, then choose 9:16 or 16:9 and 480p ($6.99) or 720p ($9.99).",
+          "The finished MP4 includes the reference soundtrack and can be downloaded for sharing. It is a simple way to try the joke without filming it yourself. Review and save your result within 30 days; the studio does not publish to social accounts for you."
+        ],
+        "links": [
+          {
+            "href": "/#studio",
+            "label": "Create your Fancy Cafe AI version"
+          },
+          {
+            "href": "/blog/your-first-time-in-a-fancy-cafe-meme-explained",
+            "label": "All eight Fancy Cafe meme questions answered"
+          }
+        ]
+      }
+    ],
+    "related": [
+      "your-first-time-in-a-fancy-cafe-meme-explained",
+      "first-time-in-a-fancy-cafe-meme-origin",
+      "how-to-make-first-time-in-a-fancy-cafe-ai-video",
+      "fix-fancy-cafe-ai-face-and-seat-errors"
+    ],
+    "sources": [
+      {
+        "label": "Know Your Meme — Your First Time In a Fancy Cafe",
+        "href": "https://knowyourmeme.com/memes/your-first-time-in-a-fancy-cafe",
+        "note": "Read November 6, 2026. A submission still under evaluation; creator, date, AI and song attributions below are its reporting, not our independent proof of the earliest upload."
+      },
+      {
+        "label": "TikTok — @leehoustonx cafe post",
+        "href": "https://www.tiktok.com/@leehoustonx/video/7703227788160961806",
+        "note": "Checked November 6, 2026. The visible post identifies @leehoustonx and “original sound - leehoustonx”. That sound label does not name the underlying recording."
       }
     ]
   }

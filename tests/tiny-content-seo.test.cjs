@@ -14,10 +14,10 @@ function load(file) {
  };
  new Function('exports','module','require',compiled)(mod.exports,mod,localRequire);return mod.exports;
 }
-test('eleven distinct cafe guides use new URLs and have truthful dated content',()=>{
+test('thirteen distinct cafe guides use new URLs and have truthful dated content',()=>{
  const {allTinyGuides}=load('src/lib/tiny-guides.ts');
- assert.equal(allTinyGuides.length,11);
- assert.equal(new Set(allTinyGuides.map(g=>g.slug)).size,11);
+ assert.equal(allTinyGuides.length,13);
+ assert.equal(new Set(allTinyGuides.map(g=>g.slug)).size,13);
  for(const g of allTinyGuides){
   assert.ok(g.answer.length>60,g.slug+' has a direct answer');
   assert.match(g.publishedAt,/^\d{4}-\d{2}-\d{2}$/);
@@ -55,7 +55,7 @@ test('sitemap uses content dates, includes all articles, and has unique canonica
  assert.match(source,/url:\s*SITE_URL,\s*lastModified:\s*latestArticle/);
  const urls=load('src/app/sitemap.ts').default();
  const {allTinyGuides}=load('src/lib/tiny-guides.ts');
- assert.equal(urls.length,20);
+ assert.equal(urls.length,22);
  assert.equal(urls.find(u=>u.url==='https://firsttimeinafancycafeai.org')?.lastModified,'2026-11-06');
  assert.equal(urls.find(u=>u.url==='https://firsttimeinafancycafeai.org/blog')?.lastModified,'2026-11-06');
  assert.equal(new Set(urls.map(u=>u.url)).size,urls.length);
@@ -121,4 +121,56 @@ test('POV publishing guide answers the exact creator question without suggesting
  assert.match(homepage,/What does POV: Your First Time in a Fancy Cafe mean/);
  assert.match(homepage,/How do I make a Fancy Cafe POV video for TikTok or Reels/);
  assert.match(homepage,/how-to-make-pov-first-time-in-a-fancy-cafe-ai-video-for-reels/);
+});
+
+
+test('meme explainer answers all eight discovery questions before the product invitation',()=>{
+ const {allTinyGuides}=load('src/lib/tiny-guides.ts');
+ const guide=allTinyGuides.find(g=>g.slug==='your-first-time-in-a-fancy-cafe-meme-explained');
+ const questions=[
+  'What is the first time in a fancy cafe meme?',
+  'What does POV your first time in a fancy cafe mean?',
+  'Why is everyone posting the fancy cafe video?',
+  'Where did the fancy cafe meme come from?',
+  'Who started the first time in a fancy cafe trend?',
+  'Why is the guy sitting on the table?',
+  "What's the song in the fancy cafe meme?",
+  'Is the fancy cafe video AI-generated?'
+ ];
+ assert.deepEqual(guide.sections.slice(0,8).map(s=>s.heading),questions);
+ for(const section of guide.sections.slice(0,8)) {
+  assert.ok(section.paragraphs[0].length>90,section.heading+' needs a standalone answer');
+  assert.ok(section.paragraphs.length>=2,section.heading+' needs context');
+ }
+ assert.match(guide.title,/^What is the first time in a fancy cafe meme\?/i);
+ assert.equal(guide.updatedAt,'2026-11-06');
+ const invitation=guide.sections[8];
+ assert.ok(invitation.links.some(l=>l.href==='/#studio'));
+ assert.match(JSON.stringify(invitation),/20-second/);
+ assert.match(JSON.stringify(invitation),/original music/);
+ assert.match(JSON.stringify(guide.sections[4]),/Know Your Meme/);
+ assert.match(JSON.stringify(guide.sections[6]),/Oh Yeah.*Steve Lacy/);
+ assert.match(JSON.stringify(guide.sections[6]),/original sound/);
+ assert.match(JSON.stringify(guide),/under review|under evaluation/);
+ assert.doesNotMatch(JSON.stringify(guide),/guaranteed viral|millions of views|everyone uses the same song/i);
+});
+
+test('origin and AI guides have distinct answers, source limits, and working studio links',()=>{
+ const {allTinyGuides}=load('src/lib/tiny-guides.ts');
+ for(const slug of ['first-time-in-a-fancy-cafe-meme-origin','is-first-time-in-a-fancy-cafe-video-ai-generated']) {
+  const guide=allTinyGuides.find(g=>g.slug===slug);
+  assert.ok(guide,slug);
+  assert.ok(guide.sections.length>=4);
+  assert.ok(guide.sections.every(s=>s.paragraphs[0].length>70));
+  assert.ok(guide.sources.some(s=>s.href==='https://knowyourmeme.com/memes/your-first-time-in-a-fancy-cafe'));
+  assert.ok(guide.related.includes('your-first-time-in-a-fancy-cafe-meme-explained'));
+  assert.ok(guide.sections.at(-1).links.some(l=>l.href==='/#studio'));
+ }
+ const origin=allTinyGuides.find(g=>g.slug==='first-time-in-a-fancy-cafe-meme-origin');
+ assert.match(JSON.stringify(origin),/under review|under evaluation/);
+ assert.match(JSON.stringify(origin),/not independently|cannot independently/i);
+ const ai=allTinyGuides.find(g=>g.slug==='is-first-time-in-a-fancy-cafe-video-ai-generated');
+ assert.match(JSON.stringify(ai),/not proof|not conclusive/i);
+ const music=allTinyGuides.find(g=>g.slug==='fancy-cafe-ai-music-and-captions');
+ assert.ok(music.sections.some(s=>s.heading==="What's the song in the fancy cafe meme?"));
 });
