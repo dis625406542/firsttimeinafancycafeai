@@ -15,7 +15,7 @@ test('two cafe roles use real portraits and the optional woman is visible by def
 
 test('three cafe samples have actual local videos and posters and default mute', () => {
   const reels = read('src/components/sample-reels.tsx');
-  for (const [video, poster] of [['example.mp4', 'example-poster.webp'], ['demo-2.mp4', 'demo-2-poster.webp'], ['demo-3.mp4', 'demo-3-poster.webp']]) {
+  for (const [video, poster] of [['generated-with-caption.mp4', 'generated-with-caption-poster.webp'], ['demo-2.mp4', 'demo-2-poster.webp'], ['demo-3.mp4', 'demo-3-poster.webp']]) {
     assert.ok(reels.includes(`/fancy-cafe-ai/${video}`));
     assert.ok(reels.includes(`/fancy-cafe-ai/${poster}`));
     assert.ok(fs.statSync(`public/fancy-cafe-ai/${video}`).size > 100000);

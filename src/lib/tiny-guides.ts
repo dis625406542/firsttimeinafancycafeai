@@ -270,7 +270,7 @@ export const allTinyGuides: TinyGuide[] = [
         "heading": "What should I check in the finished video?",
         "paragraphs": [
           "Play the result with sound and check the face, wrong-seat reveal and final reaction. The intended sequence is the protagonist on the table, the regular on the bench, the realization and the move to the correct seat.",
-          "Compare the type of result with the homepage generated example, not just the reference clips. The tool creates new reference-guided frames rather than editing each original frame; faces, hands and timing can vary. If an order is still processing, check its status instead of paying again just to find the result."
+          "Compare your result with the three AI-generated examples on the homepage. The tool creates new reference-guided frames rather than editing each original frame; faces, hands and timing can vary. If an order is still processing, check its status instead of paying again just to find the result."
         ],
         "image": {
           "src": "/fancy-cafe-ai/generated-with-caption-poster.webp",
@@ -645,7 +645,7 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "heading": "What does an actual generated result look and sound like?",
         "paragraphs": [
-          "The homepage includes an actual generated cafe example beside the portraits used to make it, plus separately labeled reference videos. Play the generated example with sound to evaluate the scene, reaction and included music together.",
+          "The homepage includes three labeled AI-generated cafe examples, including one beside the portraits used to make it. Play the examples with sound to evaluate the scene, reaction and included music together.",
           "The example is a concrete way to decide whether this style fits your idea. It is not a promise of identical faces, expressions or timing on a new order. This guide is written by the studio team and recommends the tool for its specific workflow, not as an independent ranking of competing services."
         ],
         "image": {
@@ -683,7 +683,7 @@ export const allTinyGuides: TinyGuide[] = [
         "heading": "Does the AI video look like the original meme?",
         "paragraphs": [
           "The intended resemblance is the story: a visitor sits on the small table, a regular sits on the bench, and the visitor notices the mistake and moves. Fancy Cafe AI generates new reference-guided footage with your portrait, rather than replacing a face inside every frame of the original clip.",
-          "Your finished video includes the original reference music, but the face, clothing, furniture, camera framing and timing may differ. Our homepage labels the actual generated example separately from reference videos so you can judge a real result rather than mistaking source footage for a customer output."
+          "Your finished video includes the original reference music, but the face, clothing, furniture, camera framing and timing may differ. Our homepage labels all three AI-generated examples so you can judge actual results; they are not the source footage."
         ],
         "links": [
           {
@@ -894,7 +894,7 @@ export const allTinyGuides: TinyGuide[] = [
         "heading": "Can I make the fancy cafe meme for free?",
         "paragraphs": [
           "You can recreate the wrong-seat joke without paying this studio by filming your own performance and editing it with tools you already have. This is a different workflow from generating new cafe footage from a selfie; this site does not offer free personalized generation.",
-          "For a filmed version, establish the table and bench, show the visitor taking the wrong seat, have the regular sit correctly, then capture the realization and move. Use consenting performers and audio you are allowed to share. Watching our reference examples can help you understand the sequence before deciding whether to film or generate."
+          "For a filmed version, establish the table and bench, show the visitor taking the wrong seat, have the regular sit correctly, then capture the realization and move. Use consenting performers and audio you are allowed to share. Watching our AI-generated examples can help you understand the sequence before deciding whether to film or generate."
         ]
       },
       {
@@ -997,7 +997,7 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "heading": "What should I check before buying?",
         "paragraphs": [
-          "Watch a verified cafe example, read the photo instructions and understand the output limitations. The cafe reference videos show the intended story rather than guaranteed generated output.",
+          "Watch a verified cafe example, read the photo instructions and understand the output limitations. Our three AI-generated examples show the intended story, not a guarantee of identical results.",
           "Keep your order reference and return in the same browser after checkout. If payment succeeds but delivery fails, use the existing order and contact support under the refund policy rather than paying again."
         ]
       }

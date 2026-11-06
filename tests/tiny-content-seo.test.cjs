@@ -223,7 +223,7 @@ test('tutorial and comparison use the delivered cafe example and link to tool di
  }
  const home=fs.readFileSync(path.join(root,'src/app/page.tsx'),'utf8');
  assert.doesNotMatch(home,/reused demos are not cafe results|The cafe examples are reference videos/);
- assert.match(home,/generated example and two reference videos/);
+ assert.match(home,/three AI-generated examples/);
 });
 
 

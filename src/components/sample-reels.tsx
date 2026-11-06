@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 
 const REELS = [
-  { src: "/fancy-cafe-ai/generated-with-caption.mp4", poster: "/fancy-cafe-ai/generated-with-caption-poster.webp", label: "AI GENERATED RESULT · 20S", alt: "Actual 20-second generated cafe example with two uploaded portraits and a POV caption" },
-  { src: "/fancy-cafe-ai/demo-2.mp4", poster: "/fancy-cafe-ai/demo-2-poster.webp", label: "CAFE EXAMPLE · TWO", alt: "Cafe example: another protagonist realizes the mistake after the woman sits down" },
-  { src: "/fancy-cafe-ai/demo-3.mp4", poster: "/fancy-cafe-ai/demo-3-poster.webp", label: "CAFE EXAMPLE · THREE", alt: "Cafe example: a third variation of the wrong-seat reveal" },
+  { src: "/fancy-cafe-ai/generated-with-caption.mp4", poster: "/fancy-cafe-ai/generated-with-caption-poster.webp", label: "AI-GENERATED EXAMPLE · 01", alt: "Actual 20-second generated cafe example with two uploaded portraits and a POV caption" },
+  { src: "/fancy-cafe-ai/demo-2.mp4", poster: "/fancy-cafe-ai/demo-2-poster.webp", label: "AI-GENERATED EXAMPLE · 02", alt: "Studio-generated cafe example: another protagonist realizes the mistake after the woman sits down" },
+  { src: "/fancy-cafe-ai/demo-3.mp4", poster: "/fancy-cafe-ai/demo-3-poster.webp", label: "AI-GENERATED EXAMPLE · 03", alt: "Studio-generated cafe example: a third variation of the wrong-seat reveal" },
 ] as const;
 
 export function SampleReels() {
@@ -47,8 +47,8 @@ export function SampleReels() {
     if (video && next !== null) void video.play().catch(() => undefined);
   }
 
-  return <section className="tiny-reels" aria-label="One generated result and two Fancy Cafe reference videos">
-    <p className="tiny-art-note">One generated example (first) and two reference examples of the cafe meme. Results vary. Videos play muted by default; tap the sound icon to listen.</p><div className="tiny-reels-grid">
+  return <section className="tiny-reels" aria-label="Three AI-generated Fancy Cafe example videos">
+    <p className="tiny-art-note">These examples were created with First Time in a Fancy Cafe AI. Upload your photo to create your own 20-second cafe meme video with the original reference soundtrack. Individual results vary. Videos play muted by default; tap the sound icon to listen.</p><div className="tiny-reels-grid">
       {REELS.map((reel, index) => <div className="tiny-reel" key={reel.src}>
         <video
           ref={element => { videos.current[index] = element; }}
