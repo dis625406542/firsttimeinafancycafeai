@@ -156,13 +156,13 @@ export const allTinyGuides: TinyGuide[] = [
   {
     "slug": "how-to-make-first-time-in-a-fancy-cafe-ai-video",
     "title": "How to make a Your First Time in a Fancy Cafe AI video",
-    "description": "Make the Fancy Cafe meme from one portrait: assign roles, choose 480p or 720p, check out and download a 20-second MP4 with the original reference music.",
+    "description": "Make the Fancy Cafe trend with your own picture, without manual editing. Follow the upload, payment and download steps for a 20-second video with original music.",
     "answer": "To make your own Your First Time in a Fancy Cafe AI video, upload a protagonist portrait to the studio, optionally add the cafe regular, choose a resolution and aspect ratio, then confirm payment. The studio generates a 20-second scene and adds the original music from the reference video before delivering your MP4.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
     "updatedAt": "2026-11-06",
     "category": "Getting started",
-    "minutes": "4 min read",
+    "minutes": "5 min read",
     "image": "/fancy-cafe-ai/guides/demo-2.webp",
     "imageClass": "",
     "imageBadge": "CAFE REFERENCE",
@@ -189,9 +189,10 @@ export const allTinyGuides: TinyGuide[] = [
         ]
       },
       {
-        "heading": "How does the studio workflow work?",
+        "heading": "How do I make the fancy cafe trend with my own picture?",
         "paragraphs": [
-          "The Fancy Cafe AI video generator takes you from role selection to a downloadable 20-second result in the browser. Use the steps below to keep your selected characters, output settings and payment tied to the same order."
+          "Upload your own clear adult portrait to the protagonist slot in the Fancy Cafe AI studio, choose your resolution and aspect ratio, then review and pay for the order. The studio generates a personalized 20-second version of the wrong-seat meme with the original reference music included.",
+          "Your picture identifies the person who sits on the small table and later moves to the bench. One portrait is enough to start; upload a second only if you also want to personalize the cafe regular. You do not need to record yourself acting out the joke."
         ],
         "steps": [
           "Open the studio and click the protagonist image to upload your portrait. Wait for the photo check to finish.",
@@ -205,6 +206,14 @@ export const allTinyGuides: TinyGuide[] = [
           {
             "href": "/#studio",
             "label": "Make your Fancy Cafe video"
+          },
+          {
+            "href": "/blog/fancy-cafe-ai-two-people",
+            "label": "Choose one photo or personalize both people"
+          },
+          {
+            "href": "/blog/how-to-create-fancy-cafe-ai-video-on-phone",
+            "label": "Follow the mobile walkthrough"
           }
         ]
       },
@@ -222,15 +231,38 @@ export const allTinyGuides: TinyGuide[] = [
         ]
       },
       {
-        "heading": "Does the finished video already include the original music?",
+        "heading": "Can I make this without editing anything?",
         "paragraphs": [
-          "Yes. The delivered MP4 includes the original music from the cafe reference video. The studio creates the video and combines it with the prepared soundtrack, so you do not need to download a silent clip and add music yourself.",
-          "That gives you a complete 20-second video to review with sound. The included recording is not a newly generated imitation of the music. Music inclusion does not give you unrestricted commercial reuse rights."
+          "Yes. Fancy Cafe AI delivers a complete 20-second MP4 with the original music from the cafe reference video already included. You do not need to film the scene, write a prompt, build an editing timeline or manually combine the video and soundtrack.",
+          "Choose the portraits and settings, confirm payment, and review the result when processing finishes. The studio handles the reference-guided visuals and soundtrack assembly. Extra captions, trimming or other personal edits are optional, not required to receive a video with sound.",
+          "The soundtrack uses the reference recording rather than an AI imitation. Including it in the download does not grant unrestricted commercial music rights."
         ],
         "links": [
           {
             "href": "/blog/fancy-cafe-ai-music-and-captions",
-            "label": "Music, captions and sharing explained"
+            "label": "Read about the included music and optional captions"
+          },
+          {
+            "href": "/#tiny-cafe-comparison-title",
+            "label": "Watch the portrait-to-video example with sound"
+          }
+        ]
+      },
+      {
+        "heading": "How long does it take to generate the video?",
+        "paragraphs": [
+          "There is no fixed completion time: the wait depends on the processing queue, video generation and soundtrack assembly. The finished clip is 20 seconds in duration; that is not a promise that generation finishes in 20 seconds.",
+          "After payment, return in the same browser to follow the existing order. A progress indicator shows that the workflow is in progress, not an exact countdown or a guaranteed finish time. Submitted jobs continue on the server, so keeping the tab open is not what makes the video generate.",
+          "If the order still shows processing, do not pay again just to restart it. Keep your browser cookies and order reference. If a failure appears or you cannot recover the paid order, contact support with that reference so the order can be checked."
+        ],
+        "links": [
+          {
+            "href": "/blog/download-fancy-cafe-ai-video",
+            "label": "Find an existing paid order"
+          },
+          {
+            "href": "/contact",
+            "label": "Get help with your order"
           }
         ]
       },
@@ -284,24 +316,52 @@ export const allTinyGuides: TinyGuide[] = [
       "fancy-cafe-ai-video-generator",
       "fancy-cafe-ai-photo-tips",
       "fancy-cafe-ai-two-people",
-      "fix-fancy-cafe-ai-face-and-seat-errors"
+      "fix-fancy-cafe-ai-face-and-seat-errors",
+      "how-to-create-fancy-cafe-ai-video-on-phone"
     ]
   },
   {
     "slug": "fancy-cafe-ai-two-people",
-    "title": "How to make the Fancy Cafe AI meme with two people",
-    "description": "Use one photo for the protagonist or two for both cafe characters. Learn which role gets each face and how to avoid swapped identities.",
-    "answer": "Use Photo 1 for the protagonist who sits on the table and Photo 2 for the regular who sits correctly on the bench. In Fancy Cafe AI, the protagonist is required and the second portrait is optional. Roles depend on the labeled slots, not gender.",
+    "title": "Can I Make the Fancy Cafe Meme with One or Two Photos?",
+    "description": "One portrait is enough for the Fancy Cafe meme. Learn how to upload two separate portraits, personalize both roles, or make a video with your boyfriend or girlfriend.",
+    "answer": "Yes. One photo personalizes the protagonist in the Fancy Cafe meme; two separate portraits let you personalize both the protagonist and the cafe regular. The second photo is optional. Assign each consenting adult to the labeled role, then create a 20-second video with the original reference music included.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
-    "updatedAt": "2026-11-05",
+    "updatedAt": "2026-11-06",
     "category": "Getting started",
-    "minutes": "3 min read",
+    "minutes": "4 min read",
     "image": "/fancy-cafe-ai/guides/demo-3.webp",
     "imageClass": "",
     "imageBadge": "CAFE REFERENCE",
     "imageAlt": "Frame from a Fancy Cafe reference video, not a generated customer result",
     "sections": [
+      {
+        "heading": "Can I use just one photo to make the video?",
+        "paragraphs": [
+          "Yes. One clear portrait of a consenting adult is enough to make the Fancy Cafe video. Upload it to the protagonist slot and leave the cafe regular slot empty; your portrait guides the person who takes the wrong seat.",
+          "One-photo mode still tells a two-character story. The other character is a reference-style cafe regular, not a second copy of your uploaded face. Her appearance may vary; leaving the optional slot empty does not guarantee the exact identity of the woman in the reference.",
+          "The result is still a 20-second video with the original reference music included. Choose two photos only when you want a specific second person in that supporting role."
+        ],
+        "links": [
+          {
+            "href": "/#studio",
+            "label": "Make your Fancy Cafe video"
+          }
+        ]
+      },
+      {
+        "heading": "Can I use two photos for the fancy cafe meme?",
+        "paragraphs": [
+          "Yes. Upload two separate portraits, one for each role: the protagonist who sits on the small table and the cafe regular who uses the bench. Each image should show one clear face, and both people must be consenting adults.",
+          "Use separate individual photos rather than one couple or group photo. Two photos personalize the two characters in one video; they do not create two separate videos. Check the role thumbnails before checkout so the intended person appears in each slot."
+        ],
+        "links": [
+          {
+            "href": "/blog/fancy-cafe-ai-photo-tips",
+            "label": "Prepare clear portraits for both roles"
+          }
+        ]
+      },
       {
         "heading": "Which photo belongs in each role?",
         "paragraphs": [
@@ -330,10 +390,43 @@ export const allTinyGuides: TinyGuide[] = [
         }
       },
       {
-        "heading": "What if I only upload one photo?",
+        "heading": "How do I replace both people in the video?",
         "paragraphs": [
-          "The one-photo mode uses the uploaded identity for the protagonist; the reference guides the woman in the cafe. The model may generate a similar-looking woman rather than preserving the exact person. Leaving her slot empty does not request a duplicate protagonist.",
-          "If you want to replace the woman with someone recognizable, upload that person’s separate portrait with permission. A reference alone cannot guarantee the same face."
+          "Upload the first person to Protagonist and the second person to Cafe regular, then check both previews before paying. The two labeled slots determine which face guides each role, not the order of pictures in your photo library.",
+          "This creates a new reference-guided performance using both portraits. It does not paste faces into every frame of the original clip, so likeness, expressions and movements can vary. The homepage shows a generated example beside its input portraits to illustrate the workflow."
+        ],
+        "steps": [
+          "Click the protagonist picture and upload the person you want to take the wrong seat. Wait for the photo check.",
+          "Click the optional cafe regular picture and upload the other person. This role sits on the bench and reveals the mistake.",
+          "Review both thumbnails. If a portrait is in the wrong slot, replace that upload before continuing.",
+          "Choose the resolution and aspect ratio, confirm consent and review the order details before payment."
+        ],
+        "image": {
+          "src": "/fancy-cafe-ai/before-upload.webp",
+          "alt": "Studio example showing separate portrait uploads for the protagonist and optional cafe regular",
+          "caption": "Studio upload example: use the two labeled slots to assign each portrait to its role.",
+          "width": 561,
+          "height": 796
+        },
+        "links": [
+          {
+            "href": "/#tiny-cafe-comparison-title",
+            "label": "Watch the portrait-to-video example with sound"
+          }
+        ]
+      },
+      {
+        "heading": "Can I make this video with my boyfriend or girlfriend?",
+        "paragraphs": [
+          "Yes. You can make the Fancy Cafe meme with your boyfriend or girlfriend using one separate portrait of each of you, provided you are both consenting adults. Decide who takes the wrong seat and who plays the cafe regular, then upload each person to that role.",
+          "The scene remains the cafe joke rather than becoming a different romantic storyline. Roles describe actions, not gender: choose who carries the awkward realization and who reveals the correct seat. Get your partner's permission before uploading their photo or sharing the finished clip.",
+          "You can also start with just your own portrait and leave the regular slot empty. Uploading your partner is optional, not a requirement for making the meme."
+        ],
+        "links": [
+          {
+            "href": "/#studio",
+            "label": "Make your Fancy Cafe video"
+          }
         ]
       },
       {
@@ -342,10 +435,33 @@ export const allTinyGuides: TinyGuide[] = [
           "Yes. The two roles describe actions, not gender. Choose clear adult photos and keep the role labels consistent. Do not ask the model to infer who belongs on the table from appearance.",
           "Avoid uploading the same face to both slots unless you intend two similar-looking characters; even then, AI may blend identities. Distinct individual photos make the role assignment easier to review."
         ]
+      },
+      {
+        "heading": "What do I receive after choosing the characters?",
+        "paragraphs": [
+          "Fancy Cafe AI turns your selected portraits into one 20-second MP4 with the original reference music included. One-photo and two-photo orders use the same resolution-based pricing: $6.99 for 480p or $9.99 for 720p.",
+          "Choose 9:16 vertical or 16:9 horizontal and review the final price before checkout. After processing, preview the video with sound and download it within 30 days of completion. No manual soundtrack assembly is needed."
+        ],
+        "links": [
+          {
+            "href": "/blog/how-to-make-first-time-in-a-fancy-cafe-ai-video",
+            "label": "Follow the complete photo-to-video steps"
+          },
+          {
+            "href": "/blog/fancy-cafe-ai-video-generator",
+            "label": "Learn what the Fancy Cafe AI video maker does"
+          },
+          {
+            "href": "/#studio",
+            "label": "Make your Fancy Cafe video"
+          }
+        ]
       }
     ],
     "related": [
       "how-to-make-first-time-in-a-fancy-cafe-ai-video",
+      "how-to-create-fancy-cafe-ai-video-on-phone",
+      "fancy-cafe-ai-video-generator",
       "fancy-cafe-ai-photo-tips",
       "fix-fancy-cafe-ai-face-and-seat-errors"
     ]
@@ -683,18 +799,43 @@ export const allTinyGuides: TinyGuide[] = [
   {
     "slug": "how-to-create-fancy-cafe-ai-video-on-phone",
     "title": "How to create a Fancy Cafe AI video on your phone",
-    "description": "Prepare a Fancy Cafe AI video on your phone without installing an app. Choose portraits and format, and keep the same browser for delivery.",
-    "answer": "You can prepare a Fancy Cafe AI video in a mobile browser: select a protagonist portrait, optionally replace the woman in the cafe, and choose your format. No app installation is required for the studio. Confirm availability and the final price before paying.",
+    "description": "Make the Fancy Cafe video on your phone: upload one or two portraits, choose settings, pay and save a 20-second MP4 with original music. No app required.",
+    "answer": "To make the Fancy Cafe video on your phone, open the studio in your mobile browser, tap the protagonist picture and upload a portrait. Optionally add the cafe regular, choose resolution and aspect ratio, then confirm payment. Return in the same browser to download your 20-second MP4 with original music; no app installation or manual editing is required.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
     "updatedAt": "2026-11-06",
     "category": "Making & saving",
-    "minutes": "3 min read",
+    "minutes": "4 min read",
     "image": "/fancy-cafe-ai/guides/demo-3.webp",
     "imageClass": "",
     "imageBadge": "CAFE REFERENCE",
     "imageAlt": "Frame from a Fancy Cafe reference video, not a generated customer result",
     "sections": [
+      {
+        "heading": "How do I make the fancy cafe video on my phone?",
+        "paragraphs": [
+          "Open firsttimeinafancycafeai.org in your phone browser, tap the protagonist image and choose a clear adult portrait from your photo library. Add the optional regular if you want to personalize both characters, then choose your settings and review checkout.",
+          "The studio runs in the browser, so you do not need to install an app or assemble the soundtrack in a mobile editor. The completed video is a 20-second MP4 with the original music from the cafe reference video. Generation takes processing time; 20 seconds describes the clip length, not the wait."
+        ],
+        "steps": [
+          "Open the studio and tap the protagonist picture. Pick your portrait from the phone photo library and wait for validation.",
+          "Optionally tap the cafe regular picture and choose a separate portrait of the second consenting adult.",
+          "Choose 480p ($6.99) or 720p ($9.99), and 9:16 vertical or 16:9 horizontal. Check the previews and consent selection.",
+          "Review the order summary and final price, then confirm payment on the checkout page.",
+          "Return in the same browser to follow the existing order. Keep its cookies and order reference; do not pay again while the order is processing.",
+          "When ready, play the result with sound and use the download button to save the MP4 within 30 days of completion."
+        ],
+        "links": [
+          {
+            "href": "/#studio",
+            "label": "Make your Fancy Cafe video"
+          },
+          {
+            "href": "/blog/fancy-cafe-ai-two-people",
+            "label": "Choose one or two photos for your mobile upload"
+          }
+        ]
+      },
       {
         "heading": "How do I prepare photos on mobile?",
         "paragraphs": [
@@ -715,12 +856,35 @@ export const allTinyGuides: TinyGuide[] = [
           "Submitted jobs continue processing on the server. To recover your order, keep the same browser cookies and order reference. An optional delivery email is shown only when email delivery is configured.",
           "Do not clear site data or switch to private browsing while relying on browser recovery. On return, check the existing order before starting another. Download the finished MP4 instead of treating a browser history card as permanent storage."
         ]
+      },
+      {
+        "heading": "How do I save the finished MP4 on my phone?",
+        "paragraphs": [
+          "Use the completed order's download button to save the MP4 to your phone, then open the saved file to check it plays with sound. Download it within 30 days of completion rather than relying on the browser's order history as permanent storage.",
+          "Depending on your phone and browser, the file may appear in Downloads or a Files app rather than directly in your photo library. If the browser opens a video preview, use its download or save option. You can then share the saved file yourself; the studio does not post to social accounts."
+        ],
+        "links": [
+          {
+            "href": "/blog/download-fancy-cafe-ai-video",
+            "label": "Download and recover your existing order"
+          },
+          {
+            "href": "/blog/how-to-make-first-time-in-a-fancy-cafe-ai-video",
+            "label": "Review the complete generation walkthrough"
+          },
+          {
+            "href": "/blog/fancy-cafe-ai-video-generator",
+            "label": "Explore the Fancy Cafe AI video maker"
+          }
+        ]
       }
     ],
     "related": [
       "how-to-make-first-time-in-a-fancy-cafe-ai-video",
       "fancy-cafe-ai-photo-tips",
-      "download-fancy-cafe-ai-video"
+      "download-fancy-cafe-ai-video",
+      "fancy-cafe-ai-two-people",
+      "fancy-cafe-ai-video-generator"
     ]
   },
   {

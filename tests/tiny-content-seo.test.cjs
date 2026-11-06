@@ -225,3 +225,54 @@ test('tutorial and comparison use the delivered cafe example and link to tool di
  assert.doesNotMatch(home,/reused demos are not cafe results|The cafe examples are reference videos/);
  assert.match(home,/generated example and two reference videos/);
 });
+
+
+test('how-to guides preserve all eight complete user questions as answer-first headings',()=>{
+ const {allTinyGuides}=load('src/lib/tiny-guides.ts');
+ const groups={
+  'how-to-make-first-time-in-a-fancy-cafe-ai-video':[
+   'How do I make the fancy cafe trend with my own picture?',
+   'Can I make this without editing anything?',
+   'How long does it take to generate the video?'
+  ],
+  'fancy-cafe-ai-two-people':[
+   'Can I use just one photo to make the video?',
+   'Can I use two photos for the fancy cafe meme?',
+   'How do I replace both people in the video?',
+   'Can I make this video with my boyfriend or girlfriend?'
+  ],
+  'how-to-create-fancy-cafe-ai-video-on-phone':[
+   'How do I make the fancy cafe video on my phone?'
+  ]
+ };
+ for(const [slug,questions] of Object.entries(groups)) {
+  const guide=allTinyGuides.find(g=>g.slug===slug);
+  assert.equal(guide.publishedAt,'2026-11-05');
+  assert.equal(guide.updatedAt,'2026-11-06');
+  for(const question of questions) {
+   const section=guide.sections.find(s=>s.heading===question);
+   assert.ok(section,question+' must be an exact heading, including its question mark');
+   assert.ok(section.paragraphs[0].length>90,question+' needs a standalone direct answer');
+   assert.ok(section.paragraphs.length>=2,question+' needs practical context');
+  }
+  assert.ok(guide.sections.some(s=>s.links?.some(l=>l.href==='/#studio')),slug+' studio link');
+  assert.ok(guide.related.includes('fancy-cafe-ai-video-generator'));
+ }
+ const tutorial=allTinyGuides.find(g=>g.slug==='how-to-make-first-time-in-a-fancy-cafe-ai-video');
+ const timing=JSON.stringify(tutorial.sections.find(s=>s.heading==='How long does it take to generate the video?'));
+ assert.match(timing,/20 seconds.*duration/i);assert.match(timing,/queue/i);assert.match(timing,/soundtrack/i);
+ assert.match(timing,/same browser/i);assert.match(timing,/not.*pay again|avoid.*paying again/i);
+ assert.doesNotMatch(timing,/usually.*minutes|within.*minutes|instant generation|guaranteed.*minutes/i);
+ const editing=tutorial.sections.find(s=>s.heading==='Can I make this without editing anything?');
+ assert.match(editing.paragraphs[0],/^Yes/);assert.match(JSON.stringify(editing),/original music/);
+ const two=allTinyGuides.find(g=>g.slug==='fancy-cafe-ai-two-people');
+ assert.match(two.title,/One or Two Photos\?/);
+ assert.ok(two.sections.some(s=>s.image?.src==='/fancy-cafe-ai/before-upload.webp'));
+ assert.match(JSON.stringify(two),/two separate|separate portraits/i);assert.match(JSON.stringify(two),/consenting adults/);
+ assert.ok(two.sections.find(s=>s.heading==='How do I replace both people in the video?').steps.length>=3);
+ const phone=allTinyGuides.find(g=>g.slug==='how-to-create-fancy-cafe-ai-video-on-phone');
+ const workflow=phone.sections.find(s=>s.heading==='How do I make the fancy cafe video on my phone?');
+ assert.ok(workflow.steps.length>=5);assert.match(JSON.stringify(workflow),/30 days/);
+ const home=fs.readFileSync(path.join(root,'src/app/page.tsx'),'utf8');
+ for(const question of [groups['fancy-cafe-ai-two-people'][0],groups['fancy-cafe-ai-two-people'][1],groups['fancy-cafe-ai-two-people'][3],groups['how-to-make-first-time-in-a-fancy-cafe-ai-video'][2]]) assert.ok(home.includes(question));
+});
