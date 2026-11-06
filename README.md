@@ -28,7 +28,7 @@ Paid generation stays closed by default. Before enabling it:
 2. Set `FANCY_CAFE_REFERENCE_KEY` and `FANCY_CAFE_AUDIO_KEY` under `fancy-cafe-ai/v1/`.
 3. Verify the model/prompt/reference behavior with real cafe assets before approving them. The workflow requests silent Seedance video then merges audio; automated mocks do not prove visual quality.
 4. Configure this site's Stripe product/price mappings separately for test and live keys, webhook, and delivery/retention worker. Planned prices: 480p USD 5.99; 720p USD 8.99; one-time 15-second clips.
-5. Confirm the public business identity, shared support mailbox and policies are accurate for your operator. No payment-provider approval is promised.
+5. Confirm the public business identity, site-specific support mailbox (`hello@firsttimeinafancycafeai.org`) and policies are accurate for your operator. No payment-provider approval is promised.
 6. Only after review, set `FANCY_CAFE_ASSETS_APPROVED=true` and `FANCY_CAFE_CHECKOUT_ENABLED=true`. The legacy Tiny Desk flag does not enable this site. Provider, billing and asset checks must also pass.
 
 See `.env.example` for provider, R2, email, webhook, cron, FFmpeg and launch settings. `npm run build` verifies media binaries in the build trace; verify the deployed Linux runtime as well before accepting payments.

@@ -759,8 +759,8 @@ export const allTinyGuides: TinyGuide[] = [
   {
     "slug": "fancy-cafe-ai-music-and-captions",
     "title": "What song is in the Fancy Cafe meme? Music and caption guide",
-    "description": "Song attribution for the Fancy Cafe meme, the original reference music included in your generated MP4, and where to place a POV caption.",
-    "answer": "Your completed 20-second video includes the original music from the Fancy Cafe reference video; you do not need to add it yourself. Download the MP4 and add a short POV caption in your editor if desired. Music supports the joke, but the seating reveal must work visually. Inclusion does not grant a separate commercial music license.",
+    "description": "Original reference music is included in your Fancy Cafe AI video. Learn about captions, personal non-commercial sharing and why commercial-use rights are not included.",
+    "answer": "Your completed 20-second video includes the original music from the Fancy Cafe reference video; you do not need to add it yourself. Download the MP4 and add a short POV caption in your editor if desired. Music supports the joke, but the seating reveal must work visually. Made for personal entertainment and non-commercial social sharing. No commercial-use license is included. Music rights and platform rules still apply.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
     "updatedAt": "2026-11-06",
@@ -800,6 +800,23 @@ export const allTinyGuides: TinyGuide[] = [
         "paragraphs": [
           "The studio generates silent footage first, then merges the original music from the Fancy Cafe reference video into the final 20-second MP4. Silent generation is an intermediate step, not the finished product. The model is not asked to recreate the song or clone a voice.",
           "The original reference soundtrack is included, but exact synchronization of every movement is not guaranteed. This service does not grant a separate license to reuse the music commercially or redistribute it. Check the rights and platform conditions for your intended use."
+        ]
+      },
+      {
+        "heading": "Can I use my Fancy Cafe AI video commercially?",
+        "paragraphs": [
+          "Made for personal entertainment and non-commercial social sharing. No commercial-use license is included. Fancy Cafe AI is a playful way to put yourself into the wrong-seat meme and share a funny moment with friends, not a commercial-content licensing service.",
+          "Your order does not authorize advertising, sponsored posts, client projects, resale or other commercial use. The included reference music does not come with a separate music license. Personal sharing must still respect music and portrait rights and the destination platform's rules; non-commercial use is not automatic permission to use copyrighted material."
+        ],
+        "links": [
+          {
+            "href": "/terms",
+            "label": "Read the personal-use terms"
+          },
+          {
+            "href": "/acceptable-use",
+            "label": "Review portrait consent and sharing rules"
+          }
         ]
       },
       {
@@ -1665,7 +1682,7 @@ export const allTinyGuides: TinyGuide[] = [
         "heading": "Make your own cafe moment with Fancy Cafe AI",
         "paragraphs": [
           "Fancy Cafe AI is an independent, scene-specific video maker for the Your First Time in a Fancy Cafe wrong-seat joke. Start with your protagonist portrait, add the regular only if you want to, and let the studio prepare a 20-second video with the original reference music.",
-          "Review your format, resolution and final price before checkout. Including the music in your download does not grant a commercial music licence; consider the rights and platform rules for your intended use."
+          "Review your format, resolution and final price before checkout. Made for personal entertainment and non-commercial social sharing. No commercial-use license is included. Included music is not separately licensed to you; personal sharing must respect rights and platform rules."
         ],
         "links": [
           {
