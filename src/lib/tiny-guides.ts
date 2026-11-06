@@ -287,7 +287,7 @@ export const allTinyGuides: TinyGuide[] = [
     "answer": "If a Fancy Cafe AI video changes faces or gets the seating wrong, check the photo-to-role assignment and whether the reference clearly shows both tables and the bench. Better images and clearer scene instructions can help, but no prompt guarantees perfect identity or motion.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
-    "updatedAt": "2026-11-05",
+    "updatedAt": "2026-11-06",
     "category": "Questions & answers",
     "minutes": "3 min read",
     "image": "/fancy-cafe-ai/guides/demo-3.webp",
@@ -313,7 +313,7 @@ export const allTinyGuides: TinyGuide[] = [
         "heading": "Should I keep paying for retries?",
         "paragraphs": [
           "Not while an order is pending or failed. Check the original order and keep its reference. Contact support about a failed delivery rather than creating another payment for the same attempt.",
-          "For an unsatisfactory completed result, review the refund policy and describe the concrete issue: identity change, furniture distortion or missing action. Do not send sensitive payment details. Automated output varies; a rerender may still have defects."
+          "For a verified technical failure or inaccessible delivery, contact support with your order reference. We review the issue and may offer redelivery or a discretionary refund to the original payment method. After successful generation and delivery, subjective dissatisfaction alone does not guarantee a refund. Do not pay again while an existing order is pending. Describe any concrete technical issue, such as an unplayable or missing file, without sending card details. AI likeness, motion and timing can vary."
         ]
       }
     ],
@@ -326,11 +326,11 @@ export const allTinyGuides: TinyGuide[] = [
   {
     "slug": "fancy-cafe-ai-music-and-captions",
     "title": "How to add music and captions to a Fancy Cafe meme video",
-    "description": "Learn how to choose permitted music and add captions to a cafe meme. No original-song license or exact audio synchronization is promised.",
-    "answer": "Add music only when you have permission to use it, or select an eligible sound through the platform where you will publish. Use a short opening caption such as “POV: your first time in a fancy cafe.” Music supports the joke, but the seating reveal must work visually.",
+    "description": "Your Fancy Cafe AI video includes the reference video’s original music. Learn how the soundtrack is added, where to place captions, and what to check before sharing.",
+    "answer": "Your completed 20-second video includes the original music from the Fancy Cafe reference video; you do not need to add it yourself. Download the MP4 and add a short POV caption in your editor if desired. Music supports the joke, but the seating reveal must work visually. Inclusion does not grant a separate commercial music license.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
-    "updatedAt": "2026-11-05",
+    "updatedAt": "2026-11-06",
     "category": "The meme & music",
     "minutes": "3 min read",
     "image": "/fancy-cafe-ai/guides/demo-1.webp",
@@ -348,8 +348,8 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "heading": "How will this studio handle audio?",
         "paragraphs": [
-          "The configured pipeline requests silent footage first. A separate authorized audio asset can then be merged into the result. This does not ask the video model to reproduce a copyrighted song or clone a voice.",
-          "Audio is used only with permission; reference video audio does not automatically grant reuse rights. Confirm the audio in your finished video and your rights to use it."
+          "The studio generates silent footage first, then merges the original music from the Fancy Cafe reference video into the final 20-second MP4. Silent generation is an intermediate step, not the finished product. The model is not asked to recreate the song or clone a voice.",
+          "The original reference soundtrack is included, but exact synchronization of every movement is not guaranteed. This service does not grant a separate license to reuse the music commercially or redistribute it. Check the rights and platform conditions for your intended use."
         ]
       },
       {
@@ -358,9 +358,9 @@ export const allTinyGuides: TinyGuide[] = [
           "Keep text out of the lower seating area and away from faces. The viewer needs to see the tabletop, bench and protagonist movement. Add the caption in an editor after generation rather than asking the video model to render readable text."
         ],
         "steps": [
-          "Preview the complete silent joke first.",
+          "Preview the completed video with its included soundtrack.",
           "Add one short opening caption in a safe upper area.",
-          "Choose an authorized track and keep it at a comfortable level.",
+          "Keep the included music, or replace it in your editor with audio you are permitted to use.",
           "Watch the final export to check that text and audio do not obscure the reveal."
         ]
       }
