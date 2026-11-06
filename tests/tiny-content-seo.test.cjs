@@ -14,10 +14,10 @@ function load(file) {
  };
  new Function('exports','module','require',compiled)(mod.exports,mod,localRequire);return mod.exports;
 }
-test('thirteen distinct cafe guides use new URLs and have truthful dated content',()=>{
+test('fourteen distinct cafe guides use new URLs and have truthful dated content',()=>{
  const {allTinyGuides}=load('src/lib/tiny-guides.ts');
- assert.equal(allTinyGuides.length,13);
- assert.equal(new Set(allTinyGuides.map(g=>g.slug)).size,13);
+ assert.equal(allTinyGuides.length,14);
+ assert.equal(new Set(allTinyGuides.map(g=>g.slug)).size,14);
  for(const g of allTinyGuides){
   assert.ok(g.answer.length>60,g.slug+' has a direct answer');
   assert.match(g.publishedAt,/^\d{4}-\d{2}-\d{2}$/);
@@ -55,7 +55,7 @@ test('sitemap uses content dates, includes all articles, and has unique canonica
  assert.match(source,/url:\s*SITE_URL,\s*lastModified:\s*latestArticle/);
  const urls=load('src/app/sitemap.ts').default();
  const {allTinyGuides}=load('src/lib/tiny-guides.ts');
- assert.equal(urls.length,22);
+ assert.equal(urls.length,23);
  assert.equal(urls.find(u=>u.url==='https://firsttimeinafancycafeai.org')?.lastModified,'2026-11-06');
  assert.equal(urls.find(u=>u.url==='https://firsttimeinafancycafeai.org/blog')?.lastModified,'2026-11-06');
  assert.equal(new Set(urls.map(u=>u.url)).size,urls.length);
@@ -173,4 +173,55 @@ test('origin and AI guides have distinct answers, source limits, and working stu
  assert.match(JSON.stringify(ai),/not proof|not conclusive/i);
  const music=allTinyGuides.find(g=>g.slug==='fancy-cafe-ai-music-and-captions');
  assert.ok(music.sections.some(s=>s.heading==="What's the song in the fancy cafe meme?"));
+});
+
+
+test('tool discovery answers eight purchase-intent questions with specific product advantages',()=>{
+ const {allTinyGuides,featuredTinyGuides}=load('src/lib/tiny-guides.ts');
+ const guide=allTinyGuides.find(g=>g.slug==='fancy-cafe-ai-video-generator');
+ assert.ok(guide,'tool discovery article exists');
+ const questions=[
+  'How can I make my own first time in a fancy cafe video?',
+  'What AI tool can make the fancy cafe meme?',
+  'Is there an AI fancy cafe video generator?',
+  'How do I put my face in the fancy cafe trend?',
+  'Can I turn my photo into the fancy cafe meme?',
+  'Where can I make the fancy cafe AI video?',
+  'Is there a website to make this meme automatically?',
+  "What's the best fancy cafe AI video maker?"
+ ];
+ assert.deepEqual(guide.sections.slice(0,8).map(s=>s.heading),questions);
+ for(const section of guide.sections.slice(0,8)) {
+  assert.ok(section.paragraphs[0].length>90,section.heading);
+  assert.ok(section.paragraphs.length>=2,section.heading);
+ }
+ const best=JSON.stringify(guide.sections[7]);
+ for(const pattern of [/20-second/,/original music/,/optional/,/generated example/,/firsttimeinafancycafeai\.org/]) assert.match(best,pattern);
+ assert.doesNotMatch(best,/best overall|guaranteed|perfect results|number one/i);
+ assert.match(JSON.stringify(guide.sections[6]),/confirm.*payment|payment.*confirm/i);
+ assert.match(JSON.stringify(guide.sections[6]),/automatically.*post|post.*automatically/i);
+ assert.match(JSON.stringify(guide),/fancy cafe AI video generator/i);
+ assert.match(JSON.stringify(guide),/first time in a fancy cafe AI video maker/i);
+ assert.ok(guide.sections.at(-1).links.some(l=>l.href==='/#studio'));
+ assert.equal(featuredTinyGuides.length,6);
+ assert.ok(featuredTinyGuides.some(g=>g.slug===guide.slug));
+ assert.equal(guide.updatedAt,'2026-11-06');
+});
+
+test('tutorial and comparison use the delivered cafe example and link to tool discovery',()=>{
+ const {allTinyGuides}=load('src/lib/tiny-guides.ts');
+ for(const slug of ['how-to-make-first-time-in-a-fancy-cafe-ai-video','fancy-cafe-ai-vs-capcut-template']) {
+  const guide=allTinyGuides.find(g=>g.slug===slug);
+  assert.equal(guide.publishedAt,'2026-11-05');
+  assert.equal(guide.updatedAt,'2026-11-06');
+  const copy=JSON.stringify(guide);
+  assert.match(copy,/20-second/); assert.match(copy,/original music/);
+  assert.match(copy,/\$6\.99/);assert.match(copy,/\$9\.99/);
+  assert.ok(guide.related.includes('fancy-cafe-ai-video-generator'));
+  assert.ok(guide.sections.some(s=>s.links?.some(l=>l.href==='/#tiny-cafe-comparison-title')));
+  assert.doesNotMatch(copy,/older template|Wait for a validated cafe demo/);
+ }
+ const home=fs.readFileSync(path.join(root,'src/app/page.tsx'),'utf8');
+ assert.doesNotMatch(home,/reused demos are not cafe results|The cafe examples are reference videos/);
+ assert.match(home,/generated example and two reference videos/);
 });

@@ -156,13 +156,13 @@ export const allTinyGuides: TinyGuide[] = [
   {
     "slug": "how-to-make-first-time-in-a-fancy-cafe-ai-video",
     "title": "How to make a Your First Time in a Fancy Cafe AI video",
-    "description": "Learn how to prepare a protagonist photo, add an optional cafe regular, and create a 20-second wrong-seat video in the studio.",
-    "answer": "To make the Fancy Cafe AI meme, assign one adult portrait to the visitor who sits on the table, optionally add a second portrait for the cafe regular, and use a reference that preserves the reveal. The studio lets you choose the roles, resolution and aspect ratio before you check out.",
+    "description": "Make the Fancy Cafe meme from one portrait: assign roles, choose 480p or 720p, check out and download a 20-second MP4 with the original reference music.",
+    "answer": "To make your own Your First Time in a Fancy Cafe AI video, upload a protagonist portrait to the studio, optionally add the cafe regular, choose a resolution and aspect ratio, then confirm payment. The studio generates a 20-second scene and adds the original music from the reference video before delivering your MP4.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
-    "updatedAt": "2026-11-05",
+    "updatedAt": "2026-11-06",
     "category": "Getting started",
-    "minutes": "3 min read",
+    "minutes": "4 min read",
     "image": "/fancy-cafe-ai/guides/demo-2.webp",
     "imageClass": "",
     "imageBadge": "CAFE REFERENCE",
@@ -171,32 +171,117 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "heading": "What should I prepare first?",
         "paragraphs": [
-          "Choose a clear photo of yourself or another consenting adult. Keep the face unobstructed and select a second individual photo only if you want to personalize the regular customer. A group photo does not reliably identify both roles.",
-          "Review the intended joke before choosing a tool: the first person is on a table, the second person demonstrates the bench, and the first person corrects the mistake. The reference video should make all three actions visible."
+          "Prepare one clear portrait of yourself or another consenting adult for the protagonist. A second portrait is needed only if you want to replace the cafe regular; you do not need to upload a video, provide music or write a custom prompt.",
+          "Choose a well-lit image with one unobstructed face. Avoid group photos, sunglasses and heavy filters. The protagonist is the person who mistakenly sits on the small table; the regular is the woman who sits on the bench and makes the mistake apparent."
+        ],
+        "image": {
+          "src": "/fancy-cafe-ai/before-upload.webp",
+          "alt": "Studio upload example showing separate protagonist and optional cafe regular portraits",
+          "caption": "Studio upload example: the protagonist portrait is required; the cafe regular portrait is optional.",
+          "width": 561,
+          "height": 796
+        },
+        "links": [
+          {
+            "href": "/blog/fancy-cafe-ai-photo-tips",
+            "label": "Check your portrait before uploading"
+          }
         ]
       },
       {
         "heading": "How does the studio workflow work?",
         "paragraphs": [
-          "The site is designed for one 20-second result in a selected resolution and aspect ratio. Confirm the current price and order availability in the studio before paying."
+          "The Fancy Cafe AI video generator takes you from role selection to a downloadable 20-second result in the browser. Use the steps below to keep your selected characters, output settings and payment tied to the same order."
         ],
         "steps": [
-          "Open the studio and add a portrait to Protagonist. Wait for the photo check.",
-          "The second slot is already open. Optionally upload a portrait to replace the woman in the cafe reference.",
-          "Choose 480p or 720p, then 9:16 vertical or 16:9 horizontal. Confirm consent.",
-          "Review the final price and delivery details before continuing to checkout.",
-          "Return in the same browser to monitor the existing order, preview the result and download the MP4."
+          "Open the studio and click the protagonist image to upload your portrait. Wait for the photo check to finish.",
+          "Optionally click the cafe regular image and upload a second portrait. Leave it empty to use a reference-style regular.",
+          "Choose 480p or 720p and either 9:16 vertical or 16:9 horizontal. Confirm that you have permission to use the portraits.",
+          "Review the characters, 20-second duration, resolution, aspect ratio and price in the confirmation dialog, then continue to secure checkout.",
+          "Confirm payment and return in the same browser to follow the order. Keep the browser cookies and your order reference.",
+          "When the result is ready, play it with sound and download the finished MP4 within 30 days."
+        ],
+        "links": [
+          {
+            "href": "/#studio",
+            "label": "Make your Fancy Cafe video"
+          }
+        ]
+      },
+      {
+        "heading": "Which resolution and aspect ratio should I choose?",
+        "paragraphs": [
+          "Choose 480p for $6.99 or 720p for $9.99 per 20-second video. Both choices include the original reference music; the resolution determines output size, not a different storyline or a guarantee of better facial likeness.",
+          "Choose 9:16 when you want a vertical video, or 16:9 when you want a horizontal video. Your order produces the selected format, not both. Review the final checkout summary so the paid order matches the option you intended."
+        ],
+        "links": [
+          {
+            "href": "/blog/fancy-cafe-ai-price-and-free-options",
+            "label": "Understand per-video pricing"
+          }
+        ]
+      },
+      {
+        "heading": "Does the finished video already include the original music?",
+        "paragraphs": [
+          "Yes. The delivered MP4 includes the original music from the cafe reference video. The studio creates the video and combines it with the prepared soundtrack, so you do not need to download a silent clip and add music yourself.",
+          "That gives you a complete 20-second video to review with sound. The included recording is not a newly generated imitation of the music. Music inclusion does not give you unrestricted commercial reuse rights."
+        ],
+        "links": [
+          {
+            "href": "/blog/fancy-cafe-ai-music-and-captions",
+            "label": "Music, captions and sharing explained"
+          }
         ]
       },
       {
         "heading": "What should I check in the finished video?",
         "paragraphs": [
-          "Watch once for the joke and once for identity. Both adults should keep their own faces. The table must not turn into a chair, the supporting character must sit on the bench, and the protagonist should notice before moving.",
-          "A reference guides generation but does not guarantee exact timing, hands or facial likeness. Do not purchase a second render simply because the first order is still processing; check its status first."
+          "Play the result with sound and check the face, wrong-seat reveal and final reaction. The intended sequence is the protagonist on the table, the regular on the bench, the realization and the move to the correct seat.",
+          "Compare the type of result with the homepage generated example, not just the reference clips. The tool creates new reference-guided frames rather than editing each original frame; faces, hands and timing can vary. If an order is still processing, check its status instead of paying again just to find the result."
+        ],
+        "image": {
+          "src": "/fancy-cafe-ai/generated-with-caption-poster.webp",
+          "alt": "Still from the studio-generated Fancy Cafe example with a POV caption",
+          "caption": "Actual studio-generated example, not reference footage. Watch the full clip with sound on the homepage; individual results vary.",
+          "width": 480,
+          "height": 854
+        },
+        "links": [
+          {
+            "href": "/#tiny-cafe-comparison-title",
+            "label": "Watch the generated example with sound"
+          },
+          {
+            "href": "/blog/fix-fancy-cafe-ai-face-and-seat-errors",
+            "label": "Review face and seat issues"
+          }
+        ]
+      },
+      {
+        "heading": "How do I save and share my video?",
+        "paragraphs": [
+          "Download the completed MP4 within 30 days of completion and keep your own copy. The browser can help you return to the order, but browser history is not a permanent backup of the video file.",
+          "The download contains the video and soundtrack together. Share it yourself on the platform you choose, with permission for the people and media involved; the studio does not publish to your social accounts. If you are still deciding which workflow to use, the tool guide answers the main questions before you start."
+        ],
+        "links": [
+          {
+            "href": "/blog/download-fancy-cafe-ai-video",
+            "label": "Find and download your completed order"
+          },
+          {
+            "href": "/blog/fancy-cafe-ai-video-generator",
+            "label": "Fancy Cafe AI video generator: eight questions answered"
+          },
+          {
+            "href": "/#studio",
+            "label": "Make your Fancy Cafe video"
+          }
         ]
       }
     ],
     "related": [
+      "fancy-cafe-ai-video-generator",
       "fancy-cafe-ai-photo-tips",
       "fancy-cafe-ai-two-people",
       "fix-fancy-cafe-ai-face-and-seat-errors"
@@ -316,13 +401,13 @@ export const allTinyGuides: TinyGuide[] = [
   {
     "slug": "fancy-cafe-ai-vs-capcut-template",
     "title": "Fancy Cafe AI generator vs. CapCut template: which do you need?",
-    "description": "Compare AI-generated cafe scenes with CapCut editing templates. Choose based on whether you need new footage or want to edit an existing clip.",
-    "answer": "Choose a video-editing template when you already have footage and mainly need cuts, captions or music. Choose an AI recreation when you want a photo identity to perform the cafe scene. A CapCut template link does not automatically provide reliable AI character replacement.",
+    "description": "Choose a Fancy Cafe AI video maker for a 20-second portrait-based meme with original music, or an editor for cuts and captions on footage you already have.",
+    "answer": "Choose Fancy Cafe AI when you want a portrait turned into the wrong-seat cafe meme: the studio delivers a 20-second MP4 with the original reference music already included. Choose an editing workflow when you already have footage and want to control cuts, captions or timing yourself. The right choice depends on whether you need new footage or edits to an existing clip.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
-    "updatedAt": "2026-11-05",
+    "updatedAt": "2026-11-06",
     "category": "Questions & answers",
-    "minutes": "3 min read",
+    "minutes": "4 min read",
     "image": "/fancy-cafe-ai/guides/demo-2.webp",
     "imageClass": "",
     "imageBadge": "CAFE REFERENCE",
@@ -331,7 +416,8 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "heading": "What is the difference between editing and generation?",
         "paragraphs": [
-          "Editing rearranges or decorates existing footage. AI generation synthesizes new frames, which can place a supplied face into a new performance but can also change anatomy, furniture or expressions."
+          "The key distinction is new footage versus existing footage. Fancy Cafe AI generates a new reference-guided cafe performance from portraits; an editing workflow arranges or changes footage you already have.",
+          "A template name alone does not tell you whether it includes AI generation or character personalization. Check the specific template rather than treating every CapCut template as the same product."
         ],
         "table": {
           "caption": "Choose by the job you need done",
@@ -367,14 +453,64 @@ export const allTinyGuides: TinyGuide[] = [
         ]
       },
       {
-        "heading": "Where does Fancy Cafe AI fit?",
+        "heading": "Why choose Fancy Cafe AI for this particular meme?",
         "paragraphs": [
-          "Fancy Cafe AI is a focused two-character video generator, with fixed scene instructions rather than a general video editor. It does not provide a custom timeline or an official CapCut template.",
-          "Our current media examples come from an older template and are labeled accordingly. Wait for a validated cafe demo if exact staging is important to your purchase decision."
+          "Choose this first time in a fancy cafe AI video maker when your goal is a finished, personalized version of the wrong-seat joke without filming it or building an editing timeline. One portrait is enough; replacing the cafe regular is optional.",
+          "The studio delivers a 20-second MP4 with the original music from the reference video already included. You do not need to find the soundtrack, write the scene prompt or manually combine audio and video. It is a focused workflow for this meme, rather than a general editor."
+        ],
+        "bullets": [
+          "480p costs $6.99 and 720p costs $9.99 per video; no subscription or credit bundle.",
+          "Select 9:16 vertical or 16:9 horizontal output before checkout.",
+          "Personalize the protagonist alone or both characters.",
+          "Download the finished video with its soundtrack within 30 days of completion."
+        ],
+        "links": [
+          {
+            "href": "/blog/fancy-cafe-ai-video-generator",
+            "label": "Fancy Cafe AI video generator: eight questions answered"
+          }
+        ]
+      },
+      {
+        "heading": "What does an actual generated result look and sound like?",
+        "paragraphs": [
+          "The homepage includes an actual generated cafe example beside the portraits used to make it, plus separately labeled reference videos. Play the generated example with sound to evaluate the scene, reaction and included music together.",
+          "The example is a concrete way to decide whether this style fits your idea. It is not a promise of identical faces, expressions or timing on a new order. This guide is written by the studio team and recommends the tool for its specific workflow, not as an independent ranking of competing services."
+        ],
+        "image": {
+          "src": "/fancy-cafe-ai/generated-with-caption-poster.webp",
+          "alt": "Still from the studio-generated Fancy Cafe example with a POV caption",
+          "caption": "Actual studio-generated example, not reference footage. Watch the full clip with sound on the homepage; individual results vary.",
+          "width": 480,
+          "height": 854
+        },
+        "links": [
+          {
+            "href": "/#tiny-cafe-comparison-title",
+            "label": "Watch the generated example with sound"
+          }
+        ]
+      },
+      {
+        "heading": "When is an editing workflow the better fit?",
+        "paragraphs": [
+          "Use an editor if your main task is changing captions, trimming footage or controlling the timing of an existing clip. Those are different needs from generating a new cafe performance around a portrait.",
+          "Our generator does not provide a frame-by-frame editing timeline or an official CapCut template. If you already like your footage, recreating it with AI introduces changes you may not need. If you need a new personalized cafe scene, start with the studio and make any optional edits afterward."
+        ],
+        "links": [
+          {
+            "href": "/blog/how-to-make-first-time-in-a-fancy-cafe-ai-video",
+            "label": "Create a cafe scene from your photo"
+          },
+          {
+            "href": "/#studio",
+            "label": "Make your Fancy Cafe video"
+          }
         ]
       }
     ],
     "related": [
+      "fancy-cafe-ai-video-generator",
       "your-first-time-in-a-fancy-cafe-meme-explained",
       "how-to-make-first-time-in-a-fancy-cafe-ai-video",
       "fancy-cafe-ai-price-and-free-options"
@@ -973,7 +1109,166 @@ export const allTinyGuides: TinyGuide[] = [
         "note": "Checked November 6, 2026. The visible post identifies @leehoustonx and “original sound - leehoustonx”. That sound label does not name the underlying recording."
       }
     ]
+  },
+  {
+    "slug": "fancy-cafe-ai-video-generator",
+    "title": "Fancy Cafe AI Video Generator: Make the Meme from Your Photo",
+    "description": "Looking for a first time in a fancy cafe AI video maker? Get a 20-second MP4 with original reference music, one portrait and an optional second character.",
+    "answer": "Fancy Cafe AI at firsttimeinafancycafeai.org turns a portrait into a personalized 20-second Your First Time in a Fancy Cafe video with the original reference music included. Upload one adult protagonist photo, optionally replace the cafe regular, choose your format and resolution, and confirm payment. The studio generates the scene and delivers a downloadable MP4.",
+    "date": "November 6, 2026",
+    "publishedAt": "2026-11-06",
+    "updatedAt": "2026-11-06",
+    "category": "Getting started",
+    "minutes": "5 min read",
+    "image": "/fancy-cafe-ai/guides/demo-2.webp",
+    "imageClass": "",
+    "imageBadge": "CAFE REFERENCE",
+    "imageAlt": "Fancy Cafe reference scene illustrating the wrong-seat meme recreated by the generator",
+    "sections": [
+      {
+        "heading": "How can I make my own first time in a fancy cafe video?",
+        "paragraphs": [
+          "Use the Fancy Cafe AI studio to upload a protagonist portrait, choose a video format and generate your own version of the wrong-seat scene. The finished video is 20 seconds long and includes the original music from our cafe reference video.",
+          "You do not need to film yourself in a cafe or write a custom prompt. The scene follows the familiar joke: the protagonist sits on a small table, notices the regular using the bench, and corrects the mistake. Add a second portrait only if you want to personalize the regular too."
+        ],
+        "links": [
+          {
+            "href": "/blog/how-to-make-first-time-in-a-fancy-cafe-ai-video",
+            "label": "Follow the photo-to-video walkthrough"
+          }
+        ]
+      },
+      {
+        "heading": "What AI tool can make the fancy cafe meme?",
+        "paragraphs": [
+          "Fancy Cafe AI at firsttimeinafancycafeai.org is a dedicated tool for creating this meme from portraits. It combines the prepared cafe scene, character roles, video generation and soundtrack assembly in one workflow.",
+          "That makes it useful when you want a finished version of this specific joke rather than an open-ended video project. A general-purpose editor is a different choice: use one when you already have footage and mainly want to adjust captions, cuts or framing."
+        ],
+        "links": [
+          {
+            "href": "/blog/fancy-cafe-ai-vs-capcut-template",
+            "label": "Compare a cafe generator with an editing workflow"
+          }
+        ]
+      },
+      {
+        "heading": "Is there an AI fancy cafe video generator?",
+        "paragraphs": [
+          "Yes. This fancy cafe AI video generator creates new reference-guided video frames using your uploaded portraits. It delivers a 20-second MP4 in your selected resolution and aspect ratio, with the original reference music already added.",
+          "Choose 480p for $6.99 or 720p for $9.99, and choose 9:16 vertical or 16:9 horizontal. These are one-time prices per video, not a subscription or credit bundle; review the final order details before paying. It recreates the scene rather than replacing a face in every original frame."
+        ]
+      },
+      {
+        "heading": "How do I put my face in the fancy cafe trend?",
+        "paragraphs": [
+          "Click the protagonist image in the studio and upload a clear photo of yourself. That portrait is assigned to the person who takes the wrong seat; the separate optional slot is for the cafe regular, the woman seated on the bench.",
+          "Use one unobstructed face per photo and images of consenting adults only. If you leave the regular slot empty, the video uses a reference-style regular. A clean portrait helps guide identity, while expressions and movements are newly generated rather than copied exactly."
+        ],
+        "links": [
+          {
+            "href": "/blog/fancy-cafe-ai-photo-tips",
+            "label": "Choose a useful portrait"
+          },
+          {
+            "href": "/blog/fancy-cafe-ai-two-people",
+            "label": "Understand the two character slots"
+          }
+        ]
+      },
+      {
+        "heading": "Can I turn my photo into the fancy cafe meme?",
+        "paragraphs": [
+          "Yes. One protagonist photo is enough to start; a second photo is optional. The generator animates a reference-guided cafe performance around your portrait instead of requiring a recording of you acting out the scene.",
+          "The homepage shows an actual generated example beside the portraits used to make it. Watch the full clip and enable sound to judge the face, reaction, wrong-seat reveal and finished soundtrack together. This is a useful demonstration of the output, not a promise that every order produces identical details."
+        ],
+        "image": {
+          "src": "/fancy-cafe-ai/generated-with-caption-poster.webp",
+          "alt": "Still from the studio-generated Fancy Cafe example with a POV caption",
+          "caption": "Actual studio-generated example, not reference footage. Watch the full clip with sound on the homepage; individual results vary.",
+          "width": 480,
+          "height": 854
+        },
+        "links": [
+          {
+            "href": "/#tiny-cafe-comparison-title",
+            "label": "Watch the generated example with sound"
+          }
+        ]
+      },
+      {
+        "heading": "Where can I make the fancy cafe AI video?",
+        "paragraphs": [
+          "You can make it in the browser-based studio at firsttimeinafancycafeai.org. Open the homepage, choose your character photos and settings, and review the checkout details; no separate editing app is needed to receive the video with its soundtrack.",
+          "After payment, return in the same browser to follow the order and download the finished MP4. Keep that browser and its cookies for order recovery, and save your file within 30 days of completion. Uploading the finished video to a social platform is your own next step."
+        ],
+        "links": [
+          {
+            "href": "/blog/how-to-create-fancy-cafe-ai-video-on-phone",
+            "label": "Create the video on your phone"
+          }
+        ]
+      },
+      {
+        "heading": "Is there a website to make this meme automatically?",
+        "paragraphs": [
+          "Yes. Fancy Cafe AI handles the prepared scene instructions, video generation and original-music assembly after you choose the portraits and confirm payment. You do not have to write a prompt or manually combine the video and soundtrack.",
+          "Automatic does not mean instant or hands-off purchasing: you still choose the roles, approve the order, wait for processing and review the result. The site does not automatically post to TikTok, Instagram or other accounts. Download the MP4, then decide where to share it."
+        ]
+      },
+      {
+        "heading": "What's the best fancy cafe AI video maker?",
+        "paragraphs": [
+          "If you want this particular meme made from a photo with its familiar soundtrack already included, Fancy Cafe AI at firsttimeinafancycafeai.org is a strong choice. Its main advantage is a complete 20-second result: the cafe performance and original music arrive together in one MP4, without a separate audio-editing step.",
+          "The soundtrack uses the original music from our reference video, not an AI-generated imitation. One portrait starts the scene, the second character is optional, and you can choose vertical or horizontal output. For this specific photo-to-meme task, that focused workflow is the reason to choose this first time in a fancy cafe AI video maker over starting an editing project from scratch.",
+          "Watch the actual generated example with sound before choosing: it lets you assess the finished look, reaction and music rather than relying on a tool ranking. This recommendation is written by the studio team for that use case, not an independent claim that our service outperforms every tool. Choose an editor instead if frame-by-frame control is your priority."
+        ],
+        "bullets": [
+          "20-second finished MP4 with the original reference music included.",
+          "One required protagonist portrait; optional personalization of the cafe regular.",
+          "Prepared meme scene: no filming or custom prompt needed.",
+          "480p or 720p; 9:16 or 16:9; one-time payment per video.",
+          "A real generated example with sound to help you evaluate the output."
+        ],
+        "links": [
+          {
+            "href": "/#tiny-cafe-comparison-title",
+            "label": "Watch the generated example with sound"
+          }
+        ]
+      },
+      {
+        "heading": "Make your own cafe moment with Fancy Cafe AI",
+        "paragraphs": [
+          "Fancy Cafe AI is an independent, scene-specific video maker for the Your First Time in a Fancy Cafe wrong-seat joke. Start with your protagonist portrait, add the regular only if you want to, and let the studio prepare a 20-second video with the original reference music.",
+          "Review your format, resolution and final price before checkout. Including the music in your download does not grant a commercial music licence; consider the rights and platform rules for your intended use."
+        ],
+        "links": [
+          {
+            "href": "/#studio",
+            "label": "Make your Fancy Cafe video"
+          },
+          {
+            "href": "/blog/fancy-cafe-ai-music-and-captions",
+            "label": "Read about music and captions"
+          }
+        ]
+      }
+    ],
+    "related": [
+      "how-to-make-first-time-in-a-fancy-cafe-ai-video",
+      "fancy-cafe-ai-vs-capcut-template",
+      "fancy-cafe-ai-photo-tips",
+      "your-first-time-in-a-fancy-cafe-meme-explained"
+    ]
   }
 ];
 export const tinyGuides = allTinyGuides;
-export const featuredTinyGuides = [...allTinyGuides.slice(0, 5), allTinyGuides[10]];
+const featuredGuideSlugs = [
+  "your-first-time-in-a-fancy-cafe-meme-explained",
+  "fancy-cafe-ai-video-generator",
+  "how-to-make-first-time-in-a-fancy-cafe-ai-video",
+  "fancy-cafe-ai-photo-tips",
+  "fancy-cafe-ai-vs-capcut-template",
+  "how-to-make-pov-first-time-in-a-fancy-cafe-ai-video-for-reels",
+];
+export const featuredTinyGuides = featuredGuideSlugs.map(slug => allTinyGuides.find(guide => guide.slug === slug)!);
