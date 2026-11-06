@@ -329,7 +329,7 @@ export const allTinyGuides: TinyGuide[] = [
     "publishedAt": "2026-11-05",
     "updatedAt": "2026-11-06",
     "category": "Getting started",
-    "minutes": "4 min read",
+    "minutes": "6 min read",
     "image": "/fancy-cafe-ai/guides/demo-3.webp",
     "imageClass": "",
     "imageBadge": "CAFE REFERENCE",
@@ -456,6 +456,39 @@ export const allTinyGuides: TinyGuide[] = [
             "label": "Make your Fancy Cafe video"
           }
         ]
+      },
+      {
+        "heading": "Can I put myself and my friend in the fancy cafe meme using two photos?",
+        "paragraphs": [
+          "Yes. Upload one separate portrait of yourself and one of your friend, provided you are both adults and each person agrees to the use of their image. Put the person who takes the wrong seat in Protagonist; put the person who reveals the correct seat in Cafe regular.",
+          "Review both labeled previews before checkout. Two photos personalize the existing two roles, not a group scene, and the optional second portrait does not add a fee to the selected resolution. Leaving the regular slot empty keeps a reference-style second character."
+        ],
+        "links": [
+          {
+            "href": "/blog/fancy-cafe-ai-photo-tips",
+            "label": "Choose clear individual portraits"
+          }
+        ]
+      },
+      {
+        "heading": "Can I make a funny version with my friends?",
+        "paragraphs": [
+          "Yes, with one friend in each two-person video: the humor comes from choosing who makes the seating mistake and who calmly uses the bench. This template has two roles, not a group cast, so it cannot place a whole circle of friends into one scene.",
+          "Choose a consenting adult friend who enjoys being part of the joke, agree on the roles, and share the result as an AI remake rather than a recording of something they really did. Making several different pairings means separate video orders; it is not an unlimited group package."
+        ]
+      },
+      {
+        "heading": "Can I make my girlfriend the person walking in?",
+        "paragraphs": [
+          "Yes. With her permission, upload a separate adult portrait of your girlfriend to Cafe regular, the optional second slot. That is the role intended to enter and sit on the bench while the protagonist notices the seating mistake; Protagonist is the wrong-seat visitor.",
+          "The roles describe actions rather than gender, so the same assignment works for a boyfriend or another consenting adult. The reference guides the entrance and reveal, but exact walking motion, facial expression and timing can vary in a newly generated video."
+        ],
+        "links": [
+          {
+            "href": "/#studio",
+            "label": "Assign your two character photos"
+          }
+        ]
       }
     ],
     "related": [
@@ -463,7 +496,8 @@ export const allTinyGuides: TinyGuide[] = [
       "how-to-create-fancy-cafe-ai-video-on-phone",
       "fancy-cafe-ai-video-generator",
       "fancy-cafe-ai-photo-tips",
-      "fix-fancy-cafe-ai-face-and-seat-errors"
+      "fix-fancy-cafe-ai-face-and-seat-errors",
+      "fancy-cafe-ai-photo-privacy"
     ]
   },
   {
@@ -473,9 +507,9 @@ export const allTinyGuides: TinyGuide[] = [
     "answer": "Use a sharp, well-lit photo containing one consenting adult, with a visible face and no heavy obstruction. Fancy Cafe AI accepts JPG, PNG and WebP files up to 10 MB. A separate portrait is needed for each personalized role; a group selfie is not recommended.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
-    "updatedAt": "2026-11-05",
+    "updatedAt": "2026-11-06",
     "category": "Getting started",
-    "minutes": "3 min read",
+    "minutes": "4 min read",
     "image": "/fancy-cafe-ai/guides/demo-1.webp",
     "imageClass": "",
     "imageBadge": "CAFE REFERENCE",
@@ -506,12 +540,33 @@ export const allTinyGuides: TinyGuide[] = [
           "Check the file format and size first. Then choose a clearer photo with one adult face and wait for the new check to finish. Automated screening can make mistakes; repeatedly submitting the same rejected file is unlikely to help.",
           "Only upload images you have permission to use. Photo checks do not prove ownership or consent, and approval is not a guarantee that a generated face will be an exact match."
         ]
+      },
+      {
+        "heading": "Can I use my own selfie?",
+        "paragraphs": [
+          "Yes. Use a sharp selfie of yourself as a consenting adult, with your face visible and evenly lit. Upload it to Protagonist to play the visitor who takes the wrong seat. JPG, PNG and WebP files up to 10 MB are accepted by the upload interface.",
+          "Prefer a photo taken at eye level without sunglasses, a strong beauty filter or another face beside yours. For two personalized characters, use a separate portrait in each slot rather than one group selfie. The studio optimizes the uploaded image for processing; good input helps identity but does not guarantee an exact likeness."
+        ],
+        "links": [
+          {
+            "href": "/blog/fancy-cafe-ai-photo-privacy",
+            "label": "Understand how uploaded portraits are stored"
+          }
+        ]
+      },
+      {
+        "heading": "Can I put my dog in the fancy cafe meme?",
+        "paragraphs": [
+          "No. Pets are not supported by this Fancy Cafe template. It is designed for one or two consenting adult human portraits and a two-person seating scene, so a dog photo is not an appropriate input for either character slot.",
+          "Do not buy a video expecting this workflow to turn an animal into the cafe visitor. To personalize the joke here, use your own adult portrait, optionally add another consenting adult as the regular, and keep the pet out of the upload."
+        ]
       }
     ],
     "related": [
       "fancy-cafe-ai-two-people",
       "how-to-make-first-time-in-a-fancy-cafe-ai-video",
-      "fix-fancy-cafe-ai-face-and-seat-errors"
+      "fix-fancy-cafe-ai-face-and-seat-errors",
+      "fancy-cafe-ai-photo-privacy"
     ]
   },
   {
@@ -623,6 +678,32 @@ export const allTinyGuides: TinyGuide[] = [
             "label": "Make your Fancy Cafe video"
           }
         ]
+      },
+      {
+        "heading": "Does the AI video look like the original meme?",
+        "paragraphs": [
+          "The intended resemblance is the story: a visitor sits on the small table, a regular sits on the bench, and the visitor notices the mistake and moves. Fancy Cafe AI generates new reference-guided footage with your portrait, rather than replacing a face inside every frame of the original clip.",
+          "Your finished video includes the original reference music, but the face, clothing, furniture, camera framing and timing may differ. Our homepage labels the actual generated example separately from reference videos so you can judge a real result rather than mistaking source footage for a customer output."
+        ],
+        "links": [
+          {
+            "href": "/#tiny-cafe-comparison-title",
+            "label": "Watch the studio-generated example"
+          }
+        ]
+      },
+      {
+        "heading": "Is there a fancy cafe CapCut template?",
+        "paragraphs": [
+          "This website is a Fancy Cafe AI generator, not a CapCut template or an official CapCut service. We do not maintain a verified live template link for this meme, so we cannot promise that a particular template is available in your app or region.",
+          "If you find a template, preview what it actually changes: a caption or photo montage is not the same as generating a new wrong-seat performance with your face. Use an editing template for footage you already have; use this studio when you want to create the cafe scene from portraits. Check any template price and export conditions before importing personal photos."
+        ],
+        "links": [
+          {
+            "href": "/blog/fancy-cafe-ai-video-generator",
+            "label": "See what this portrait-based generator creates"
+          }
+        ]
       }
     ],
     "related": [
@@ -732,6 +813,23 @@ export const allTinyGuides: TinyGuide[] = [
           "Keep the included music, or replace it in your editor with audio you are permitted to use.",
           "Watch the final export to check that text and audio do not obscure the reveal."
         ]
+      },
+      {
+        "heading": "How do I add the original sound to my video?",
+        "paragraphs": [
+          "You do not need to add it manually to a video made here. Fancy Cafe AI delivers a 20-second MP4 with the original music from our reference recording already included: the generated visuals are combined with that soundtrack before the final download is offered.",
+          "If the homepage preview is silent, turn its sound on or play your downloaded file with the device volume enabled before assuming the track is missing. When sharing or editing, keep the existing audio if you want this version of the music; adding another copy can create an echo. The included recording does not grant a separate commercial music licence."
+        ],
+        "links": [
+          {
+            "href": "/#tiny-cafe-comparison-title",
+            "label": "Hear the soundtrack in a generated example"
+          },
+          {
+            "href": "/blog/download-fancy-cafe-ai-video",
+            "label": "Download the finished video with audio"
+          }
+        ]
       }
     ],
     "related": [
@@ -755,19 +853,116 @@ export const allTinyGuides: TinyGuide[] = [
   },
   {
     "slug": "fancy-cafe-ai-price-and-free-options",
-    "title": "Is the Fancy Cafe AI video free? Video pricing explained",
-    "description": "Fancy Cafe AI pricing: $6.99 for 480p or $9.99 for 720p. Understand paid renders and what free editing options can do.",
+    "title": "Fancy Cafe AI Pricing: Free Options, Watermarks and HD Downloads",
+    "description": "What is free, what a 20-second Fancy Cafe AI video costs, and what 480p or 720p includes. Compare prices, music, watermark handling and download access.",
     "answer": "Fancy Cafe AI guides are free to browse. Personalized generation is priced at $6.99 for 480p or $9.99 for 720p, per 20-second video. Confirm the final price and availability at checkout; there is no free render or subscription offer.",
     "date": "November 5, 2026",
     "publishedAt": "2026-11-05",
-    "updatedAt": "2026-11-05",
+    "updatedAt": "2026-11-06",
     "category": "Questions & answers",
-    "minutes": "3 min read",
+    "minutes": "5 min read",
     "image": "/fancy-cafe-ai/guides/demo-2.webp",
     "imageClass": "",
     "imageBadge": "CAFE REFERENCE",
     "imageAlt": "Frame from a Fancy Cafe reference video, not a generated customer result",
     "sections": [
+      {
+        "heading": "Is there a free fancy cafe AI video generator?",
+        "paragraphs": [
+          "Personalized generation on firsttimeinafancycafeai.org is paid, not a free trial. Reading the guides and watching the examples is free; making your own 20-second video costs $6.99 at 480p or $9.99 at 720p.",
+          "Other tools may offer free credits or template previews, but a free preview is not necessarily a downloadable custom video. Check whether the offer includes portrait replacement, the full duration, sound and export before comparing it with a finished MP4."
+        ]
+      },
+      {
+        "heading": "Can I make the fancy cafe meme for free?",
+        "paragraphs": [
+          "You can recreate the wrong-seat joke without paying this studio by filming your own performance and editing it with tools you already have. This is a different workflow from generating new cafe footage from a selfie; this site does not offer free personalized generation.",
+          "For a filmed version, establish the table and bench, show the visitor taking the wrong seat, have the regular sit correctly, then capture the realization and move. Use consenting performers and audio you are allowed to share. Watching our reference examples can help you understand the sequence before deciding whether to film or generate."
+        ]
+      },
+      {
+        "heading": "How much does a fancy cafe AI video cost?",
+        "paragraphs": [
+          "One Fancy Cafe AI video costs $6.99 for 480p or $9.99 for 720p. Both tiers deliver one 20-second MP4 with the original reference music included. The optional second portrait costs no extra; there is no subscription or credit package.",
+          "Choose one aspect ratio per order: 9:16 vertical or 16:9 horizontal. The purchase does not include both versions. Confirm the final checkout amount, and download the completed file within 30 days rather than treating browser history as a permanent backup."
+        ],
+        "table": {
+          "caption": "What each one-time Fancy Cafe AI order includes",
+          "headers": [
+            "Included",
+            "480p Standard",
+            "720p HD"
+          ],
+          "rows": [
+            [
+              "Price (USD)",
+              "$6.99",
+              "$9.99"
+            ],
+            [
+              "Finished duration",
+              "20 seconds",
+              "20 seconds"
+            ],
+            [
+              "Original reference music",
+              "Included",
+              "Included"
+            ],
+            [
+              "Portraits",
+              "1 required + 1 optional",
+              "1 required + 1 optional"
+            ],
+            [
+              "Aspect ratio",
+              "Choose 9:16 or 16:9",
+              "Choose 9:16 or 16:9"
+            ],
+            [
+              "Download access",
+              "Within 30 days",
+              "Within 30 days"
+            ]
+          ]
+        },
+        "links": [
+          {
+            "href": "/#studio",
+            "label": "Choose your video settings"
+          },
+          {
+            "href": "/refund-policy",
+            "label": "Read delivery and refund terms"
+          }
+        ]
+      },
+      {
+        "heading": "Does it add a watermark?",
+        "paragraphs": [
+          "The studio does not add its own branding watermark during final audio/video assembly. That step combines the generated footage and reference soundtrack, then sizes the video for your chosen format; it does not stamp our logo over the scene.",
+          "This is not a guarantee that an upstream AI result can never contain a mark or unwanted generated text. The POV caption on our demonstration is a sample caption, not a studio branding watermark or a promise that every order receives that caption. Review the actual generated example before paying."
+        ],
+        "links": [
+          {
+            "href": "/#tiny-cafe-comparison-title",
+            "label": "Inspect the actual generated example"
+          }
+        ]
+      },
+      {
+        "heading": "Can I download the video in HD?",
+        "paragraphs": [
+          "Yes. Choose the $9.99 720p option before checkout to receive an HD MP4: 720 × 1280 for vertical 9:16, or 1280 × 720 for horizontal 16:9. The $6.99 option is 480p; neither tier is advertised as 1080p or 4K.",
+          "The selected resolution applies to the delivered file. Choosing HD does not guarantee a more accurate face or funnier reaction, and downloading a 480p order again does not upgrade it to 720p. Save the finished MP4 from Generated videos within 30 days."
+        ],
+        "links": [
+          {
+            "href": "/blog/download-fancy-cafe-ai-video",
+            "label": "Download and save your finished MP4"
+          }
+        ]
+      },
       {
         "heading": "What does one payment cover?",
         "paragraphs": [
@@ -793,7 +988,8 @@ export const allTinyGuides: TinyGuide[] = [
     "related": [
       "how-to-make-first-time-in-a-fancy-cafe-ai-video",
       "fancy-cafe-ai-vs-capcut-template",
-      "download-fancy-cafe-ai-video"
+      "download-fancy-cafe-ai-video",
+      "fancy-cafe-ai-photo-privacy"
     ]
   },
   {
@@ -939,7 +1135,7 @@ export const allTinyGuides: TinyGuide[] = [
     "publishedAt": "2026-11-06",
     "updatedAt": "2026-11-06",
     "category": "Making & saving",
-    "minutes": "4 min read",
+    "minutes": "6 min read",
     "image": "/fancy-cafe-ai/guides/demo-2.webp",
     "imageClass": "",
     "imageBadge": "CAFE REFERENCE",
@@ -1008,6 +1204,47 @@ export const allTinyGuides: TinyGuide[] = [
           "No. This studio generates and lets you download an MP4; it does not connect to TikTok or Instagram or publish on your behalf. Upload the saved file through the platform or editor you choose, and preview the final crop and caption there.",
           "Only upload portraits of consenting adults. A sample video or a trending track is not proof that you have rights to reuse someone else’s audio or footage; check the rights for the sound you choose. Sharing does not guarantee views or a result identical to the reference."
         ]
+      },
+      {
+        "heading": "How do I make this TikTok trend?",
+        "paragraphs": [
+          "To make the Your First Time in a Fancy Cafe TikTok trend with your own face, upload an adult portrait to Fancy Cafe AI, choose a vertical 9:16 video, confirm the one-time price and generate. The delivered 20-second MP4 includes the original reference music, so you do not need to rebuild the scene or mix the soundtrack.",
+          "Add a second portrait only if you want to personalize the cafe regular. After payment, follow the existing order in the same browser, then preview and download the result. The website creates the file; you decide whether and where to post it."
+        ],
+        "steps": [
+          "Upload one consenting-adult portrait to Protagonist; optionally add Cafe regular.",
+          "Choose 9:16 and 480p or 720p; confirm the price before payment.",
+          "Wait for the existing order to finish, then watch the complete video with sound.",
+          "Download the MP4 within 30 days and use your social app to share it."
+        ],
+        "links": [
+          {
+            "href": "/#studio",
+            "label": "Make your vertical cafe video"
+          }
+        ]
+      },
+      {
+        "heading": "How do I post the fancy cafe AI video on TikTok?",
+        "paragraphs": [
+          "Download your completed MP4 to your device, then use TikTok to upload that saved video and publish it yourself. Fancy Cafe AI does not connect to your TikTok account or automatically post on your behalf; generating a video and publishing it are separate steps.",
+          "Preview the crop, caption and sound before posting. The downloaded MP4 already has the original reference music, so do not accidentally layer a second copy of the same song over it. Identify the scene as AI-generated, review the platform rules for your intended use, and check audience settings before publishing."
+        ],
+        "steps": [
+          "In the TikTok app, tap Add post (+), then Upload and select the saved MP4.",
+          "Preview the full clip; add a description or caption without covering faces or the seating reveal.",
+          "Review sound, AI-content disclosure and privacy settings, then choose Post or save a draft."
+        ],
+        "links": [
+          {
+            "href": "/blog/download-fancy-cafe-ai-video",
+            "label": "Find your downloaded video"
+          },
+          {
+            "href": "/blog/fancy-cafe-ai-music-and-captions",
+            "label": "Understand the included soundtrack"
+          }
+        ]
       }
     ],
     "related": [
@@ -1024,6 +1261,13 @@ export const allTinyGuides: TinyGuide[] = [
       {
         "question": "Does Fancy Cafe AI upload the finished video to TikTok or Reels?",
         "answer": "No. Download the completed MP4 in the same browser, then upload it yourself through your chosen platform. You can add a short POV caption in your editor."
+      }
+    ],
+    "sources": [
+      {
+        "label": "TikTok Help Center: Making a post",
+        "href": "https://support.tiktok.com/en/using-tiktok/creating-videos/making-a-post",
+        "note": "Official instructions for uploading a saved video, editing and publishing manually. App labels may vary by language and version; this is not a Fancy Cafe integration."
       }
     ]
   },
@@ -1401,6 +1645,23 @@ export const allTinyGuides: TinyGuide[] = [
         ]
       },
       {
+        "heading": "Which fancy cafe AI generator works best?",
+        "paragraphs": [
+          "For a photo-based remake with the familiar music already attached, Fancy Cafe AI is built specifically for this task: one or two portraits become a 20-second wrong-seat scene with the original reference soundtrack. You do not need to write scene prompts or assemble the audio yourself.",
+          "Judge the fit by watching our actual generated example beside its input portraits, not by a ranking with no evidence. Check whether the face is recognizable, the bench reveal reads clearly and the finished music suits your post. This is our own product recommendation, not an independent comparison test; an editor is a better fit if you need exact frame-by-frame control."
+        ],
+        "links": [
+          {
+            "href": "/#tiny-cafe-comparison-title",
+            "label": "Compare the input portraits and generated video"
+          },
+          {
+            "href": "/blog/fancy-cafe-ai-price-and-free-options",
+            "label": "Compare resolution, price and download details"
+          }
+        ]
+      },
+      {
         "heading": "Make your own cafe moment with Fancy Cafe AI",
         "paragraphs": [
           "Fancy Cafe AI is an independent, scene-specific video maker for the Your First Time in a Fancy Cafe wrong-seat joke. Start with your protagonist portrait, add the regular only if you want to, and let the studio prepare a 20-second video with the original reference music.",
@@ -1423,6 +1684,115 @@ export const allTinyGuides: TinyGuide[] = [
       "fancy-cafe-ai-vs-capcut-template",
       "fancy-cafe-ai-photo-tips",
       "your-first-time-in-a-fancy-cafe-meme-explained"
+    ]
+  },
+  {
+    "slug": "fancy-cafe-ai-photo-privacy",
+    "title": "Is My Uploaded Photo Stored or Deleted? Fancy Cafe AI Privacy",
+    "description": "How Fancy Cafe AI handles uploaded portraits, cleanup after generation, the normal three-day input window, browser previews and 30-day video downloads.",
+    "answer": "Uploaded portraits are temporarily stored privately for checkout and paid-generation retries. They become eligible for cleanup when generation finishes or their input window expires, normally 3 days after order creation. Deletion depends on the cleanup worker running; completed videos have a separate 30-day download window.",
+    "date": "November 6, 2026",
+    "publishedAt": "2026-11-06",
+    "updatedAt": "2026-11-06",
+    "category": "Questions & answers",
+    "minutes": "4 min read",
+    "image": "/fancy-cafe-ai/guides/demo-1.webp",
+    "imageClass": "",
+    "imageBadge": "CAFE REFERENCE",
+    "imageAlt": "Illustrative frame from the Fancy Cafe reference video, not a private customer upload",
+    "sections": [
+      {
+        "heading": "Is my uploaded photo stored or deleted?",
+        "paragraphs": [
+          "Your uploaded portrait is temporarily stored in private object storage so checkout and paid-generation retries can use it. It is not a public gallery submission. Input photos become eligible for cleanup once generation finishes, or when the input window expires, normally 3 days after order creation.",
+          "Eligible does not mean instantly deleted: the cleanup worker must run to remove the stored inputs and clear their order references. That timing describes our input storage, not an immediate deletion promise for every third-party system. Upload only consenting adult portraits that you have permission to use."
+        ],
+        "links": [
+          {
+            "href": "/privacy",
+            "label": "Read the full privacy policy"
+          }
+        ]
+      },
+      {
+        "heading": "Why is a portrait kept during checkout and retries?",
+        "paragraphs": [
+          "A paid order needs its selected photos after you return from checkout, and a retry needs the same inputs if a technical problem interrupts processing. Temporary private storage supports that workflow instead of requiring you to upload the portraits again after every step.",
+          "Photos are processed for the requested service. Optimized portraits may go to a safety service when selected, and are sent to the generation provider after verified payment with the scene reference. Those third-party services may retain data under their own policies; local cleanup does not establish their retention or training practices."
+        ]
+      },
+      {
+        "heading": "Are uploaded photos and finished videos kept for the same time?",
+        "paragraphs": [
+          "No. Source portraits and completed MP4s have different purposes and retention windows. Input cleanup becomes eligible after completion or input expiry; finished videos are available to download within 30 days of completion. Download the finished file if you want to keep it.",
+          "Payment and order records may be retained longer for operational and recordkeeping purposes. A video disappearing from the browser list does not prove every server record was deleted, and deleting source portraits does not remove a video you have already saved to your own device."
+        ],
+        "table": {
+          "caption": "Different data, different retention",
+          "headers": [
+            "Data",
+            "What to expect"
+          ],
+          "rows": [
+            [
+              "Uploaded portraits",
+              "Private temporary storage; cleanup eligible after generation finishes or input expiry (normally 3 days from order creation)."
+            ],
+            [
+              "Finished MP4",
+              "Separate 30-day download window after completion."
+            ],
+            [
+              "Browser previews and order history",
+              "Local browser state, separate from server storage."
+            ],
+            [
+              "Provider and payment records",
+              "Separate provider policies and recordkeeping periods apply."
+            ]
+          ]
+        },
+        "links": [
+          {
+            "href": "/blog/download-fancy-cafe-ai-video",
+            "label": "Save your video before access expires"
+          }
+        ]
+      },
+      {
+        "heading": "Does clearing my browser delete my uploaded photo?",
+        "paragraphs": [
+          "No. Clearing browser data removes local state such as previews or saved order references; it does not send a deletion request to our storage or to a generation provider. It can also make it harder to recover an order in that browser.",
+          "Keep your order reference privately and download a completed video before clearing local data. If you want server-side deletion reviewed, contact support rather than relying on removing a preview or closing the tab."
+        ]
+      },
+      {
+        "heading": "How can I request deletion or ask about my photos?",
+        "paragraphs": [
+          "Use Contact & support for a privacy request and include enough information to locate your order without attaching portraits or payment card details. Support may need to verify your identity before reviewing access, correction or deletion requests.",
+          "This guide explains the workflow in plain language; the privacy policy contains the full disclosures. Before making your own Your First Time in a Fancy Cafe AI video, choose a clear adult portrait, obtain permission for the optional second person, and review the examples and price."
+        ],
+        "links": [
+          {
+            "href": "/contact",
+            "label": "Contact support about a privacy request"
+          },
+          {
+            "href": "/privacy",
+            "label": "Read the privacy policy"
+          },
+          {
+            "href": "/#studio",
+            "label": "Choose your cafe characters"
+          }
+        ]
+      }
+    ],
+    "related": [
+      "fancy-cafe-ai-photo-tips",
+      "fancy-cafe-ai-two-people",
+      "download-fancy-cafe-ai-video",
+      "fancy-cafe-ai-price-and-free-options"
     ]
   }
 ];

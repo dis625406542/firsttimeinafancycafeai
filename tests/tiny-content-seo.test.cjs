@@ -14,10 +14,10 @@ function load(file) {
  };
  new Function('exports','module','require',compiled)(mod.exports,mod,localRequire);return mod.exports;
 }
-test('fourteen distinct cafe guides use new URLs and have truthful dated content',()=>{
+test('fifteen distinct cafe guides use new URLs and have truthful dated content',()=>{
  const {allTinyGuides}=load('src/lib/tiny-guides.ts');
- assert.equal(allTinyGuides.length,14);
- assert.equal(new Set(allTinyGuides.map(g=>g.slug)).size,14);
+ assert.equal(allTinyGuides.length,15);
+ assert.equal(new Set(allTinyGuides.map(g=>g.slug)).size,15);
  for(const g of allTinyGuides){
   assert.ok(g.answer.length>60,g.slug+' has a direct answer');
   assert.match(g.publishedAt,/^\d{4}-\d{2}-\d{2}$/);
@@ -55,7 +55,7 @@ test('sitemap uses content dates, includes all articles, and has unique canonica
  assert.match(source,/url:\s*SITE_URL,\s*lastModified:\s*latestArticle/);
  const urls=load('src/app/sitemap.ts').default();
  const {allTinyGuides}=load('src/lib/tiny-guides.ts');
- assert.equal(urls.length,23);
+ assert.equal(urls.length,24);
  assert.equal(urls.find(u=>u.url==='https://firsttimeinafancycafeai.org')?.lastModified,'2026-11-06');
  assert.equal(urls.find(u=>u.url==='https://firsttimeinafancycafeai.org/blog')?.lastModified,'2026-11-06');
  assert.equal(new Set(urls.map(u=>u.url)).size,urls.length);
@@ -275,4 +275,34 @@ test('how-to guides preserve all eight complete user questions as answer-first h
  assert.ok(workflow.steps.length>=5);assert.match(JSON.stringify(workflow),/30 days/);
  const home=fs.readFileSync(path.join(root,'src/app/page.tsx'),'utf8');
  for(const question of [groups['fancy-cafe-ai-two-people'][0],groups['fancy-cafe-ai-two-people'][1],groups['fancy-cafe-ai-two-people'][3],groups['how-to-make-first-time-in-a-fancy-cafe-ai-video'][2]]) assert.ok(home.includes(question));
+});
+
+test('purchase, portrait, sharing and privacy questions keep exact question headings',()=>{
+ const {allTinyGuides}=load('src/lib/tiny-guides.ts');
+ const groups={
+  'fancy-cafe-ai-price-and-free-options':['Is there a free fancy cafe AI video generator?','Can I make the fancy cafe meme for free?','How much does a fancy cafe AI video cost?','Does it add a watermark?','Can I download the video in HD?'],
+  'fancy-cafe-ai-video-generator':['Which fancy cafe AI generator works best?'],
+  'fancy-cafe-ai-vs-capcut-template':['Does the AI video look like the original meme?','Is there a fancy cafe CapCut template?'],
+  'fancy-cafe-ai-photo-tips':['Can I use my own selfie?','Can I put my dog in the fancy cafe meme?'],
+  'fancy-cafe-ai-two-people':['Can I put myself and my friend in the fancy cafe meme using two photos?','Can I make a funny version with my friends?','Can I make my girlfriend the person walking in?'],
+  'how-to-make-pov-first-time-in-a-fancy-cafe-ai-video-for-reels':['How do I make this TikTok trend?','How do I post the fancy cafe AI video on TikTok?'],
+  'fancy-cafe-ai-music-and-captions':['How do I add the original sound to my video?'],
+  'fancy-cafe-ai-photo-privacy':['Is my uploaded photo stored or deleted?']
+ };
+ for(const [slug,questions] of Object.entries(groups)) {
+  const g=allTinyGuides.find(g=>g.slug===slug);assert.ok(g,slug);assert.equal(g.updatedAt,'2026-11-06');
+  for(const q of questions){const s=g.sections.find(s=>s.heading===q);assert.ok(s,q);assert.ok(s.paragraphs[0].length>90,q);assert.ok(s.paragraphs.length>=2,q);}
+ }
+ const text=slug=>JSON.stringify(allTinyGuides.find(g=>g.slug===slug));
+ const price=text('fancy-cafe-ai-price-and-free-options');
+ for(const p of [/6\.99/,/9\.99/,/480p/,/720p/,/20.second/,/does not add its own branding watermark/,/upstream/i])assert.match(price,p);
+ assert.ok(allTinyGuides.find(g=>g.slug==='fancy-cafe-ai-price-and-free-options').sections.some(s=>s.table?.rows.length>=5));
+ assert.match(text('fancy-cafe-ai-photo-tips'),/pets are not supported/i);
+ assert.match(text('fancy-cafe-ai-two-people'),/two roles, not a group/i);
+ const privacy=text('fancy-cafe-ai-photo-privacy');
+ for(const p of [/3 days/,/30 days/,/worker/i,/eligible/i,/third.party/i,/browser/i,/\/privacy/,/\/contact/])assert.match(privacy,p);
+ assert.doesNotMatch(privacy,/never stored|never used for training|deleted immediately everywhere/i);
+ const home=fs.readFileSync(path.join(root,'src/app/page.tsx'),'utf8');
+ for(const q of ['How much does a fancy cafe AI video cost?','Does it add a watermark?','Can I download the video in HD?','Is my uploaded photo stored or deleted?'])assert.ok(home.includes(q),q);
+ const {guideCtaEvent}=load('src/lib/guide-analytics.ts');assert.ok(guideCtaEvent('/blog/fancy-cafe-ai-photo-privacy','/#studio'));
 });
