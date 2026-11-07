@@ -44,3 +44,7 @@ The sitemap contains 19 canonical entries under the new domain. Submit `/sitemap
 The coffee cup logo keeps the purple/pink palette. `public/logo.svg` is canonical; `node scripts/generate-brand-assets.mjs` regenerates PNG sizes, app icons and the social card. Public routes: `/logo.svg`, `/logo.png`, `/logo-192.png`, `/logo-512.png`, `/logo-1024.png`, `/icon.svg`, `/favicon.ico`, `/apple-icon.png`, `/social-preview.png`.
 
 Research and deployment notes are stored locally in ignored `docs/`. Local MCP tools are ignored under `.codex/`; neither is staged automatically.
+
+## Google Analytics 4
+
+Production defaults to the site-specific `G-RW2PLTLMLG` property when `NEXT_PUBLIC_GA_ID` is unset or empty. An explicit valid ID overrides it; set `NEXT_PUBLIC_GA_ID=off` to disable analytics (recommended for Preview). Local development is disabled unless a valid ID is supplied. Do not add a duplicate GTM installation. The app sends page views after analytics consent. In the GA4 web stream, disable Enhanced Measurement page views based on browser history changes to avoid counting the same client-side navigation twice. Review other automatic events before enabling them on checkout pages. After deployment, accept analytics and check the GA4 Realtime report; code tests alone do not verify data receipt. Rebuild after changing public environment variables.
