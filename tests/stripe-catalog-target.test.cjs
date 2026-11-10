@@ -3,16 +3,16 @@ const assert = require('node:assert/strict');
 const { readFileSync } = require('node:fs');
 const { join } = require('node:path');
 
-test('Fancy Cafe Stripe catalog accepts only this website schema and product', async () => {
+test('Smiths Stripe catalog accepts only this website schema and product', async () => {
   const target = await import('../scripts/stripe-catalog-target.mjs');
   assert.equal(target.TEMPLATE_ID, 'fancy-cafe-ai');
-  assert.deepEqual(target.PRICES, [['480p', 599], ['720p', 899]]);
+  assert.deepEqual(target.PRICES, [['480p', 699], ['720p', 999]]);
   const env = { DATABASE_PRO_NAME: 'firsttimeinafancycafeai_pro', DIRECT_PRO_URL: 'postgresql://user:pass@localhost:5432/postgres?sslmode=require&schema=firsttimeinafancycafeai_pro' };
   assert.equal(target.catalogDbUrl(env, 'fancy-cafe-ai'), env.DIRECT_PRO_URL);
   const cafeTestEnv = { ...env, DATABASE_PRO_NAME: 'firsttimeinafancycafeai_test', DIRECT_PRO_URL: env.DIRECT_PRO_URL.replaceAll('firsttimeinafancycafeai_pro', 'firsttimeinafancycafeai_test') };
   assert.equal(target.catalogDbUrl(cafeTestEnv, 'fancy-cafe-ai'), cafeTestEnv.DIRECT_PRO_URL);
   assert.equal(target.resolveSql(target.UPDATE_PRICE_SQL, cafeTestEnv).includes('firsttimeinafancycafeai_test.product_prices'), true);
-  assert.throws(() => target.catalogDbUrl(env, 'zombie-couple'), /Fancy Cafe/i);
+  assert.throws(() => target.catalogDbUrl(env, 'zombie-couple'), /configured template product/i);
   // Copied old schema names fail closed before Stripe or SQL writes.
   const testEnv = { DATABASE_PRO_NAME: 'tinydeskaivideo_test', DIRECT_PRO_URL: 'postgresql://user:pass@localhost:5432/postgres?sslmode=require&schema=tinydeskaivideo_test' };
   assert.throws(() => target.catalogDbUrl(testEnv, 'fancy-cafe-ai'), /Wrong site schema/);

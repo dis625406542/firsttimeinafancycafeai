@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100" role="img" aria-labelledby="title desc">
+<title id="title">Original illustration: two photo roles before generation</title>
+<desc id="desc">Photo 1 is the headphone listener; Photo 2 is the person who says the line. Illustrations, not customer photos or results.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2a1813"/><stop offset="1" stop-color="#1b0f0b"/></linearGradient>
+<linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4a1f28"/><stop offset="1" stop-color="#332018"/></linearGradient>
+</defs>
+<rect width="900" height="1100" rx="28" fill="url(#bg)"/>
+<text x="56" y="92" font-family="Arial, sans-serif" font-size="18" font-weight="800" letter-spacing="3" fill="#e0b56f">TWO PHOTOS, TWO ROLES</text>
+<text x="56" y="142" font-family="Georgia, serif" font-size="38" font-weight="700" fill="#fff4e8">Upload order matters</text>
+<g>
+<rect x="56" y="190" width="788" height="380" rx="22" fill="url(#card)" stroke="#6b4435" stroke-width="2"/>
+<text x="88" y="240" font-family="Arial, sans-serif" font-size="16" font-weight="800" letter-spacing="2" fill="#f07a68">PHOTO 1</text>
+<text x="88" y="282" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#fff4e8">Headphone listener</text>
+<text x="88" y="320" font-family="Arial, sans-serif" font-size="19" fill="#cfb3a2">The person wearing headphones</text>
+<g transform="translate(620 350)">
+<circle cx="0" cy="0" r="86" fill="#e8b89a"/>
+<path d="M-88 2c-12-68 34-112 86-112 56 0 94 46 88 112-14-26-26-42-44-52-22 22-64 32-100 26-12 12-18 18-30 26Z" fill="#3a2418"/>
+<path d="M-86 0c0-50 34-86 86-86s86 36 86 86" stroke="#1b0f0b" stroke-width="16" fill="none" stroke-linecap="round"/>
+<rect x="-108" y="-20" width="34" height="62" rx="16" fill="#1b0f0b"/>
+<rect x="74" y="-20" width="34" height="62" rx="16" fill="#1b0f0b"/>
+<circle cx="-24" cy="0" r="6" fill="#2a1813"/><circle cx="24" cy="0" r="6" fill="#2a1813"/>
+<path d="M-20 32c12 8 30 8 42 0" stroke="#8a4a45" stroke-width="6" fill="none" stroke-linecap="round"/>
+</g>
+</g>
+<g>
+<rect x="56" y="610" width="788" height="380" rx="22" fill="url(#card)" stroke="#6b4435" stroke-width="2"/>
+<text x="88" y="660" font-family="Arial, sans-serif" font-size="16" font-weight="800" letter-spacing="2" fill="#f07a68">PHOTO 2</text>
+<text x="88" y="702" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#fff4e8">The Smiths fan</text>
+<text x="88" y="740" font-family="Arial, sans-serif" font-size="19" fill="#cfb3a2">The person who turns and says the line</text>
+<g transform="translate(620 770)">
+<path d="M-66 2c0-70 30-108 66-108s66 38 66 108l18 96c-22 30-50 44-84 44s-62-14-84-44Z" fill="#a94e2f"/>
+<circle cx="0" cy="0" r="80" fill="#f0c4a8"/>
+<path d="M-80-8c0-54 34-90 80-90s80 36 80 90c-18-20-44-32-80-32s-62 12-80 32Z" fill="#a94e2f"/>
+<path d="M-30-2c4-4 10-4 14 0M16-2c4-4 10-4 14 0" stroke="#2a1813" stroke-width="6" fill="none" stroke-linecap="round"/>
+<path d="M-22 26c14 12 30 12 44 0" stroke="#b85c58" stroke-width="7" fill="none" stroke-linecap="round"/>
+</g>
+</g>
+<text x="56" y="1050" font-family="Arial, sans-serif" font-size="15" letter-spacing="1.5" fill="#cfb3a2">ORIGINAL ILLUSTRATIONS · NOT CUSTOMER PHOTOS OR GENERATED RESULTS</text>
+</svg>

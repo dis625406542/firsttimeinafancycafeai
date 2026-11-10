@@ -8,9 +8,10 @@ const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 
 test('shared logo SVG is also the app icon', () => {
   const svg = read('public/logo.svg');
-  assert.match(svg, /#f73aae/);
-  assert.match(svg, /#912fe4/);
-  assert.match(svg, /#ffca59/);
+  assert.match(svg, /#ff7a93/);
+  assert.match(svg, /#f23a5c/);
+  assert.match(svg, /#c51d3f/);
+  assert.match(svg, /#ffc23c/);
   assert.equal(read('src/app/icon.svg'), svg);
   assert.match(read('src/components/site-chrome.tsx'), /src="\/logo.svg"/);
   assert.doesNotMatch(read('src/components/site-chrome.tsx'), /Mic2/);

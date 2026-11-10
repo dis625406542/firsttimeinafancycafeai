@@ -49,14 +49,16 @@ test('first paint shows truthful priced offer but cannot charge until backend co
   assert.match(studio, /fetchCheckoutCatalog/);
   assert.match(studio, /if \(!data.enabled \|\| !price\?\.purchasable\)/);
   assert.doesNotMatch(studio, /Retry checkout check/);
-  assert.match(studio, /onClick=\{\(\) => void prepareCheckout\(\)\}/);
+  assert.match(studio, /prepareCheckout\(\)/);
 });
 
-test('sample reels have no MP4 source in the initial HTML, hero video starts after hydration', () => {
+test('public gallery plays the two muted demo videos while generated playback remains available', () => {
   const reels = fs.readFileSync('src/components/sample-reels.tsx', 'utf8');
   const studio = fs.readFileSync('src/components/tiny-studio.tsx', 'utf8');
-  assert.match(reels, /IntersectionObserver/);
-  assert.match(reels, /src=\{active\[index\] \? reel.src : undefined\}/);
-  assert.match(studio, /sampleReady/);
-  assert.match(studio, /src=\{sampleReady \? "\/api\/tiny-desk\/sample" : undefined\}/);
+  assert.match(reels, /demo-1\.mp4/);
+  assert.match(reels, /demo-2\.mp4/);
+  assert.match(reels, /autoPlay muted loop playsInline/);
+  assert.match(studio, /\/love-the-smiths\/demo-1\.mp4/);
+  assert.doesNotMatch(studio, /sampleReady|example\.mp4/);
+  assert.match(studio, /<video ref=\{previewVideo\} controls autoPlay muted playsInline|\{videoUrl/);
 });

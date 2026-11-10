@@ -21,7 +21,7 @@ test('cafe requests silent 15s Seedance with versioned prompt and correct role b
   assert.throws(()=>makeYirRequest(ids,'480p','9:16','gender_neutral',{...context,photoSlots:['regular']},ids[0]));
  }
 });
-test('v2 requests silent 20s footage with one or two distinct portrait identities',()=>{
+test('v2 requests silent 24s footage with one or two distinct portrait identities',()=>{
  const {makeYirRequest}=require('../src/lib/yir.ts');
  const sql=fs.readFileSync('src/lib/fancy-cafe-v2.sql','utf8');
  const databasePrompt=sql.split('$prompt$')[1];
@@ -29,7 +29,7 @@ test('v2 requests silent 20s footage with one or two distinct portrait identitie
  for(const count of [1,2]) {
   const context={templateId:'fancy-cafe-ai',promptVersion:'fancy-cafe-v2',photoSlots:['protagonist','regular'].slice(0,count),databasePrompt};
   const r=makeYirRequest(ids.slice(0,count),'480p','9:16','gender_neutral',context,ids[0]);
-  assert.equal(r.parameters.duration,20);assert.equal(r.parameters.generate_audio,false);
+  assert.equal(r.parameters.duration,24);assert.equal(r.parameters.generate_audio,false);
   assert.match(r.input.prompt,/20-second/);
   assert.doesNotMatch(r.input.prompt,/\{\{/);
   if(count===1){assert.match(r.input.prompt,/No second portrait is provided/);assert.doesNotMatch(r.input.prompt,/uploaded woman's recognizable facial identity|SECOND uploaded portrait/);}
@@ -67,7 +67,7 @@ test('Stripe checkout simulation is limited to a local test-key/test-schema depl
 });
 test('public site identity and distinct question guides use only the new domain',()=>{
  const site=require('../src/lib/site.ts'), {allTinyGuides:g}=require('../src/lib/tiny-guides.ts');
- assert.equal(site.SITE_URL,'https://firsttimeinafancycafeai.org');assert.ok(g.length>=8);
+ assert.equal(site.SITE_URL,'https://lovethesmithsai.com');assert.equal(g.length,13);
  assert.equal(new Set(g.map(x=>x.slug)).size,g.length);
- for(const x of g){assert.match(x.slug,/fancy-cafe/);assert.ok(x.answer.length>80);assert.ok(x.sections.length>=3);for(const r of x.related)assert.ok(g.some(y=>y.slug===r));}
+ for(const x of g){assert.match(x.slug,/smiths/);assert.ok(x.answer.length>80);assert.ok(x.sections.length>=3);for(const r of x.related)assert.ok(g.some(y=>y.slug===r));}
 });

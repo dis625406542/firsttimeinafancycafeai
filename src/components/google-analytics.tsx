@@ -87,7 +87,7 @@ export function GoogleAnalytics() {
 
   return <>
     {ready && showBanner && <div className="tiny-cookie" role="dialog" aria-label="Cookie choices" aria-live="polite">
-      <p><strong>Cookies keep your Fancy Cafe AI videos in this browser.</strong> An essential cookie links your orders and finished videos to this browser; clearing cookies or switching devices removes that history. Optional Google Analytics cookies help us understand aggregate traffic; analytics storage stays disabled until you accept. Declining analytics does not affect your videos.</p>
+      <p><strong>Cookies keep your I Love The Smiths AI videos in this browser.</strong> An essential cookie links your orders and finished videos to this browser; clearing cookies or switching devices removes that history. Optional Google Analytics cookies help us understand aggregate traffic; analytics storage stays disabled until you accept. Declining analytics does not affect your videos.</p>
       <div className="tiny-cookie-actions">
         <button type="button" className="tiny-cookie-accept" onClick={() => decide("granted")}>Accept analytics</button>
         <button type="button" className="tiny-cookie-decline" onClick={() => decide("denied")}>Decline</button>

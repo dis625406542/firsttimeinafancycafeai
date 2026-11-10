@@ -24,9 +24,9 @@ export function configured(provider: ProviderName) {
     : !!(process.env.YIR_API_KEY && process.env.VIDEO_HANDLE_SECRET?.length && process.env.VIDEO_HANDLE_SECRET.length >= 32);
 }
 export async function submitForProvider(provider: ProviderName, files: File[], resolution: Resolution, code: string, aspectRatio: AspectRatio = "9:16", scenario: PromptScenario = "gender_neutral", context?: PromptContext, beforeSubmit?: () => Promise<void>): Promise<string> {
-  if (context?.templateId === "fancy-cafe-ai" && !cafeLaunchReady()) throw new Error("Cafe reference assets are not approved; no video was submitted.");
+  if (context?.templateId === "fancy-cafe-ai" && !cafeLaunchReady()) throw new Error("Reference assets are not approved; no video was submitted.");
   const tiny=needsComposition(context);
-  if(tiny) {if(provider!=="yir")throw new Error("Cafe video generation requires Yir Seedance 2.5.");context=await loadTinyPrompt(context!);}
+  if(tiny) {if(provider!=="yir")throw new Error("This video generation requires Yir Seedance 2.5.");context=await loadTinyPrompt(context!);}
   const spec = videoSpec(context);
   const upload = provider === "poyo" ? poyoUpload : uploadYirPortrait;
   const urls = [];

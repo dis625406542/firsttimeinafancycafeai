@@ -33,6 +33,6 @@ test('fancy cafe running job can be claimed for soundtrack composition before co
  const {claimStorageAttempt}=require('../src/lib/video-jobs.ts');
  assert.equal(await claimStorageAttempt('visitor','B'.repeat(32)),true);
  // Both the running-status gate and the unfinished-composition retention gate must admit cafe jobs.
- assert.match(query,/status='running'[\s\S]*template_id='fancy-cafe-ai'[\s\S]*prompt_version='fancy-cafe-v1'/i);
- assert.match(query,/template_id='fancy-cafe-ai'[\s\S]*prompt_version='fancy-cafe-v1'[\s\S]*completed_at IS NULL/i);
+ assert.match(query,/status='running'[\s\S]*template_id='fancy-cafe-ai'[\s\S]*prompt_version IN \('fancy-cafe-v1','fancy-cafe-v2'\)/i);
+ assert.match(query,/template_id='fancy-cafe-ai'[\s\S]*prompt_version IN \('fancy-cafe-v1','fancy-cafe-v2'\)[\s\S]*completed_at IS NULL/i);
 });

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800" role="img" aria-labelledby="title desc">
+<title id="title">Photo 2 role illustration: the Smiths fan</title>
+<desc id="desc">An original stylized illustration used as an upload placeholder. Replace it with a clear photo of one consenting adult; it is not a customer result.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#5a3227"/><stop offset=".55" stop-color="#2a1813"/><stop offset="1" stop-color="#1b0f0b"/></linearGradient>
+<radialGradient id="glow" cx="50%" cy="35%" r="55%"><stop stop-color="#e0b56f" stop-opacity=".24"/><stop offset="1" stop-color="#e0b56f" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="600" height="800" rx="28" fill="url(#bg)"/>
+<rect width="600" height="800" rx="28" fill="url(#glow)"/>
+<path d="M160 404c0-100 50-170 116-170s116 70 116 170l24 300c-30 44-80 66-140 66s-110-22-140-66Z" fill="#a94e2f"/>
+<path d="M126 690c0-126 68-208 174-208s174 82 174 208Z" fill="#6b2d2a"/>
+<rect x="266" y="476" width="68" height="96" rx="30" fill="#e4b392"/>
+<circle cx="300" cy="402" r="116" fill="#f0c4a8"/>
+<path d="M184 394c0-78 52-132 116-132s116 54 116 132c-26-30-66-46-116-46s-90 16-116 46Z" fill="#a94e2f"/>
+<path d="M256 406c6-6 14-6 20 0M324 406c6-6 14-6 20 0" stroke="#2a1813" stroke-width="8" fill="none" stroke-linecap="round"/>
+<path d="M264 440c18 16 54 16 72 0" stroke="#b85c58" stroke-width="9" fill="none" stroke-linecap="round"/>
+<rect x="40" y="40" width="150" height="38" rx="19" fill="#fff4e8"/>
+<text x="64" y="66" font-family="Arial, sans-serif" font-size="17" font-weight="800" letter-spacing="2" fill="#4a1f28">PHOTO 2</text>
+<text x="40" y="726" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#fff4e8">The Smiths fan</text>
+<text x="40" y="760" font-family="Arial, sans-serif" font-size="15" letter-spacing="1.5" fill="#cfb3a2">ORIGINAL ILLUSTRATION · REPLACE WITH YOUR PHOTO</text>
+</svg>

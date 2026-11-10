@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800" role="img" aria-labelledby="title desc">
+<title id="title">Photo 1 role illustration: the headphone listener</title>
+<desc id="desc">An original stylized illustration used as an upload placeholder. Replace it with a clear photo of one consenting adult; it is not a customer result.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4a1f28"/><stop offset=".55" stop-color="#2a1813"/><stop offset="1" stop-color="#1b0f0b"/></linearGradient>
+<radialGradient id="glow" cx="50%" cy="35%" r="55%"><stop stop-color="#f07a68" stop-opacity=".28"/><stop offset="1" stop-color="#f07a68" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="600" height="800" rx="28" fill="url(#bg)"/>
+<rect width="600" height="800" rx="28" fill="url(#glow)"/>
+<path d="M130 690c0-132 72-218 170-218s170 86 170 218Z" fill="#241410"/>
+<rect x="266" y="476" width="68" height="96" rx="30" fill="#d99d7f"/>
+<circle cx="300" cy="402" r="118" fill="#e8b89a"/>
+<path d="M178 410c-18-104 52-172 122-172 86 0 142 72 118 172-16-40-34-64-60-78-30 32-90 46-136 36-16 18-28 28-44 42Z" fill="#3a2418"/>
+<path d="M182 394c0-78 52-132 118-132s118 54 118 132" stroke="#1b0f0b" stroke-width="20" fill="none" stroke-linecap="round"/>
+<rect x="158" y="370" width="44" height="84" rx="20" fill="#1b0f0b"/>
+<rect x="398" y="370" width="44" height="84" rx="20" fill="#1b0f0b"/>
+<circle cx="270" cy="402" r="8" fill="#2a1813"/>
+<circle cx="334" cy="402" r="8" fill="#2a1813"/>
+<path d="M272 442c14 10 42 10 56 0" stroke="#8a4a45" stroke-width="8" fill="none" stroke-linecap="round"/>
+<rect x="40" y="40" width="150" height="38" rx="19" fill="#fff4e8"/>
+<text x="64" y="66" font-family="Arial, sans-serif" font-size="17" font-weight="800" letter-spacing="2" fill="#4a1f28">PHOTO 1</text>
+<text x="40" y="726" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#fff4e8">Headphone listener</text>
+<text x="40" y="760" font-family="Arial, sans-serif" font-size="15" letter-spacing="1.5" fill="#cfb3a2">ORIGINAL ILLUSTRATION · REPLACE WITH YOUR PHOTO</text>
+</svg>

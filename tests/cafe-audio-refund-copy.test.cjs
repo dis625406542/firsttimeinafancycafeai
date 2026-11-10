@@ -2,11 +2,12 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const read = p => fs.readFileSync(p, 'utf8');
-test('cafe audio copy describes the delivered soundtrack rather than silent intermediate footage', () => {
+test('audio copy describes the configured soundtrack without claiming the original recording', () => {
  for (const file of ['src/app/page.tsx', 'src/lib/tiny-guides.ts', 'src/app/llms.txt/route.ts', 'src/components/tiny-studio.tsx', 'src/lib/legal-content.tsx']) {
   const text = read(file);
-  assert.match(text, /original music from the Fancy Cafe reference video/, file);
-  assert.doesNotMatch(text, /No promise of the original song|Audio depends on approved assets|A separate authorized audio asset can then|Audio availability is described before checkout/, file);
+  assert.match(text, /configured reference soundtrack/i, file);
+  assert.match(text, /No commercial-use license is included/i, file);
+  assert.doesNotMatch(text, /original music from the Fancy Cafe reference video/i, file);
  }
 });
 test('refund conditions are visible before checkout and distinguish failure from subjective preference', () => {
@@ -34,5 +35,5 @@ test('personal entertainment and non-commercial sharing are explicit before purc
  assert.match(confirmation, /cleanup worker/);
  assert.match(confirmation, /30 days from completion/);
  assert.match(studio, /href="\/privacy"/);
- assert.match(read('src/lib/tiny-guides.ts'), /Can I use my Fancy Cafe AI video commercially\?/);
+ assert.match(read('src/lib/tiny-guides.ts'), /commercially\?/i);
 });

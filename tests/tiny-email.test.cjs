@@ -26,7 +26,7 @@ Module._load = original;
 const environment = Object.fromEntries(['RESEND_API_KEY', 'VIDEO_EMAIL_FROM', 'VIDEO_HANDLE_SECRET'].map(k => [k, process.env[k]]));
 function setup() {
  process.env.RESEND_API_KEY = 'test-key';
- process.env.VIDEO_EMAIL_FROM = 'Tiny Desk <delivery@example.com>';
+ process.env.VIDEO_EMAIL_FROM = 'I Love The Smiths AI <delivery@example.com>';
  process.env.VIDEO_HANDLE_SECRET = 'test-secret-longer-than-thirty-two-characters';
  queries = []; available = true;
 }
@@ -37,7 +37,7 @@ test('ready email uses a private 30-day-gated token, never just a guessable orde
  global.fetch = async (_url, init) => { message = JSON.parse(init.body); return { ok: true }; };
  try {
   await sendReadyVideoEmail();
-  assert.match(message.text, /https:\/\/firsttimeinafancycafeai\.org\/api\/video\/email\?/);
+  assert.match(message.text, /https:\/\/lovethesmithsai\.com\/api\/video\/email\?/);
   assert.equal(message.to[0], order.notification_email);
   assert.ok(queries.some(sql => sql.includes('notification_sent_at=now()')));
   const link = new URL(message.text.match(/https:\/\/\S+/)[0]);
@@ -61,7 +61,7 @@ test('email failure never marks sent; missing provider config never claims an or
   assert.equal(queries.length, 0);
  } finally { global.fetch = previousFetch; console.error = previousError; restore(); }
 });
-test('cafe ready email links authorize the cafe template as well as legacy tiny desk',async()=>{
+test('ready email links authorize the Smiths template as well as legacy tiny desk',async()=>{
  setup(); const prior=global.fetch;
  global.fetch=async()=>({ok:true});
  try {
@@ -69,6 +69,6 @@ test('cafe ready email links authorize the cafe template as well as legacy tiny 
   queries=[];
   const signed='0'.repeat(64);
   await videoForEmailLink(order.code,signed);
-  assert.ok(queries.some(sql=>/template_id IN \('tiny-desk-ai','fancy-cafe-ai'\)/.test(sql)), 'cafe orders must not be rejected by the email download route');
+  assert.ok(queries.some(sql=>/template_id IN \('tiny-desk-ai','fancy-cafe-ai'\)/.test(sql)), 'Smiths orders must not be rejected by the email download route');
  }finally{global.fetch=prior;restore();}
 });

@@ -73,7 +73,7 @@ export async function getGeneratedVideoUrl(key: string, download = false) {
   if (!config || !/^fancy-cafe-ai\/generated\/[A-F0-9]{32}\.mp4$/.test(key)) throw new Error("Private video unavailable.");
   return getSignedUrl(r2Client(config), new GetObjectCommand({
     Bucket: config.bucket, Key: key, ResponseContentType: "video/mp4",
-    ResponseContentDisposition: download ? "attachment; filename=fancy-cafe-ai-video.mp4" : "inline",
+    ResponseContentDisposition: download ? "attachment; filename=i-love-the-smiths-ai-video.mp4" : "inline",
   }), { expiresIn: 300 });
 }
 

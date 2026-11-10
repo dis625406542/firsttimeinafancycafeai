@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: "/" },
-  openGraph: { title: TITLE, description: DESCRIPTION, url: SITE_URL, siteName: SITE_NAME, type: "website", images: [{ url: "/social-preview.png", width: 1200, height: 630, alt: "Fancy Cafe AI — One wrong seat. One unforgettable cafe moment." }] },
-  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: [{ url: "/social-preview.png", alt: "Fancy Cafe AI — One wrong seat. One unforgettable cafe moment." }] },
+  openGraph: { title: TITLE, description: DESCRIPTION, url: SITE_URL, siteName: SITE_NAME, type: "website", images: [{ url: "/social-preview.png", width: 1200, height: 630, alt: "I Love The Smiths AI — Two photos. One elevator meet-cute." }] },
+  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: [{ url: "/social-preview.png", alt: "I Love The Smiths AI — Two photos. One elevator meet-cute." }] },
   robots: { index: true, follow: true },
   ...(process.env.GOOGLE_SITE_VERIFICATION ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } } : {}),
 };
@@ -26,5 +26,5 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     </>}
     <JsonLd data={{ "@context": "https://schema.org", "@type": "Organization", "@id": SITE_URL + "#organization", name: SITE_NAME, url: SITE_URL, logo: `${SITE_URL}/logo.png` }} />
     <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", "@id": SITE_URL + "#website", name: SITE_NAME, url: SITE_URL, publisher: { "@id": SITE_URL + "#organization" } }} />
-  </head><body>{children}<GoogleAnalytics /></body></html>;
+  </head><body><div className="tiny-top-stripe" aria-hidden="true" />{children}<GoogleAnalytics /></body></html>;
 }

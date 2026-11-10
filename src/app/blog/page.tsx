@@ -3,9 +3,9 @@ import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { TinyGuides } from "@/components/tiny-guides";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
-const title = "Fancy Cafe AI Guides | " + SITE_NAME;
-const description = "Understand the Your First Time in a Fancy Cafe meme. Find direct answers on photo roles, POV captions, vertical video sharing, pricing and private MP4 downloads.";
-const image = { url: "/fancy-cafe-ai/generated-with-caption-poster.webp", alt: "Frame from a labeled AI-generated Fancy Cafe example" };
+const title = "I Love The Smiths AI Guides";
+const description = "Understand the I Love The Smiths AI meme. Find direct answers on the two photo roles, elevator meet-cute details, video format, pricing and private MP4 downloads.";
+const image = { url: "/social-preview.png", alt: "I Love The Smiths AI — two photos, one elevator meet-cute" };
 export const metadata: Metadata = {
   title,
   description,

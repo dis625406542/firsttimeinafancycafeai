@@ -13,12 +13,12 @@ type LocalPhoto = { file: File; url: string };
 type SlotId = "protagonist" | "regular";
 type SlotPhoto = LocalPhoto & { status: "checking" | "approved" | "rejected"; error?: string };
 const BAND_SLOTS: { id: SlotId; label: string; x: string; y: string }[] = [
-  { id: "protagonist", label: "Protagonist", x: "50%", y: "42%" },
-  { id: "regular", label: "Cafe regular", x: "50%", y: "42%" },
+  { id: "protagonist", label: "Photo 1 · Headphone listener", x: "50%", y: "42%" },
+  { id: "regular", label: "Photo 2 · The Smiths fan", x: "50%", y: "42%" },
 ];
 const SLOT_IMAGES: Record<SlotId, string> = {
-  protagonist: "/fancy-cafe-ai/protagonist.webp",
-  regular: "/fancy-cafe-ai/regular.webp",
+  protagonist: "/love-the-smiths/listener.webp",
+  regular: "/love-the-smiths/fan.webp",
 };
 type Price = { resolution: "480p" | "720p"; amount_minor: number; currency: string; purchasable: boolean };
 type Order = { code: string; status: string; generationStatus: string; resolution?: "480p" | "720p"; aspectRatio?: "9:16" | "16:9" };
@@ -72,7 +72,6 @@ export function TinyStudio() {
   const [simulatedProgress, setSimulatedProgress] = useState(0);
   const [message, setMessage] = useState("");
   const [enabled, setEnabled] = useState(false);
-  const [sampleReady, setSampleReady] = useState(false);
   const [emailEnabled, setEmailEnabled] = useState(false);
   const [prices, setPrices] = useState<Price[]>([]);
   const [testMode, setTestMode] = useState(false);
@@ -96,8 +95,6 @@ export function TinyStudio() {
 
   useEffect(() => () => { photoUrls.current.forEach(url => URL.revokeObjectURL(url)); photoUrls.current.clear(); }, []);
   useEffect(() => () => { if (poller.current) clearTimeout(poller.current); }, []);
-  // Render the poster in HTML; request the MP4 only after hydration and the payment check starts.
-  useEffect(() => { const timer = setTimeout(() => setSampleReady(true), 1200); return () => clearTimeout(timer); }, []);
   // This is an estimate, not provider progress; stop below completion until the stored video is playable.
   useEffect(() => {
     if (!paid || stage !== "working") return;
@@ -333,7 +330,7 @@ export function TinyStudio() {
   }
 
   async function startCheckout() {
-    if (!band.protagonist && !submittedFaces.protagonist) { setMessage("Add the protagonist photo first."); return; }
+    if (!band.protagonist && !submittedFaces.protagonist) { setMessage("Add the Photo 1 headphone-listener portrait first."); return; }
     if (busy) return;
     const filled = BAND_SLOTS.map(slot => ({ slot: slot.id, label: slot.label, photo: band[slot.id] })).filter(entry => entry.photo);
     const checking = filled.some(entry => entry.photo!.status === "checking");
@@ -341,7 +338,7 @@ export function TinyStudio() {
     const choice = canceledCode && filled.length === 0 ? retryChoice(canceledFormat, quality, aspectRatio) : "fresh";
     const reuse = choice === "reuse";
     const copySaved = choice === "copy";
-    if (!reuse && !copySaved && filled.length < 1) { setMessage("Upload the protagonist photo first."); return; }
+    if (!reuse && !copySaved && filled.length < 1) { setMessage("Upload the Photo 1 headphone-listener portrait first."); return; }
     if (checking) { setMessage("Wait until the selected photos finish the AI safety check."); return; }
     if (!consent) { setMessage("Confirm you have permission to use these photos first."); return; }
     if (emailEnabled && email && (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254)) { setMessage("Enter a valid email address, or leave it empty."); return; }
@@ -423,21 +420,21 @@ export function TinyStudio() {
     </>;
   };
 
-  return <div className="tiny-studio-grid" aria-label="Fancy Cafe AI studio">
+  return <div className="tiny-studio-grid" aria-label="I Love The Smiths AI studio">
     <div className="tiny-studio-form">
-      <div className="tiny-studio-heading"><h2>Make your Fancy Cafe<br/>AI video</h2><span>CAFE COMEDY</span></div>
-      <p className="tiny-photo-tip">Choose a clear adult portrait for the protagonist. Add a second person if you like. The sample portraits show the two roles; tap either portrait to choose your own.</p>
-      <div className="tiny-field-heading"><span>1</span><strong>YOUR MAIN CHARACTER</strong><em>Required</em></div>
+      <div className="tiny-studio-heading"><h2>Make your I Love The Smiths<br/>AI video</h2><span>ELEVATOR MEET-CUTE</span></div>
+      <p className="tiny-photo-tip">Choose a clear adult portrait for Photo 1, the headphone listener. Add a second adult for Photo 2 if you want to cast the person who says the line. Tap either portrait to choose your own photo.</p>
+      <div className="tiny-field-heading"><span>1</span><strong>PHOTO 1 · THE LISTENER</strong><em>Required</em></div>
       <div className="tiny-lead-upload">
-        <div className="tiny-band-tile"><img src={band.protagonist?.url ?? submittedFaces.protagonist ?? SLOT_IMAGES.protagonist} alt="Sample portrait of the cafe protagonist; tap to upload your photo" />{bandSlot("protagonist")}</div>
-        <div><span className="tiny-kicker">PROTAGONIST · THE WRONG SEAT</span><h3>Make the awkward moment yours.</h3><p>This person mistakes the small round table for a seat. Add one clear portrait of yourself or a consenting adult.</p><a href="/blog/fancy-cafe-ai-two-people">See how the two roles work →</a></div>
+        <div className="tiny-band-tile"><img src={band.protagonist?.url ?? submittedFaces.protagonist ?? SLOT_IMAGES.protagonist} alt="Reference frame of the headphone listener from a demo video; tap to upload your photo" />{bandSlot("protagonist")}</div>
+        <div><span className="tiny-kicker">THE HEADPHONE LISTENER</span><h3>Start with the listener.</h3><p>This person stands in the elevator wearing headphones. Add one clear portrait of yourself or a consenting adult; the scene supplies the headphones.</p><a href="/blog/i-love-the-smiths-ai-two-photo-roles">See how the two roles work →</a></div>
       </div>
       <details className="tiny-optional-band" open>
-        <summary>Optional female customer <span>Not required · upload to replace the woman in the meme</span></summary>
-        <p>The woman in the meme sits on the bench and reveals the mistake. You do not need to upload a second photo: the reference woman or a similar-style AI-generated woman can appear instead. AI may vary her appearance.</p>
-        <div className="tiny-lead-upload"><div className="tiny-band-tile"><img src={band.regular?.url ?? submittedFaces.regular ?? SLOT_IMAGES.regular} alt="Sample portrait of the woman in the cafe; tap to replace her" />{bandSlot("regular")}</div><div><span className="tiny-kicker">THE WOMAN · THE REVEAL</span><p>Optional: tap the portrait to replace her with a consenting adult. Without an upload, let the reference guide the woman in this role; an exact face is not guaranteed.</p></div></div>
+        <summary>Optional Photo 2 · The Smiths fan <span>Not required · upload to cast the person who says the line</span></summary>
+        <p>The second person turns, smiles and says “I love the Smiths.” You do not need a second photo: the reference character can appear instead, and AI may vary their appearance.</p>
+        <div className="tiny-lead-upload"><div className="tiny-band-tile"><img src={band.regular?.url ?? submittedFaces.regular ?? SLOT_IMAGES.regular} alt="Reference frame of the Smiths fan from a demo video; tap to upload your photo" />{bandSlot("regular")}</div><div><span className="tiny-kicker">THE SMITHS FAN · THE LINE</span><p>Optional: tap the portrait to replace the reference character with a consenting adult. Without an upload, an exact face is not guaranteed.</p></div></div>
       </details>
-      <div className="tiny-photo-tip"><span>✧</span><p>{submitted ? <><strong>{previewCount || displayFilledCount} of 2 portraits submitted.</strong> Keep this browser and do not pay again.</> : canceledCode ? <><strong>Your portraits are saved.</strong> Keep the same options to retry checkout, or change quality/format to start a new order at the selected price without re-uploading.</> : <><strong>Start with the protagonist.</strong> One adult per photo. Clear JPG/PNG/WebP up to 10 MB. The second photo is optional and replaces the woman in the meme.</>}</p></div>
+      <div className="tiny-photo-tip"><span>✧</span><p>{submitted ? <><strong>{previewCount || displayFilledCount} of 2 photos submitted.</strong> Keep this browser and do not pay again.</> : canceledCode ? <><strong>Your photos are saved.</strong> Keep the same options to retry checkout, or change quality/format to start a new order at the selected price without re-uploading.</> : <><strong>Start with Photo 1.</strong> One adult per photo. Clear JPG/PNG/WebP up to 10 MB. Photo 2 is optional and casts the person who says the line.</>}</p></div>
       <div className="tiny-field-heading"><span>2</span><strong>QUALITY</strong></div>
       <fieldset className="tiny-quality"><legend className="sr-only">Video quality</legend><label className={quality === "480p" ? "selected" : ""}><input type="radio" name="quality" value="480p" checked={quality === "480p"} onChange={() => setQuality("480p")} /><strong>480p</strong><small>{priceLabel("480p", "$6.99")} · Standard</small></label><label className={quality === "720p" ? "selected" : ""}><input type="radio" name="quality" value="720p" checked={quality === "720p"} onChange={() => setQuality("720p")} /><strong>720p</strong><small>{priceLabel("720p", "$9.99")} · HD</small></label></fieldset>
       <div className="tiny-field-heading"><span>3</span><strong>FORMAT</strong></div>
@@ -449,9 +446,9 @@ export function TinyStudio() {
       {submitted && stage === "ready" && <p className="tiny-repeat-note">Your video is ready. Start a new order with new photos; your completed videos remain below.</p>}
       {rejectedLabels.length > 0 && <p className="tiny-upload-error" role="alert">{rejectedLabels.join(", ")} did not pass the AI check. Replace or remove them, or let the server decide at checkout.</p>}
       {message && !submitted && <p className="tiny-upload-error" role="alert">{message}</p>}
-      <p className="tiny-studio-fine">Original reference soundtrack included: your completed 20-second MP4 includes the original music from the Fancy Cafe reference video, with no separate audio editing needed. Made for personal entertainment and non-commercial social sharing. No commercial-use license is included; follow platform rules and applicable music and portrait rights. <a href="/terms">Personal-use terms</a>.</p>
+      <p className="tiny-studio-fine">Your completed MP4 runs 24 seconds and includes the configured reference soundtrack. No commercial-use license is included. No separate music license is included, and do not assume the original commercial recording is licensed. Made for personal entertainment and non-commercial social sharing; follow platform rules and applicable music and portrait rights. <a href="/terms">Personal-use terms</a>.</p>
       <p className="tiny-studio-fine">Paid but your video wasn't delivered? Contact support with your video code. Verified technical or delivery failures may qualify for redelivery or a discretionary refund. After successful generation and delivery, subjective dissatisfaction alone does not guarantee a refund. <a href="/refund-policy">Refund &amp; delivery policy</a></p>
-      <p className="tiny-studio-fine"><ShieldCheck size={15} /> {submitted ? `${previewCount || displayFilledCount}/2 faces already submitted.` : `${displayFilledCount}/2 roles filled — protagonist required.`} Your photos are used to create your video. Upload only photos of yourself or consenting adults. Photos are screened by AI before payment, stored privately and sent to the video provider only after payment is verified. Input photos become eligible for deletion after generation finishes or their input window expires, normally 3 days after order creation; removal depends on the cleanup worker. Finished videos have a separate 30-day download window from completion. <a href="/privacy">Privacy details</a>.</p>
+      <p className="tiny-studio-fine"><ShieldCheck size={15} /> {submitted ? `${previewCount || displayFilledCount}/2 photos already submitted.` : `${displayFilledCount}/2 roles filled — Photo 1 required.`} Your photos are used to create your video. Upload only photos of yourself or consenting adults. Photos are screened by AI before payment, stored privately and sent to the video provider only after payment is verified. Input photos become eligible for deletion after generation finishes or their input window expires, normally 3 days after order creation; removal depends on the cleanup worker. Finished videos have a separate 30-day download window from completion. <a href="/privacy">Privacy details</a>.</p>
     </div>
     <div className="tiny-studio-preview">
       <div className="tiny-preview-top">
@@ -459,7 +456,7 @@ export function TinyStudio() {
           <button type="button" role="tab" aria-selected={previewTab === "example"} onClick={() => setPreviewTab("example")}>Example</button>
           <button type="button" role="tab" aria-selected={previewTab === "videos"} onClick={() => setPreviewTab("videos")}>My videos</button>
         </div>
-        <button type="button" className="tiny-fullsize" onClick={() => { const video = previewVideo.current; if (video?.requestFullscreen) void video.requestFullscreen().catch(() => {}); }}><Maximize2 size={13} /> Full size</button>
+        {previewTab === "videos" && <button type="button" className="tiny-fullsize" onClick={() => { const video = previewVideo.current; if (video?.requestFullscreen) void video.requestFullscreen().catch(() => {}); }}><Maximize2 size={13} /> Full size</button>}
       </div>
       {submitted && (stage === "working" || stage === "failed") && <div className="tiny-generation-status" role="status" aria-live="polite">
         <div className="tiny-generation-heading"><strong>{stage === "failed" ? "Your order needs attention" : paid ? "Your video is in progress" : "Confirming your payment"}</strong><span>{stage === "working" && paid ? `~${shownProgress}%` : stage === "working" ? "Waiting" : ""}</span></div>
@@ -469,13 +466,13 @@ export function TinyStudio() {
       </div>}
       <div className="tiny-preview-content">
         {previewTab === "videos" ? (videoUrl
-          ? <div className="tiny-sample-video" key={videoUrl}><video ref={previewVideo} controls autoPlay muted playsInline preload="metadata" src={videoUrl} aria-label="Your generated Fancy Cafe AI video" /></div>
+          ? <div className="tiny-sample-video" key={videoUrl}><video ref={previewVideo} controls autoPlay muted playsInline preload="metadata" src={videoUrl} aria-label="Your generated I Love The Smiths AI video" /></div>
           : <div className="tiny-empty-videos"><h3>{finished.length ? "Choose a video" : "No videos yet"}</h3><p>{finished.length ? "Pick one of your generated videos below to play it here." : "Videos generated in this browser will appear below."}</p></div>)
-          : <div className="tiny-sample-video"><video ref={previewVideo} controls autoPlay muted loop playsInline preload="auto" poster="/fancy-cafe-ai/example-poster.webp" src={sampleReady ? "/fancy-cafe-ai/example.mp4" : undefined} aria-label="Fancy Cafe reference clip, not an AI-generated result">Your browser does not support video playback.</video></div>}
-        <p className="tiny-preview-caption">{previewTab === "videos" && videoUrl && displayedCode ? <>Your video is ready. <a href={`/api/video/file?code=${displayedCode}&download=1`} download>Download MP4</a> within 30 days.</> : previewTab === "videos" ? (finished.length ? "Choose one of your generated videos below." : "No videos yet. Your results will appear here.") : finished.length ? "Your video is ready — open your generated videos below to watch it." : "Fancy Cafe example footage. Your generated video will use the portraits you upload and may differ from this example."}</p>
+          : <div className="tiny-sample-video"><video controls autoPlay muted loop playsInline preload="metadata" poster="/love-the-smiths/demo-1-poster.webp" src="/love-the-smiths/demo-1.mp4" aria-label="I Love The Smiths AI demo video, muted by default">Your browser does not support video playback.</video><span>DEMO VIDEO · MUTED BY DEFAULT</span></div>}
+        <p className="tiny-preview-caption">{previewTab === "videos" && videoUrl && displayedCode ? <>Your video is ready. <a href={`/api/video/file?code=${displayedCode}&download=1`} download>Download MP4</a> within 30 days.</> : previewTab === "videos" ? (finished.length ? "Choose one of your generated videos below." : "No videos yet. Your results will appear here.") : finished.length ? "Your video is ready — open your generated videos below to watch it." : "Demo video showing the intended effect. Your generated video will use the portraits you upload and may differ."}</p>
         <div className="tiny-history"><h3>Generated videos</h3>{finished.length ? <div className="tiny-history-grid">{finished.map(job => <div className={`tiny-history-card ${videoUrl === job.videoUrl ? "active" : ""}`} key={job.code}><button type="button" onClick={() => { activeCode.current = job.code; setVideoUrl(job.videoUrl); setStage("ready"); setPreviewTab("videos"); }} aria-label={`Play generated video ${job.code.slice(0,8)}`}><video muted playsInline preload="metadata" src={job.videoUrl ?? undefined} aria-hidden="true" /><span>▶ Play · {job.resolution} · {job.aspectRatio}</span></button><a href={`/api/video/file?code=${job.code}&download=1`} onClick={() => emitStudioEvent("video_download_clicked")} download aria-label={`Download video ${job.code.slice(0,8)}`}><Download size={15} /> Download</a></div>)}</div> : <p>Generated videos from this browser will appear here when ready. Download each one within 30 days.</p>}</div>
       </div>
     </div>
-    {showConfirm && <div className="tiny-modal-backdrop" onClick={() => setShowConfirm(false)}><div className="tiny-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="tiny-confirm-title" onClick={event => event.stopPropagation()}><button type="button" className="tiny-modal-close" onClick={() => setShowConfirm(false)} aria-label="Close">×</button><h3 id="tiny-confirm-title">Ready to make your video?</h3><p>{Math.max(effectiveFilled, 0)} uploaded adult portrait{effectiveFilled === 1 ? "" : "s"} · 20 seconds · {quality} · {aspectRatio}. One-time payment: {selectedPrice ? money(selectedPrice.amount_minor, selectedPrice.currency) : priceLabel(quality, quality === "480p" ? "$6.99" : "$9.99")}. A video code is created when you continue; keep this browser and its cookies to see your result after payment.</p><p>Your finished 20-second MP4 includes the original music from the Fancy Cafe reference video—no separate audio editing needed. Made for personal entertainment and non-commercial social sharing. No commercial-use license is included. This is not a separate music license; follow platform rules and respect music and portrait rights. <a href="/terms">Read personal-use terms</a>.</p><p>Paid but your video wasn't delivered? Contact support with your video code. We review technical or delivery problems and may offer redelivery or a discretionary refund. After successful generation and delivery, subjective dissatisfaction alone does not guarantee a refund. <a href="/refund-policy">Read the refund policy</a>.</p>{emailEnabled && <><label htmlFor="tiny-delivery-email">Email your download link (optional)</label><input id="tiny-delivery-email" type="email" autoComplete="email" placeholder="you@example.com" value={email} onChange={event => setEmail(event.target.value)} /><small>If you add an email, we will attempt to send your download link when the video is ready. You can also return in this browser.</small></>}<small>Uploaded portraits become eligible for cleanup after generation finishes or input expiry, normally 3 days after order creation. Deletion depends on the cleanup worker; third-party retention is separate. <a href="/privacy">Read the privacy policy</a>.</small><small>Your video is stored privately for up to 30 days from completion. Return in the same browser, keep its cookies, and download your MP4. {emailEnabled ? "Email is optional." : "Save your order reference after checkout to help recover your video."}</small><div className="tiny-modal-actions"><button type="button" onClick={() => setShowConfirm(false)}>Cancel</button><button type="button" onClick={() => void startCheckout()}>Continue to {testMode ? "test" : "secure"} checkout</button></div></div></div>}
+    {showConfirm && <div className="tiny-modal-backdrop" onClick={() => setShowConfirm(false)}><div className="tiny-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="tiny-confirm-title" onClick={event => event.stopPropagation()}><button type="button" className="tiny-modal-close" onClick={() => setShowConfirm(false)} aria-label="Close">×</button><h3 id="tiny-confirm-title">Ready to make your video?</h3><p>{Math.max(effectiveFilled, 0)} uploaded adult portrait{effectiveFilled === 1 ? "" : "s"} · 24-second video · {quality} · {aspectRatio}. One-time payment: {selectedPrice ? money(selectedPrice.amount_minor, selectedPrice.currency) : priceLabel(quality, quality === "480p" ? "$6.99" : "$9.99")}. A video code is created when you continue; keep this browser and its cookies to see your result after payment. The finished MP4 is 24 seconds.</p><p>Your finished MP4 runs 24 seconds and includes the configured reference soundtrack. No commercial-use license is included. No separate music license is included, and do not assume the original commercial recording is licensed. Made for personal entertainment and non-commercial social sharing; follow platform rules and respect music and portrait rights. <a href="/terms">Read personal-use terms</a>.</p><p>Paid but your video wasn't delivered? Contact support with your video code. We review technical or delivery problems and may offer redelivery or a discretionary refund. After successful generation and delivery, subjective dissatisfaction alone does not guarantee a refund. <a href="/refund-policy">Read the refund policy</a>.</p>{emailEnabled && <><label htmlFor="tiny-delivery-email">Email your download link (optional)</label><input id="tiny-delivery-email" type="email" autoComplete="email" placeholder="you@example.com" value={email} onChange={event => setEmail(event.target.value)} /><small>If you add an email, we will attempt to send your download link when the video is ready. You can also return in this browser.</small></>}<small>Uploaded portraits become eligible for cleanup after generation finishes or input expiry, normally 3 days after order creation. Deletion depends on the cleanup worker; third-party retention is separate. <a href="/privacy">Read the privacy policy</a>.</small><small>Your video is stored privately for up to 30 days from completion. Return in the same browser, keep its cookies, and download your MP4. {emailEnabled ? "Email is optional." : "Save your order reference after checkout to help recover your video."}</small><div className="tiny-modal-actions"><button type="button" onClick={() => setShowConfirm(false)}>Cancel</button><button type="button" onClick={() => void startCheckout()}>Continue to {testMode ? "test" : "secure"} checkout</button></div></div></div>}
   </div>;
 }

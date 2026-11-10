@@ -5,24 +5,20 @@ const { join } = require('node:path');
 const root = join(__dirname, '..');
 const read = path => fs.readFileSync(join(root, path), 'utf8');
 
-test('the first reel shows the captioned generated result and distinguishes reference reels', () => {
-  const reels = read('src/components/sample-reels.tsx');
-  assert.match(reels, /generated-with-caption\.mp4/);
-  assert.match(reels, /GENERATED RESULT/);
-  assert.match(reels, /two reference examples/);
-  assert.ok(fs.statSync(join(root, 'public/fancy-cafe-ai/generated-with-caption.mp4')).size > 100_000);
+test('the comparison uses demo-video frames for the two roles and the four beats', () => {
+  const comparison = read('src/components/cafe-result-comparison.tsx');
+  assert.match(comparison, /comparison-before\.webp/);
+  assert.match(comparison, /comparison-after\.webp/);
+  assert.match(comparison, /Reference frames from the demo videos/i);
+  assert.doesNotMatch(comparison, /\.svg|\.mp4|<video|autoPlay|aria-pressed/);
+  assert.ok(fs.statSync(join(root, 'public/love-the-smiths/comparison-before.webp')).size > 5_000);
+  assert.ok(fs.statSync(join(root, 'public/love-the-smiths/comparison-after.webp')).size > 5_000);
 });
 
-test('how-it-works shows the uploaded screenshot alongside a silent, looping, non-scrubbable result', () => {
+test('how-it-works shows the role comparison without autoplaying customer media', () => {
   const page = read('src/app/page.tsx');
-  const comparison = read('src/components/cafe-result-comparison.tsx');
   const css = read('src/app/globals.css');
   assert.match(page, /CafeResultComparison/);
-  assert.match(comparison, /before-upload.webp/);
-  assert.match(comparison, /generated-with-caption\.mp4/);
-  assert.match(comparison, /autoPlay muted loop playsInline/);
-  assert.doesNotMatch(comparison, /\bcontrols\b/);
-  assert.match(comparison, /aria-pressed/);
   assert.match(css, /tiny-cafe-comparison-grid/);
-  assert.ok(fs.statSync(join(root, 'public/fancy-cafe-ai/before-upload.webp')).size > 1_000);
+  assert.match(read('src/components/cafe-result-comparison.tsx'), /not customer photos or generated results/);
 });

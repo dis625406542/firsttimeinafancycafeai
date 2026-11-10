@@ -37,7 +37,7 @@ export async function GET(request: Request) {
       const video = await streamProviderVideo(job.video_url, request.signal);
       return new Response(video.body, { headers: {
         "Content-Type": "video/mp4",
-        "Content-Disposition": 'attachment; filename="fancy-cafe-ai-video.mp4"',
+        "Content-Disposition": 'attachment; filename="i-love-the-smiths-ai-video.mp4"',
         ...(video.contentLength ? { "Content-Length": String(video.contentLength) } : {}),
         "Cache-Control": "private, no-store",
         "X-Content-Type-Options": "nosniff",

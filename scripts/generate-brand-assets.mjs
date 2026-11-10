@@ -14,7 +14,7 @@ for (const size of [192, 512, 1024]) {
 await copyFile(at('public/logo-512.png'), at('public/logo.png'));
 await copyFile(at('public/logo.svg'), at('src/app/icon.svg'));
 // Apple applies its own rounded mask; give it a solid, padded background.
-await sharp({ create: { width: 180, height: 180, channels: 3, background: '#110a19' } })
+await sharp({ create: { width: 180, height: 180, channels: 3, background: '#fbfaf9' } })
   .composite([{ input: await raster(140), left: 20, top: 20 }])
   .png().toFile(at('src/app/apple-icon.png'));
 
@@ -38,13 +38,20 @@ icons.forEach((image, index) => {
 await writeFile(at('src/app/favicon.ico'), Buffer.concat([header, ...icons]));
 
 const card = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
-  <defs><radialGradient id="bg"><stop stop-color="#321539"/><stop offset="1" stop-color="#110a19"/></radialGradient></defs>
+  <defs>
+    <radialGradient id="bg"><stop stop-color="#fffdf8"/><stop offset=".7" stop-color="#fbfaf9"/><stop offset="1" stop-color="#ffe7e9"/></radialGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1200" y2="0"><stop stop-color="#f23a5c"/><stop offset="1" stop-color="#ffc23c"/></linearGradient>
+  </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
-  <rect x="28" y="28" width="1144" height="574" rx="28" fill="none" stroke="#493052"/>
+  <rect x="0" y="0" width="1200" height="10" fill="#f23a5c"/>
+  <rect x="28" y="28" width="1144" height="574" rx="28" fill="none" stroke="#f1e4dc"/>
+  <g font-family="Georgia, serif">
+    <text x="80" y="330" font-size="60" font-weight="700" fill="#4a1d2b">I Love The Smiths <tspan fill="#f23a5c">AI</tspan></text>
+    <text x="83" y="396" font-size="29" fill="#7a5a66">Two photos. One elevator meet-cute.</text>
+  </g>
+  <rect x="80" y="450" width="360" height="3" rx="1.5" fill="url(#line)"/>
   <g font-family="Arial, sans-serif">
-    <text x="80" y="348" font-size="62" font-weight="700" fill="#fff3fb">Fancy Cafe <tspan fill="#ff79ca">AI</tspan></text>
-    <text x="83" y="412" font-size="30" fill="#d0bad8">Your first time. One awkward seat.</text>
-    <text x="83" y="536" font-size="23" fill="#f6cc74">firsttimeinafancycafeai.org</text>
+    <text x="83" y="536" font-size="23" fill="#a32a47">lovethesmithsai.com</text>
   </g>
 </svg>`);
 await sharp(card).composite([{ input: await raster(140), left: 80, top: 94 }])

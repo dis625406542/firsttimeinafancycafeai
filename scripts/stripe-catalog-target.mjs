@@ -18,7 +18,7 @@ export function resolveSql(sql, env) {
 
 // Guard both the database name and selected URL before any Stripe or SQL writes.
 export function catalogDbUrl(env, templateId = TEMPLATE_ID) {
-  if (templateId !== TEMPLATE_ID) throw new Error('Only the Fancy Cafe product may be configured on this website.');
+  if (templateId !== TEMPLATE_ID) throw new Error('Only the configured template product may be configured on this website.');
   const schema = targetSchema(env);
   const raw = env.DIRECT_PRO_URL || env.DATABASE_PRO_URL;
   if (!raw) throw new Error('Database configuration is required.');

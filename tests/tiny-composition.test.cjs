@@ -28,7 +28,7 @@ Module._load=function(request,parent,...rest){
  return old.call(this,request,parent,...rest);
 };
 const {composeTiny,assertTinyReady}=require('../src/lib/tiny-composition.ts');
-const row={code:'A'.repeat(32),task_id:'paid-task',video_url:'https://provider.test/raw.mp4',resolution:'480p',aspect_ratio:'9:16'};
+const row={code:'A'.repeat(32),task_id:'paid-task',video_url:'https://provider.test/raw.mp4',resolution:'480p',aspect_ratio:'9:16',template_id:'fancy-cafe-ai',prompt_version:'fancy-cafe-v2'};
 function reset(){calls=[];outputs=[];busy=false;encodeError=healthError=undefined}
 test('existing verified output is reused before downloads or FFmpeg',async()=>{
  reset();outputs=['generated/done.mp4'];assert.equal(await composeTiny(row),'generated/done.mp4');assert.deepEqual(calls,['head']);

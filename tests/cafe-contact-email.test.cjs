@@ -3,9 +3,9 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { load, read, root } = require('./site-test-helpers.cjs');
-const email = 'hello@firsttimeinafancycafeai.org';
+const email = 'hello@lovethesmithsai.com';
 
-test('all public contact exports use the cafe mailbox from the site configuration', () => {
+test('all public contact exports use the Smiths mailbox from the site configuration', () => {
  assert.equal(load('src/lib/site.ts').CONTACT_EMAIL, email);
  assert.equal(load('src/lib/info.ts').CONTACT_EMAIL, email);
  assert.equal(load('src/lib/legal-content.tsx').CONTACT_EMAIL, email);
@@ -29,7 +29,7 @@ test('no public source or text asset retains a legacy support email', () => {
    const file = path.join(dir, item.name);
    if (item.isDirectory()) check(file);
    else if (/\.(?:tsx?|jsx?|json|html|txt|xml|svg|md)$/.test(file)) {
-    assert.doesNotMatch(fs.readFileSync(file, 'utf8'), /[\w.+-]+@(?:zombievideolab\.com|tinydeskaivideos\.com)/i, file);
+    assert.doesNotMatch(fs.readFileSync(file, 'utf8'), /@(?:zombievideolab\.com|tinydeskaivideos\.com|firsttimeinafancycafeai\.org)/i, file);
    }
   }
  }
