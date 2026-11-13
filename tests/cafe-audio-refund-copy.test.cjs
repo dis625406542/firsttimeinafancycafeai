@@ -27,12 +27,17 @@ test('personal entertainment and non-commercial sharing are explicit before purc
   assert.match(text, /No commercial-use license is included/i, file);
  }
  const studio = read('src/components/tiny-studio.tsx');
- const confirmation = studio.slice(studio.indexOf('{showConfirm &&'));
- assert.match(confirmation, /personal entertainment/);
- assert.match(confirmation, /No commercial-use license is included/);
- assert.match(confirmation, /3 days after order creation/);
- assert.match(confirmation, /cleanup worker/);
- assert.match(confirmation, /30 days from completion/);
+ const notes = studio.slice(studio.indexOf('tiny-preview-notes'), studio.indexOf('{showConfirm &&'));
+ assert.match(notes, /personal entertainment/);
+ assert.match(notes, /No commercial-use license is included/);
+ assert.match(notes, /3 days after order creation/);
+ assert.match(notes, /cleanup worker/);
+ assert.match(notes, /30 days from completion/);
  assert.match(studio, /href="\/privacy"/);
+ // The confirmation dialog stays short; long disclosures live beside the example video.
+ const confirmation = studio.slice(studio.indexOf('{showConfirm &&'));
+ assert.doesNotMatch(confirmation, /personal entertainment|cleanup worker/);
+ assert.match(confirmation, /Email your video \(optional\)/);
+ assert.match(confirmation, /will not be lost/);
  assert.match(read('src/lib/tiny-guides.ts'), /Can I use my Fancy Cafe AI video commercially\?/);
 });

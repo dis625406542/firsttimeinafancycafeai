@@ -73,7 +73,6 @@ export function TinyStudio() {
   const [message, setMessage] = useState("");
   const [enabled, setEnabled] = useState(false);
   const [sampleReady, setSampleReady] = useState(false);
-  const [emailEnabled, setEmailEnabled] = useState(false);
   const [prices, setPrices] = useState<Price[]>([]);
   const [testMode, setTestMode] = useState(false);
   const [stage, setStage] = useState<Stage>("idle");
@@ -316,11 +315,10 @@ export function TinyStudio() {
     setBusy(true);
     try {
       // A fresh server catalog is authoritative; a stale first-load response never starts an order.
-      const data = await fetchCheckoutCatalog<{ error?: string; prices?: Price[]; enabled?: boolean; emailEnabled?: boolean; testMode?: boolean }>(`/api/billing?template=${TINY_TEMPLATE}`);
+      const data = await fetchCheckoutCatalog<{ error?: string; prices?: Price[]; enabled?: boolean; testMode?: boolean }>(`/api/billing?template=${TINY_TEMPLATE}`);
       const price = data.prices?.find(item => item.resolution === quality);
       setPrices(data.prices ?? []);
       setEnabled(data.enabled === true);
-      setEmailEnabled(data.emailEnabled === true);
       setTestMode(data.testMode === true);
       if (!data.enabled || !price?.purchasable) {
         setMessage("We couldn't start this video order right now. No payment was taken. Tap Generate video to check again shortly.");
@@ -344,7 +342,7 @@ export function TinyStudio() {
     if (!reuse && !copySaved && filled.length < 1) { setMessage("Upload the protagonist photo first."); return; }
     if (checking) { setMessage("Wait until the selected photos finish the AI safety check."); return; }
     if (!consent) { setMessage("Confirm you have permission to use these photos first."); return; }
-    if (emailEnabled && email && (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254)) { setMessage("Enter a valid email address, or leave it empty."); return; }
+    if (email && (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254)) { setMessage("Enter a valid email address, or leave it empty."); return; }
     setShowConfirm(false);
     const code = reuse ? canceledCode! : newVideoCode();
     if (!reuse) { setSubmitted(false); if (!copySaved) setSubmittedFaces({}); setProgress(null); }
@@ -358,7 +356,7 @@ export function TinyStudio() {
       form.append("aspectRatio", aspectRatio); form.append("consent", "yes");
       if (copySaved) form.append("sourceCode", canceledCode!);
       if (!reuse && !copySaved) for (const entry of filled) { form.append("photos", entry.photo!.file); form.append("slots", entry.slot); }
-      if (emailEnabled && email) form.append("email", email.trim());
+      if (email) form.append("email", email.trim());
       const response = await fetch("/api/billing/checkout", { method: "POST", body: form });
       const data = await response.json();
       if (!response.ok) throw new Error(response.status >= 500
@@ -449,9 +447,7 @@ export function TinyStudio() {
       {submitted && stage === "ready" && <p className="tiny-repeat-note">Your video is ready. Start a new order with new photos; your completed videos remain below.</p>}
       {rejectedLabels.length > 0 && <p className="tiny-upload-error" role="alert">{rejectedLabels.join(", ")} did not pass the AI check. Replace or remove them, or let the server decide at checkout.</p>}
       {message && !submitted && <p className="tiny-upload-error" role="alert">{message}</p>}
-      <p className="tiny-studio-fine">Original reference soundtrack included: your completed 20-second MP4 includes the original music from the Fancy Cafe reference video, with no separate audio editing needed. Made for personal entertainment and non-commercial social sharing. No commercial-use license is included; follow platform rules and applicable music and portrait rights. <a href="/terms">Personal-use terms</a>.</p>
-      <p className="tiny-studio-fine">Paid but your video wasn't delivered? Contact support with your video code. Verified technical or delivery failures may qualify for redelivery or a discretionary refund. After successful generation and delivery, subjective dissatisfaction alone does not guarantee a refund. <a href="/refund-policy">Refund &amp; delivery policy</a></p>
-      <p className="tiny-studio-fine"><ShieldCheck size={15} /> {submitted ? `${previewCount || displayFilledCount}/2 faces already submitted.` : `${displayFilledCount}/2 roles filled — protagonist required.`} Your photos are used to create your video. Upload only photos of yourself or consenting adults. Photos are screened by AI before payment, stored privately and sent to the video provider only after payment is verified. Input photos become eligible for deletion after generation finishes or their input window expires, normally 3 days after order creation; removal depends on the cleanup worker. Finished videos have a separate 30-day download window from completion. <a href="/privacy">Privacy details</a>.</p>
+      <p className="tiny-studio-fine"><ShieldCheck size={15} /> {submitted ? `${previewCount || displayFilledCount}/2 faces already submitted.` : `${displayFilledCount}/2 roles filled — protagonist required.`} Personal and non-commercial use only. Photos are screened by AI and sent to the video provider only after payment. <a href="/terms">Terms</a> · <a href="/refund-policy">Refund &amp; delivery</a> · <a href="/privacy">Privacy</a></p>
     </div>
     <div className="tiny-studio-preview">
       <div className="tiny-preview-top">
@@ -473,9 +469,35 @@ export function TinyStudio() {
           : <div className="tiny-empty-videos"><h3>{finished.length ? "Choose a video" : "No videos yet"}</h3><p>{finished.length ? "Pick one of your generated videos below to play it here." : "Videos generated in this browser will appear below."}</p></div>)
           : <div className="tiny-sample-video"><video ref={previewVideo} controls autoPlay muted loop playsInline preload="auto" poster="/fancy-cafe-ai/example-poster.webp" src={sampleReady ? "/fancy-cafe-ai/example.mp4" : undefined} aria-label="Fancy Cafe reference clip, not an AI-generated result">Your browser does not support video playback.</video></div>}
         <p className="tiny-preview-caption">{previewTab === "videos" && videoUrl && displayedCode ? <>Your video is ready. <a href={`/api/video/file?code=${displayedCode}&download=1`} download>Download MP4</a> within 30 days.</> : previewTab === "videos" ? (finished.length ? "Choose one of your generated videos below." : "No videos yet. Your results will appear here.") : finished.length ? "Your video is ready — open your generated videos below to watch it." : "Fancy Cafe example footage. Your generated video will use the portraits you upload and may differ from this example."}</p>
+        <details className="tiny-preview-notes">
+          <summary>What's included, delivery, support, refunds &amp; privacy</summary>
+          <p>Your completed 20-second MP4 includes the original music from the Fancy Cafe reference video, with no separate audio editing needed. Made for personal entertainment and non-commercial social sharing. No commercial-use license is included; follow platform rules and applicable music and portrait rights. <a href="/terms">Personal-use terms</a>.</p>
+          <p>Your video is stored privately for up to 30 days from completion. Keep this browser's cookies and download your MP4 promptly. Paid but your video wasn't delivered? Email hello@firsttimeinafancycafeai.org with your video code. We review technical or delivery problems and may offer redelivery or a discretionary refund. AI generation is random, so your result may differ from the sample. After successful generation and delivery, subjective dissatisfaction alone does not guarantee a refund. <a href="/refund-policy">Refund &amp; delivery policy</a>.</p>
+          <p>Uploaded portraits become eligible for cleanup after generation finishes or input expiry, normally 3 days after order creation. Deletion depends on the cleanup worker; third-party retention is separate. <a href="/privacy">Privacy policy</a>.</p>
+        </details>
         <div className="tiny-history"><h3>Generated videos</h3>{finished.length ? <div className="tiny-history-grid">{finished.map(job => <div className={`tiny-history-card ${videoUrl === job.videoUrl ? "active" : ""}`} key={job.code}><button type="button" onClick={() => { activeCode.current = job.code; setVideoUrl(job.videoUrl); setStage("ready"); setPreviewTab("videos"); }} aria-label={`Play generated video ${job.code.slice(0,8)}`}><video muted playsInline preload="metadata" src={job.videoUrl ?? undefined} aria-hidden="true" /><span>▶ Play · {job.resolution} · {job.aspectRatio}</span></button><a href={`/api/video/file?code=${job.code}&download=1`} onClick={() => emitStudioEvent("video_download_clicked")} download aria-label={`Download video ${job.code.slice(0,8)}`}><Download size={15} /> Download</a></div>)}</div> : <p>Generated videos from this browser will appear here when ready. Download each one within 30 days.</p>}</div>
       </div>
     </div>
-    {showConfirm && <div className="tiny-modal-backdrop" onClick={() => setShowConfirm(false)}><div className="tiny-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="tiny-confirm-title" onClick={event => event.stopPropagation()}><button type="button" className="tiny-modal-close" onClick={() => setShowConfirm(false)} aria-label="Close">×</button><h3 id="tiny-confirm-title">Ready to make your video?</h3><p>{Math.max(effectiveFilled, 0)} uploaded adult portrait{effectiveFilled === 1 ? "" : "s"} · 20 seconds · {quality} · {aspectRatio}. One-time payment: {selectedPrice ? money(selectedPrice.amount_minor, selectedPrice.currency) : priceLabel(quality, quality === "480p" ? "$6.99" : "$9.99")}. A video code is created when you continue; keep this browser and its cookies to see your result after payment.</p><p>Your finished 20-second MP4 includes the original music from the Fancy Cafe reference video—no separate audio editing needed. Made for personal entertainment and non-commercial social sharing. No commercial-use license is included. This is not a separate music license; follow platform rules and respect music and portrait rights. <a href="/terms">Read personal-use terms</a>.</p><p>Paid but your video wasn't delivered? Contact support with your video code. We review technical or delivery problems and may offer redelivery or a discretionary refund. After successful generation and delivery, subjective dissatisfaction alone does not guarantee a refund. <a href="/refund-policy">Read the refund policy</a>.</p>{emailEnabled && <><label htmlFor="tiny-delivery-email">Email your download link (optional)</label><input id="tiny-delivery-email" type="email" autoComplete="email" placeholder="you@example.com" value={email} onChange={event => setEmail(event.target.value)} /><small>If you add an email, we will attempt to send your download link when the video is ready. You can also return in this browser.</small></>}<small>Uploaded portraits become eligible for cleanup after generation finishes or input expiry, normally 3 days after order creation. Deletion depends on the cleanup worker; third-party retention is separate. <a href="/privacy">Read the privacy policy</a>.</small><small>Your video is stored privately for up to 30 days from completion. Return in the same browser, keep its cookies, and download your MP4. {emailEnabled ? "Email is optional." : "Save your order reference after checkout to help recover your video."}</small><div className="tiny-modal-actions"><button type="button" onClick={() => setShowConfirm(false)}>Cancel</button><button type="button" onClick={() => void startCheckout()}>Continue to {testMode ? "test" : "secure"} checkout</button></div></div></div>}
+    {showConfirm && <div className="tiny-modal-backdrop" onClick={() => setShowConfirm(false)}>
+      <div className="tiny-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="tiny-confirm-title" onClick={event => event.stopPropagation()}>
+        <button type="button" className="tiny-modal-close" onClick={() => setShowConfirm(false)} aria-label="Close">×</button>
+        <div className="tiny-confirm-body">
+          <h3 id="tiny-confirm-title">Ready to make your video?</h3>
+          <ul className="tiny-confirm-summary">
+            <li><span>Photos</span><strong>{Math.max(effectiveFilled, 0)} adult portrait{effectiveFilled === 1 ? "" : "s"}</strong></li>
+            <li><span>Video</span><strong>20 seconds · {quality} · {aspectRatio}</strong></li>
+            <li><span>Price</span><strong>{selectedPrice ? money(selectedPrice.amount_minor, selectedPrice.currency) : priceLabel(quality, quality === "480p" ? "$6.99" : "$9.99")} · one-time</strong></li>
+          </ul>
+          <p className="tiny-confirm-note">A video code is created when you continue. Keep this browser and its cookies to see your result after payment.</p>
+          <label htmlFor="tiny-delivery-email">Email your video (optional)</label>
+          <input id="tiny-delivery-email" type="email" autoComplete="email" placeholder="you@example.com" value={email} onChange={event => setEmail(event.target.value)} />
+          <small>If you add an email, we will send your finished video there after it is generated; delivery may take a little longer. Your video is also linked to this browser by cookies for 30 days, so you can return and download it — it will not be lost. Please download promptly.</small>
+        </div>
+        <div className="tiny-modal-actions">
+          <button type="button" className="tiny-modal-cancel" onClick={() => setShowConfirm(false)}>Cancel</button>
+          <button type="button" className="tiny-modal-primary" onClick={() => void startCheckout()}>Generate Fancy Cafe AI Video <span className="tiny-modal-arrow"><ArrowRight size={15} /></span></button>
+        </div>
+      </div>
+    </div>}
   </div>;
 }

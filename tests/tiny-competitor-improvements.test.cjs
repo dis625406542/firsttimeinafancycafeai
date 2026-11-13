@@ -12,11 +12,13 @@ test('cafe checkout ignores the old flag and both routes apply the new gate',()=
  assert.equal(cafeLaunchReady({TINY_DESK_CHECKOUT_ENABLED:'true'}),false);
  for(const file of ['src/app/api/billing/route.ts','src/app/api/billing/checkout/route.ts'])assert.match(fs.readFileSync(file,'utf8'),/cafeLaunchReady\(\)/);
 });
-test('studio status is retryable, bounded and email capability is respected',()=>{
+test('studio status is retryable, bounded and always collects an optional delivery email',()=>{
  const studio=fs.readFileSync('src/components/tiny-studio.tsx','utf8');
  assert.match(studio,/async function prepareCheckout/);assert.match(studio,/AbortSignal.timeout/);
- assert.match(studio,/setEmailEnabled\(data.emailEnabled === true\)/);
- assert.match(studio,/emailEnabled &&/);
+ assert.match(studio,/htmlFor="tiny-delivery-email"/);
+ assert.match(studio,/form\.append\("email", email\.trim\(\)\)/);
+ assert.doesNotMatch(studio,/emailEnabled/);
+ assert.match(fs.readFileSync('src/app/api/billing/checkout/route.ts','utf8'),/SET notification_email=\$2/);
 });
 test('funnel events strip private fields and do not pretend client observations are purchases',()=>{
  const {studioEvent}=load('src/lib/studio-analytics.ts');
